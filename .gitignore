@@ -1,6 +1,5 @@
-demo
 .idea
 *.json
-testClient
+*.iml
 client/target
 server/target
