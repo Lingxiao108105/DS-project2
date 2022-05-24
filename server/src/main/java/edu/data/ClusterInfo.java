@@ -1,10 +1,13 @@
-package edu.config;
+package edu.data;
 
 import edu.dto.ClientInfo;
 
 import java.util.concurrent.ConcurrentHashMap;
 
-public class ClientConfig {
+/**
+ * information of the whole cluster
+ */
+public class ClusterInfo {
 
     Integer managerId = null;
     ConcurrentHashMap<Integer, ClientInfo> acceptedClients;

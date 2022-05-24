@@ -7,35 +7,35 @@
 <?import java.lang.*?>
 <?import javafx.scene.layout.*?>
 
-<Pane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="756.0" prefWidth="1316.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1">
+<Pane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="756.0" prefWidth="1316.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="edu.javafx.CanvasGUIController">
    <children>
-      <MenuBar fx:id="MenuBar" layoutX="-1.0" prefHeight="32.0" prefWidth="1316.0">
+      <MenuBar fx:id="menuBar" layoutX="-1.0" prefHeight="32.0" prefWidth="1316.0">
         <menus>
-          <Menu mnemonicParsing="false" text="File" />
+          <Menu fx:id="fileMenu" mnemonicParsing="false" text="File" />
         </menus>
       </MenuBar>
-      <Canvas height="721.0" layoutX="95.0" layoutY="32.0" width="776.0" />
-      <TextArea layoutX="1000.0" layoutY="709.0" prefHeight="47.0" prefWidth="200.0" />
-      <Button layoutX="1238.0" layoutY="717.0" mnemonicParsing="false" text="Send" />
-      <TableView layoutX="1000.0" layoutY="32.0" prefHeight="677.0" prefWidth="315.0">
+      <Canvas fx:id="canvas" height="721.0" layoutX="95.0" layoutY="32.0" width="776.0" />
+      <TextArea fx:id="chatTextArea" layoutX="1000.0" layoutY="709.0" prefHeight="47.0" prefWidth="200.0" />
+      <Button fx:id="sendButton" layoutX="1238.0" layoutY="717.0" mnemonicParsing="false" text="Send" />
+      <TableView fx:id="ChatTable" layoutX="1000.0" layoutY="32.0" prefHeight="677.0" prefWidth="315.0">
         <columns>
-          <TableColumn prefWidth="75.0" text="Name" />
-          <TableColumn prefWidth="239.0" text="Chat" />
+          <TableColumn fx:id="nameColumn" prefWidth="75.0" text="Name" />
+          <TableColumn fx:id="chatColumn" prefWidth="239.0" text="Chat" />
         </columns>
       </TableView>
-      <Button layoutX="902.0" layoutY="717.0" mnemonicParsing="false" text="Kick" />
+      <Button fx:id="kickButton" layoutX="902.0" layoutY="717.0" mnemonicParsing="false" text="Kick" />
       <TableView layoutX="871.0" layoutY="32.0" prefHeight="677.0" prefWidth="129.0">
         <columns>
-          <TableColumn prefWidth="128.0" text="User" />
+          <TableColumn fx:id="userColumn" prefWidth="128.0" text="User" />
         </columns>
       </TableView>
-      <Button layoutX="8.0" layoutY="56.0" mnemonicParsing="false" prefHeight="31.0" prefWidth="82.0" text="line" />
-      <Button layoutX="8.0" layoutY="87.0" mnemonicParsing="false" prefHeight="31.0" prefWidth="82.0" text="circle" />
-      <Button layoutX="8.0" layoutY="118.0" mnemonicParsing="false" prefHeight="31.0" prefWidth="82.0" text="triangle" />
-      <Button layoutX="8.0" layoutY="149.0" mnemonicParsing="false" text="rectangle" />
-      <Button layoutX="8.0" layoutY="180.0" mnemonicParsing="false" prefHeight="31.0" prefWidth="82.0" text="text" />
-      <ColorPicker layoutX="26.0" layoutY="261.0" prefHeight="31.0" prefWidth="47.0" />
-      <ColorPicker layoutX="26.0" layoutY="340.0" prefHeight="31.0" prefWidth="47.0" />
+      <Button fx:id="lineButton" layoutX="8.0" layoutY="56.0" mnemonicParsing="false" prefHeight="31.0" prefWidth="82.0" text="line" />
+      <Button fx:id="circleButton" layoutX="8.0" layoutY="87.0" mnemonicParsing="false" prefHeight="31.0" prefWidth="82.0" text="circle" />
+      <Button fx:id="triangleButton" layoutX="8.0" layoutY="118.0" mnemonicParsing="false" prefHeight="31.0" prefWidth="82.0" text="triangle" />
+      <Button fx:id="rectangleButton" layoutX="8.0" layoutY="149.0" mnemonicParsing="false" text="rectangle" />
+      <Button fx:id="textButton" layoutX="8.0" layoutY="180.0" mnemonicParsing="false" prefHeight="31.0" prefWidth="82.0" text="text" />
+      <ColorPicker fx:id="outlineColorPicker" layoutX="26.0" layoutY="261.0" prefHeight="31.0" prefWidth="47.0" />
+      <ColorPicker fx:id="fillColorPicker" layoutX="26.0" layoutY="340.0" prefHeight="31.0" prefWidth="47.0" />
       <Label layoutX="25.0" layoutY="232.0" text="Outline" />
       <Label layoutX="40.0" layoutY="308.0" text="Fill" />
    </children>

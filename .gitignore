@@ -1,5 +1,4 @@
 .idea
 *.json
 *.iml
-client/target
-server/target
+*/target

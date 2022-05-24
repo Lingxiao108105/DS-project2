@@ -5,9 +5,8 @@
     <modelVersion>4.0.0</modelVersion>
 
     <groupId>org.example</groupId>
-    <artifactId>server</artifactId>
-    <packaging>pom</packaging>
-    <version>1.0-SNAPSHOT</version>
+    <artifactId>common</artifactId>
+    <version>1.0</version>
 
     <dependencies>
 
@@ -35,12 +34,6 @@
             <version>1.18.24</version>
         </dependency>
 
-        <dependency>
-            <groupId>org.example</groupId>
-            <artifactId>common</artifactId>
-            <version>1.0</version>
-        </dependency>
-
     </dependencies>
 
     <build>
@@ -53,17 +46,8 @@
                     <release>15</release>  <!--or <release>10</release>-->
                 </configuration>
             </plugin>
-
-            <plugin>
-                <groupId>org.openjfx</groupId>
-                <artifactId>javafx-maven-plugin</artifactId>
-                <version>0.0.8</version>
-                <configuration>
-                    <mainClass>edu.Main</mainClass>
-                </configuration>
-            </plugin>
-
         </plugins>
     </build>
+
 
 </project>
