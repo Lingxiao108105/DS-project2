@@ -17,6 +17,8 @@
     <orderEntry type="library" name="Maven: org.openjfx:javafx-graphics:win:18" level="project" />
     <orderEntry type="library" name="Maven: org.openjfx:javafx-base:18" level="project" />
     <orderEntry type="library" name="Maven: org.openjfx:javafx-base:win:18" level="project" />
+    <orderEntry type="library" name="Maven: org.openjfx:javafx-swing:18" level="project" />
+    <orderEntry type="library" name="Maven: org.openjfx:javafx-swing:win:18" level="project" />
     <orderEntry type="library" name="Maven: org.openjfx:javafx-fxml:18" level="project" />
     <orderEntry type="library" name="Maven: org.openjfx:javafx-fxml:win:18" level="project" />
     <orderEntry type="library" name="Maven: com.alipay.sofa:sofa-rpc-all:5.8.4" level="project" />

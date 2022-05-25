@@ -6,5 +6,6 @@ module common {
 
     // export Application subclass's package
     exports edu.service;
+    exports edu.dto;
 
 }

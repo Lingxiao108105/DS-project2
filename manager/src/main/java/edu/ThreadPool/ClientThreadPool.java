@@ -1,32 +1,31 @@
 package edu.ThreadPool;
 
 import edu.LifeCycle;
-import edu.rpc.RpcServiceProvider;
 import lombok.Getter;
 
 import java.util.concurrent.*;
 
 /**
  * <p>
- *  ServerThreadPool
+ *  ClientThreadPool
  * </p>
  *
  * @author Lingxiao
  */
 @Getter
-public class ServerThreadPool implements LifeCycle {
+public class ClientThreadPool implements LifeCycle {
 
-    private static ServerThreadPool serverThreadPool = null;
+    private static ClientThreadPool clientThreadPool = null;
 
     private ExecutorService executorService;
     private ScheduledExecutorService scheduledExecutorService;
 
-    public static ServerThreadPool getInstance(){
-        if(serverThreadPool == null){
-            serverThreadPool = new ServerThreadPool();
-            serverThreadPool.init();
+    public static ClientThreadPool getInstance(){
+        if(clientThreadPool == null){
+            clientThreadPool = new ClientThreadPool();
+            clientThreadPool.init();
         }
-        return serverThreadPool;
+        return clientThreadPool;
     }
 
 

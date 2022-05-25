@@ -30,13 +30,14 @@
         </columns>
       </TableView>
       <Button fx:id="lineButton" layoutX="8.0" layoutY="56.0" mnemonicParsing="false" prefHeight="31.0" prefWidth="82.0" text="line" />
-      <Button fx:id="circleButton" layoutX="8.0" layoutY="87.0" mnemonicParsing="false" prefHeight="31.0" prefWidth="82.0" text="circle" />
-      <Button fx:id="triangleButton" layoutX="8.0" layoutY="118.0" mnemonicParsing="false" prefHeight="31.0" prefWidth="82.0" text="triangle" />
-      <Button fx:id="rectangleButton" layoutX="8.0" layoutY="149.0" mnemonicParsing="false" text="rectangle" />
-      <Button fx:id="textButton" layoutX="8.0" layoutY="180.0" mnemonicParsing="false" prefHeight="31.0" prefWidth="82.0" text="text" />
+      <Button fx:id="circleButton" layoutX="8.0" layoutY="88.0" mnemonicParsing="false" prefHeight="31.0" prefWidth="82.0" text="circle" />
+      <Button fx:id="triangleButton" layoutX="8.0" layoutY="120.0" mnemonicParsing="false" prefHeight="31.0" prefWidth="82.0" text="triangle" />
+      <Button fx:id="rectangleButton" layoutX="8.0" layoutY="152.0" mnemonicParsing="false" prefHeight="31.0" prefWidth="82.0" text="rectangle" />
+      <Button fx:id="textButton" layoutX="8.0" layoutY="184.0" mnemonicParsing="false" prefHeight="31.0" prefWidth="82.0" text="text" />
       <ColorPicker fx:id="outlineColorPicker" layoutX="26.0" layoutY="261.0" prefHeight="31.0" prefWidth="47.0" />
       <ColorPicker fx:id="fillColorPicker" layoutX="26.0" layoutY="340.0" prefHeight="31.0" prefWidth="47.0" />
       <Label layoutX="25.0" layoutY="232.0" text="Outline" />
       <Label layoutX="40.0" layoutY="308.0" text="Fill" />
+      <Canvas fx:id="canvasEffort" height="721.0" layoutX="95.0" layoutY="32.0" width="776.0" />
    </children>
 </Pane>

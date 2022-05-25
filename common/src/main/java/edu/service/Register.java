@@ -1,6 +1,10 @@
 package edu.service;
 
+import edu.dto.RegisterManagerRequest;
+import edu.dto.RegisterManagerResponse;
+
 public interface Register {
 
-    public String sayHello(String string);
+    public RegisterManagerResponse registerManager(RegisterManagerRequest request);
+
 }

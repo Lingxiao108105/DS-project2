@@ -4,15 +4,29 @@ import com.alipay.sofa.rpc.config.ProviderConfig;
 import com.alipay.sofa.rpc.config.ServerConfig;
 import edu.LifeCycle;
 import edu.config.RpcServiceConfig;
+import edu.javafx.MyCanvas;
+import edu.security.ClientFilter;
 import edu.service.CanvasService;
 import edu.service.Impl.CanvasServiceImpl;
 import edu.service.Impl.RegisterImpl;
 import edu.service.Register;
 
+import java.util.List;
+
 public class RpcServiceProvider implements LifeCycle {
 
-    ProviderConfig<Register> registerProviderConfig = null;
-    ProviderConfig<CanvasService> canvasServiceProviderConfig = null;
+    private static RpcServiceProvider rpcServiceProvider;
+
+    private ProviderConfig<Register> registerProviderConfig = null;
+    private ProviderConfig<CanvasService> canvasServiceProviderConfig = null;
+
+    public static RpcServiceProvider getInstance(){
+        if(rpcServiceProvider == null){
+            rpcServiceProvider = new RpcServiceProvider();
+            rpcServiceProvider.init();
+        }
+        return rpcServiceProvider;
+    }
 
     @Override
     public void init() {
@@ -30,6 +44,7 @@ public class RpcServiceProvider implements LifeCycle {
         canvasServiceProviderConfig = new ProviderConfig<CanvasService>()
                 .setInterfaceId(CanvasService.class.getName())
                 .setRef(new CanvasServiceImpl())
+                .setFilterRef(List.of(new ClientFilter()))
                 .setServer(serverConfig);
 
         registerProviderConfig.export();

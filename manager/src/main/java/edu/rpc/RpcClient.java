@@ -4,14 +4,12 @@ import com.alipay.sofa.rpc.config.ConsumerConfig;
 import edu.LifeCycle;
 import edu.service.CanvasService;
 import edu.service.Register;
-import lombok.Getter;
 
-@Getter
 public class RpcClient implements LifeCycle {
 
     private static RpcClient rpcClient = null;
-    ConsumerConfig<Register> registerConsumerConfig = null;
-    ConsumerConfig<CanvasService> canvasServiceConsumerConfig = null;
+    private ConsumerConfig<Register> registerConsumerConfig = null;
+    private ConsumerConfig<CanvasService> canvasServiceConsumerConfig = null;
 
     public static RpcClient getInstance(){
         if(rpcClient == null){
@@ -36,6 +34,31 @@ public class RpcClient implements LifeCycle {
 
     @Override
     public void stop() {
+        registerConsumerConfig.unRefer();
+        canvasServiceConsumerConfig.unRefer();
+    }
 
+    public Register getRegister() {
+        Register register = null;
+        try {
+            register = registerConsumerConfig.refer();
+        }
+        catch (Exception e){
+            //logger.info(e.getMessage(),e);
+            System.out.println("fail to connect to server: " + registerConsumerConfig.getAddressHolder());
+        }
+        return register;
+    }
+
+    public CanvasService getCanvasService() {
+        CanvasService canvasService = null;
+        try {
+            canvasService = canvasServiceConsumerConfig.refer();
+        }
+        catch (Exception e){
+            //logger.info(e.getMessage(),e);
+            System.out.println("fail to connect to server: " + registerConsumerConfig.getAddressHolder());
+        }
+        return canvasService;
     }
 }

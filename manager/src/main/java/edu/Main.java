@@ -1,6 +1,7 @@
 package edu;
 
 import com.alipay.sofa.rpc.config.ConsumerConfig;
+import edu.ThreadPool.ClientThreadPool;
 import edu.javafx.CanvasGUIController;
 import edu.rpc.RpcClient;
 import edu.service.CanvasService;
@@ -23,12 +24,6 @@ public class Main extends Application {
 
     @Override
     public void start(Stage stage) {
-        RpcClient rpcClient = RpcClient.getInstance();
-        CanvasService canvasService = rpcClient.getCanvasServiceConsumerConfig().refer();
-        System.out.println(canvasService.sayHello());
-        Register register = rpcClient.getRegisterConsumerConfig().refer();
-        System.out.println(register.sayHello("Hi"));
-
         //show search scene
         Scene scene = CanvasGUIController.getScene();
         stage.setTitle("Dictionary");
@@ -49,5 +44,6 @@ public class Main extends Application {
     @Override
     public void stop() throws Exception {
         super.stop();
+        ClientThreadPool.getInstance().stop();
     }
 }
