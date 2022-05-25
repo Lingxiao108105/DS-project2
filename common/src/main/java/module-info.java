@@ -7,5 +7,7 @@ module common {
     // export Application subclass's package
     exports edu.service;
     exports edu.dto;
+    exports edu.dto.Impl;
+    exports edu.common.util;
 
 }

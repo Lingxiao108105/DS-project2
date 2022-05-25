@@ -13,6 +13,8 @@ public class DrawLineCommand extends DrawShapeCommand{
     @Override
     protected void drawShape(Canvas canvas) {
         GraphicsContext graphicsContext2D = canvas.getGraphicsContext2D();
-
+        graphicsContext2D.setFill(fill.getFXColor());
+        graphicsContext2D.setStroke(stroke.getFXColor());
+        graphicsContext2D.strokeLine(x1, y1, x2, y2);
     }
 }

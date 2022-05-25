@@ -7,6 +7,7 @@ import javafx.embed.swing.SwingFXUtils;
 
 import javax.imageio.ImageIO;
 import javax.imageio.stream.ImageOutputStream;
+import java.awt.image.BufferedImage;
 import java.awt.image.RenderedImage;
 import java.io.ByteArrayOutputStream;
 import java.io.EOFException;
@@ -24,32 +25,26 @@ public class CanvasServiceImpl implements CanvasService {
     @Override
     public CanvasResponse getCanvas(ClientInfo clientInfo, CanvasRequest canvasRequest){
         MyCanvas myCanvas = MyCanvas.getInstance();
+        if(canvasRequest.getSnapshotIndex() >= myCanvas.getSnapshotIndex()){
+            return new CanvasResponse(true,null,myCanvas.getSnapshotIndex());
+        }
         myCanvas.getSnapshotLock().lock();
+        byte[] imageBytes = null;
         try {
-            RenderedImage renderedImage = SwingFXUtils.fromFXImage(myCanvas.getSnapshot(), null);
-            byte[] imageBytes = null;
+            BufferedImage bufferedImage = SwingFXUtils.fromFXImage(myCanvas.getSnapshot(), null);
             try {
-                ImageOutputStream imageOutputStream = ImageIO.createImageOutputStream(renderedImage);
                 ByteArrayOutputStream byteArrayOutputStream = new ByteArrayOutputStream(100000);
-                int counter = 0;
-                while (true) {
-                    try {
-                        byteArrayOutputStream.write(imageOutputStream.readByte());
-                        counter++;
-                    } catch (EOFException e) {
-                        break;
-                    }
-                }
-                System.out.println("Total bytes of image: " + counter);
+                ImageIO.write(bufferedImage,"png",byteArrayOutputStream);
                 imageBytes = byteArrayOutputStream.toByteArray();
-
+                byteArrayOutputStream.close();
             } catch (IOException e) {
                 e.printStackTrace();
+            } catch (Exception e) {
+                e.printStackTrace();
             }
-            return new CanvasResponse(true,imageBytes);
+            return new CanvasResponse(true,imageBytes,myCanvas.getSnapshotIndex());
         }finally {
             myCanvas.getSnapshotLock().unlock();
         }
-
     }
 }

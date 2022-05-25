@@ -8,10 +8,14 @@ import edu.dto.CanvasResponse;
 import edu.rpc.RpcClient;
 import edu.service.CanvasService;
 import javafx.application.Platform;
+import javafx.embed.swing.SwingFXUtils;
 import javafx.scene.canvas.Canvas;
-import javafx.scene.image.Image;
+import javafx.scene.image.WritableImage;
 
+import javax.imageio.ImageIO;
+import java.awt.image.BufferedImage;
 import java.io.ByteArrayInputStream;
+import java.io.IOException;
 import java.util.concurrent.ScheduledFuture;
 import java.util.concurrent.TimeUnit;
 
@@ -21,10 +25,11 @@ public class UpdateCanvasScheduler{
 
     private Canvas canvas;
     private ScheduledFuture<?> updateCanvasTask;
+    private long snapshotIndex = 0;
 
     public static void init(Canvas canvas) {
         updateCanvasScheduler = new UpdateCanvasScheduler(canvas);
-        updateCanvasScheduler.updateCanvasTask = ClientThreadPool.getInstance().getScheduledExecutorService().scheduleAtFixedRate(
+        updateCanvasScheduler.updateCanvasTask = ClientThreadPool.getInstance().getScheduledExecutorService().scheduleWithFixedDelay(
                 ()->{
                     updateCanvasScheduler.updateCanvas();
                 },
@@ -52,17 +57,30 @@ public class UpdateCanvasScheduler{
 
     private void updateCanvas(){
         CanvasService canvasService = RpcClient.getInstance().getCanvasService();
-        CanvasResponse canvasResponse = canvasService.getCanvas(ClientConfig.clientInfo, new CanvasRequest());
+        CanvasResponse canvasResponse = canvasService.getCanvas(ClientConfig.clientInfo, new CanvasRequest(snapshotIndex));
         if(canvasResponse.isSuccess()){
+            //update snapshot Index
+            this.snapshotIndex = Math.max(this.snapshotIndex,canvasResponse.getSnapshotIndex());
+            //update canvas
             Platform.runLater(() ->{
                 byte[] imageBytes = canvasResponse.getImageBytes();
-                Image img = new Image(new ByteArrayInputStream(imageBytes));
-                canvas.getGraphicsContext2D().drawImage(img,0,0);
+                if(imageBytes==null){
+                    return;
+                }
+                ByteArrayInputStream byteArrayInputStream = new ByteArrayInputStream(imageBytes);
+                BufferedImage bufferedImage = null;
+                try {
+                    bufferedImage = ImageIO.read(byteArrayInputStream);
+                } catch (IOException e) {
+                    e.printStackTrace();
+                    e.printStackTrace();
+                }
+                WritableImage writableImage = SwingFXUtils.toFXImage(bufferedImage, null);
+                canvas.getGraphicsContext2D().drawImage(writableImage,0,0);
             });
         }
         else {
             System.out.println("Fail to get snap from server");
         }
-
     }
 }

@@ -45,5 +45,6 @@ public class Main extends Application {
     public void stop() throws Exception {
         super.stop();
         ClientThreadPool.getInstance().stop();
+        RpcClient.getInstance().stop();
     }
 }

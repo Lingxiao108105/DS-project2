@@ -1,13 +1,9 @@
 package edu.javafx.shape.Impl;
 
 import edu.Common.Exception.NotInitException;
-import edu.config.ClientConfig;
-import edu.dto.CanvasUpdateRequest;
 import edu.dto.Command;
 import edu.dto.Impl.DrawLineCommand;
 import edu.javafx.shape.DrawShape;
-import edu.rpc.RpcClient;
-import edu.service.CanvasService;
 import edu.service.SendCommandService;
 import javafx.scene.canvas.Canvas;
 import javafx.scene.canvas.GraphicsContext;

@@ -31,7 +31,7 @@ public class ClientFilter extends Filter {
 //                return new SofaResponse();
 //            }
 //        }
-        System.out.println(request.getRequestProps());
+        //System.out.println(request.getRequestProps());
         SofaResponse response = invoker.invoke(request);
         return response;
     }

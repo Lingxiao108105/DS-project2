@@ -22,6 +22,7 @@ public class MyCanvas implements LifeCycle {
 
     private Canvas canvas;
     private WritableImage snapshot;
+    private long snapshotIndex = 0;
     private final ReentrantLock snapshotLock = new ReentrantLock();
     private ConcurrentLinkedDeque<Command> canvasUpdate;
     private ScheduledFuture<?> canvasUpdateTask = null;
@@ -42,7 +43,7 @@ public class MyCanvas implements LifeCycle {
         Platform.runLater(()->{
             this.snapshot = canvas.snapshot(null,null);
         });
-        this.canvasUpdateTask = ServerThreadPool.getInstance().getScheduledExecutorService().scheduleAtFixedRate(
+        this.canvasUpdateTask = ServerThreadPool.getInstance().getScheduledExecutorService().scheduleWithFixedDelay(
                 ()->{
                     Platform.runLater(()->{
                         MyCanvas.getInstance().executeAll();
@@ -76,6 +77,7 @@ public class MyCanvas implements LifeCycle {
             snapshotLock.lock();
             try {
                 this.snapshot = this.canvas.snapshot(null, null);
+                snapshotIndex++;
             }
             finally {
                 snapshotLock.unlock();
