@@ -6,6 +6,7 @@ import edu.javafx.CanvasGUIController;
 import edu.rpc.RpcClient;
 import edu.service.CanvasService;
 import edu.service.Register;
+import edu.service.RegisterService;
 import javafx.application.Application;
 import javafx.application.Platform;
 import javafx.event.EventHandler;
@@ -24,9 +25,10 @@ public class Main extends Application {
 
     @Override
     public void start(Stage stage) {
+        RegisterService.register("hello");
         //show search scene
         Scene scene = CanvasGUIController.getScene();
-        stage.setTitle("Dictionary");
+        stage.setTitle("Canvas");
         stage.setOnCloseRequest(new EventHandler<WindowEvent>() {
             @Override
             public void handle(WindowEvent windowEvent) {

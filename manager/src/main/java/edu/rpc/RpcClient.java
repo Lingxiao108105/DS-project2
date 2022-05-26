@@ -3,6 +3,7 @@ package edu.rpc;
 import com.alipay.sofa.rpc.config.ConsumerConfig;
 import edu.LifeCycle;
 import edu.service.CanvasService;
+import edu.service.ChatService;
 import edu.service.Register;
 
 public class RpcClient implements LifeCycle {
@@ -10,6 +11,7 @@ public class RpcClient implements LifeCycle {
     private static RpcClient rpcClient = null;
     private ConsumerConfig<Register> registerConsumerConfig = null;
     private ConsumerConfig<CanvasService> canvasServiceConsumerConfig = null;
+    private ConsumerConfig<ChatService> chatServiceConsumerConfig = null;
 
     public static RpcClient getInstance(){
         if(rpcClient == null){
@@ -30,12 +32,18 @@ public class RpcClient implements LifeCycle {
                 .setInterfaceId(CanvasService.class.getName())
                 .setProtocol("bolt")
                 .setDirectUrl("bolt://127.0.0.1:10000");
+
+        chatServiceConsumerConfig = new ConsumerConfig<ChatService>()
+                .setInterfaceId(ChatService.class.getName())
+                .setProtocol("bolt")
+                .setDirectUrl("bolt://127.0.0.1:10000");
     }
 
     @Override
     public void stop() {
         registerConsumerConfig.unRefer();
         canvasServiceConsumerConfig.unRefer();
+        chatServiceConsumerConfig.unRefer();
     }
 
     public Register getRegister() {
@@ -57,8 +65,20 @@ public class RpcClient implements LifeCycle {
         }
         catch (Exception e){
             //logger.info(e.getMessage(),e);
-            System.out.println("fail to connect to server: " + registerConsumerConfig.getAddressHolder());
+            System.out.println("fail to connect to server: " + canvasServiceConsumerConfig.getAddressHolder());
         }
         return canvasService;
+    }
+
+    public ChatService getChatService() {
+        ChatService chatService = null;
+        try {
+            chatService = chatServiceConsumerConfig.refer();
+        }
+        catch (Exception e){
+            //logger.info(e.getMessage(),e);
+            System.out.println("fail to connect to server: " + chatServiceConsumerConfig.getAddressHolder());
+        }
+        return chatService;
     }
 }

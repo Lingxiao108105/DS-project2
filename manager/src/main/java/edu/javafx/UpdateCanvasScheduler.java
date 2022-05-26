@@ -1,6 +1,6 @@
 package edu.javafx;
 
-import edu.Common.Exception.NotInitException;
+import edu.common.exception.NotInitException;
 import edu.ThreadPool.ClientThreadPool;
 import edu.config.ClientConfig;
 import edu.dto.CanvasRequest;

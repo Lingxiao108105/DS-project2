@@ -1,19 +1,15 @@
 package edu.javafx.component.Impl;
 
-import edu.Common.Exception.NotInitException;
-import edu.javafx.component.CanvasEffortComponent;
-import edu.javafx.shape.DrawShape;
-import edu.javafx.shape.Impl.DrawLine;
+import edu.common.exception.NotInitException;
+import edu.javafx.component.DrawButtonComponent;
+import edu.javafx.draw.shape.Impl.DrawLine;
 import javafx.scene.canvas.Canvas;
 import javafx.scene.control.Button;
 import javafx.scene.control.ColorPicker;
-import javafx.scene.input.MouseEvent;
 
-public class DrawLineButtonComponent {
+public class DrawLineButtonComponent extends DrawButtonComponent {
 
     private static DrawLineButtonComponent drawLineButtonComponent = null;
-
-    private DrawLine drawLine = null;
 
     public static void init(Button lineButton,
                             Canvas canvasEffort,
@@ -33,13 +29,7 @@ public class DrawLineButtonComponent {
                                     Canvas canvasEffort,
                                    ColorPicker outlineColorPicker,
                                    ColorPicker fillColorPicker) {
-        DrawLine.init(canvasEffort,outlineColorPicker,fillColorPicker);
-        this.drawLine = DrawLine.getInstance();
-        lineButton.setOnMouseClicked(this::onMouseClickedListener);
-    }
-
-    private void onMouseClickedListener(MouseEvent e){
-        CanvasEffortComponent.getInstance().setDrawShape(this.drawLine);
+        super(lineButton,DrawLine.init(canvasEffort,outlineColorPicker,fillColorPicker));
     }
 
 

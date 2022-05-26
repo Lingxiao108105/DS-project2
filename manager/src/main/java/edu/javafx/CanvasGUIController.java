@@ -1,8 +1,10 @@
 package edu.javafx;
 
 import edu.Main;
-import edu.javafx.component.CanvasEffortComponent;
-import edu.javafx.component.Impl.DrawLineButtonComponent;
+import edu.dto.ChatMessage;
+import edu.javafx.component.ChatComponent;
+import edu.javafx.component.Impl.*;
+import edu.javafx.draw.text.Impl.DrawTextImpl;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
@@ -27,64 +29,58 @@ public class CanvasGUIController implements Initializable {
     //Canvas scene
     private static Scene scene = null;
 
+    //>>>>>>>>>>>>>>>>>>>>>>>>>> Menu <<<<<<<<<<<<<<<<<<<<<<<
     @FXML
-    private Canvas canvas;
-
-    @FXML
-    private Canvas canvasEffort;
-
-    @FXML
-    private Button kickButton;
-
-    @FXML
-    private TextArea chatTextArea;
-
-    @FXML
-    private Button circleButton;
-
-    @FXML
-    private TableView<?> ChatTable;
-
-    @FXML
-    private Button lineButton;
-
-    @FXML
-    private TableColumn<?, ?> userColumn;
-
-    @FXML
-    private Button sendButton;
-
+    private Menu fileMenu;
     @FXML
     private MenuBar menuBar;
 
+    //>>>>>>>>>>>>>>>>>>>>>>>>>> Canvas <<<<<<<<<<<<<<<<<<<<<<<
     @FXML
-    private Button textButton;
-
+    private Canvas canvas;
     @FXML
-    private TableColumn<?, ?> chatColumn;
-
+    private Canvas canvasEffort;
     @FXML
-    private ColorPicker outlineColorPicker;
-
+    private Button lineButton;
     @FXML
-    private TableColumn<?, ?> nameColumn;
-
+    private Button ovalButton;
     @FXML
     private Button triangleButton;
-
     @FXML
     private Button rectangleButton;
-
     @FXML
-    private Menu fileMenu;
-
+    private Button textButton;
+    @FXML
+    private ColorPicker outlineColorPicker;
     @FXML
     private ColorPicker fillColorPicker;
 
+    //>>>>>>>>>>>>>>>>>>>>>>>>>> Clients <<<<<<<<<<<<<<<<<<<<<<<
+    @FXML
+    private TableColumn<?, ?> userColumn;
+    @FXML
+    private Button kickButton;
+
+    //>>>>>>>>>>>>>>>>>>>>>>>>>> Chat <<<<<<<<<<<<<<<<<<<<<<<
+    @FXML
+    private TableView<ChatMessage> ChatTable;
+    @FXML
+    private TableColumn<ChatMessage, String> nameColumn;
+    @FXML
+    private TableColumn<ChatMessage, String> messageColumn;
+    @FXML
+    private TextArea chatTextArea;
+    @FXML
+    private Button sendButton;
+
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
-        CanvasEffortComponent.init(canvasEffort);
         DrawLineButtonComponent.init(lineButton,canvasEffort,outlineColorPicker,fillColorPicker);
+        DrawOvalButtonComponent.init(ovalButton,canvasEffort,outlineColorPicker,fillColorPicker);
+        DrawTriangleButtonComponent.init(triangleButton,canvasEffort,outlineColorPicker,fillColorPicker);
+        DrawRectangleButtonComponent.init(rectangleButton,canvasEffort,outlineColorPicker,fillColorPicker);
+        DrawTextButtonComponent.init(textButton,canvasEffort,outlineColorPicker,fillColorPicker);
+        ChatComponent.init(ChatTable,nameColumn,messageColumn,chatTextArea,sendButton);
         UpdateCanvasScheduler.init(canvas);
     }
 

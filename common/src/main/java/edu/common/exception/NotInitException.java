@@ -1,4 +1,4 @@
-package edu.Common.Exception;
+package edu.common.exception;
 
 public class NotInitException extends RuntimeException {
 

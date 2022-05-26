@@ -1,27 +1,24 @@
-package edu.javafx.shape.Impl;
+package edu.javafx.draw.shape.Impl;
 
-import edu.Common.Exception.NotInitException;
+import edu.common.exception.NotInitException;
+import edu.common.util.DrawShapeUtil;
 import edu.dto.Command;
 import edu.dto.Impl.DrawLineCommand;
-import edu.javafx.shape.DrawShape;
+import edu.javafx.draw.shape.DrawShape;
 import edu.service.SendCommandService;
 import javafx.scene.canvas.Canvas;
-import javafx.scene.canvas.GraphicsContext;
+
 import javafx.scene.control.ColorPicker;
 
-public class DrawLine implements DrawShape {
+public class DrawLine extends DrawShape {
 
     private static DrawLine drawLine = null;
 
-    private Canvas canvasEffort = null;
-    private ColorPicker outlineColorPicker,fillColorPicker;
-
-    private GraphicsContext graphicsContextEffort = null;
-
-    public static void init(Canvas canvasEffort,
+    public static DrawLine init(Canvas canvasEffort,
                             ColorPicker outlineColorPicker,
                             ColorPicker fillColorPicker) {
         drawLine = new DrawLine(canvasEffort,outlineColorPicker,fillColorPicker);
+        return drawLine;
     }
 
     public static DrawLine getInstance(){
@@ -34,19 +31,13 @@ public class DrawLine implements DrawShape {
     private DrawLine(Canvas canvasEffort,
                      ColorPicker outlineColorPicker,
                      ColorPicker fillColorPicker) {
-        this.canvasEffort = canvasEffort;
-        this.outlineColorPicker = outlineColorPicker;
-        this.fillColorPicker = fillColorPicker;
-
-        this.graphicsContextEffort = canvasEffort.getGraphicsContext2D();
+        super(canvasEffort, outlineColorPicker, fillColorPicker);
     }
 
     @Override
     public void drawEffort(double x1, double y1, double x2, double y2) {
-        graphicsContextEffort.setFill(fillColorPicker.getValue());
-        graphicsContextEffort.setStroke(outlineColorPicker.getValue());
         graphicsContextEffort.clearRect(0, 0, canvasEffort.getWidth() , canvasEffort.getHeight());
-        graphicsContextEffort.strokeLine(x1, y1, x2, y2);
+        DrawShapeUtil.drawLine(graphicsContextEffort,outlineColorPicker.getValue(),fillColorPicker.getValue(),x1,y1,x2,y2);
     }
 
     @Override

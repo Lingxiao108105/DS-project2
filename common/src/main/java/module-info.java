@@ -9,5 +9,7 @@ module common {
     exports edu.dto;
     exports edu.dto.Impl;
     exports edu.common.util;
+    exports edu.common.exception;
+    exports edu.common.enums;
 
 }
