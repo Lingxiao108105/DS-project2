@@ -1,12 +1,12 @@
 package edu;
 
-import com.alipay.sofa.rpc.config.ConsumerConfig;
 import edu.ThreadPool.ClientThreadPool;
+import edu.common.enums.Role;
+import edu.config.ClientConfig;
 import edu.javafx.CanvasGUIController;
 import edu.rpc.RpcClient;
-import edu.service.CanvasService;
-import edu.service.Register;
-import edu.service.RegisterService;
+import edu.rpc.RpcServiceProvider;
+import edu.service.Impl.ClientRegisterService;
 import javafx.application.Application;
 import javafx.application.Platform;
 import javafx.event.EventHandler;
@@ -15,8 +15,11 @@ import javafx.stage.Stage;
 import javafx.stage.WindowEvent;
 
 import java.util.List;
+import java.util.Objects;
 
 public class Main extends Application {
+
+    public static Stage stage = null;
 
     public static void main(String[] args) {
         launch(args);
@@ -25,20 +28,19 @@ public class Main extends Application {
 
     @Override
     public void start(Stage stage) {
-        //show search scene
-        Scene scene = CanvasGUIController.getScene();
-        stage.setTitle("Canvas");
-        stage.setOnCloseRequest(new EventHandler<WindowEvent>() {
-            @Override
-            public void handle(WindowEvent windowEvent) {
-                Platform.exit();
-            }
-        });
-        stage.setScene(scene);
-        stage.setResizable(false);
-        stage.show();
+        Main.stage = stage;
+        Parameters parameters = getParameters();
+        List<String> args = parameters.getRaw();
 
-        RegisterService.register("hello");
+        RpcServiceProvider.getInstance();
+
+
+        if("client".equals(args.get(1))){
+            ClientConfig.role = Role.CLIENT;
+        }else {
+            ClientConfig.role = Role.MANAGER;
+        }
+        ClientRegisterService.register(args.get(0));
 
     }
 
@@ -50,5 +52,24 @@ public class Main extends Application {
         super.stop();
         ClientThreadPool.getInstance().stop();
         RpcClient.getInstance().stop();
+        RpcServiceProvider.getInstance().stop();
+    }
+
+    /**
+     * load Canvas
+     */
+    public static void loadCanvas(){
+        //show canvas scene
+        Scene scene = CanvasGUIController.getScene();
+        stage.setTitle("Canvas");
+        stage.setOnCloseRequest(new EventHandler<WindowEvent>() {
+            @Override
+            public void handle(WindowEvent windowEvent) {
+                Platform.exit();
+            }
+        });
+        stage.setScene(scene);
+        stage.setResizable(false);
+        stage.show();
     }
 }

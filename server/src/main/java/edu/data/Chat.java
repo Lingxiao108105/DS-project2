@@ -1,6 +1,10 @@
 package edu.data;
 
+import edu.ThreadPool.ServerThreadPool;
 import edu.dto.ChatMessage;
+import edu.dto.ClientInfo;
+import edu.rpc.RpcClient;
+import edu.service.ClientUpdateService;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -24,6 +28,20 @@ public class Chat {
         chatMessageListLock.lock();
         try {
             chatMessageList.add(chatMessage);
+            List<ChatMessage> chatMessages = new ArrayList<>();
+            chatMessages.add(chatMessage);
+            for (ClientInfo clientInfo:ClusterInfo.getInstance().getAcceptedClients()){
+                ServerThreadPool.getInstance().getExecutorService().submit(()->{
+                    try {
+                        ClientUpdateService clientCanvasService = RpcClient.getInstance().getClientCanvasService(clientInfo.getAddress());
+                        clientCanvasService.updateChat(chatMessages);
+                    }catch (Exception e){
+                        System.out.println("Fail to send chat message to " + clientInfo.getAddress());
+                    }
+
+                });
+
+            }
         }finally {
             chatMessageListLock.unlock();
         }

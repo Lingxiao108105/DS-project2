@@ -1,11 +1,11 @@
 package edu.dto;
 
-public class RegisterManagerRequest{
+public class RegisterClientRequest {
 
     String name;
     private String address;
 
-    public RegisterManagerRequest(String name, String address) {
+    public RegisterClientRequest(String name, String address) {
         this.name = name;
         this.address = address;
     }

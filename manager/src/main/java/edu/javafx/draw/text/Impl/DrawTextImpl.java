@@ -6,7 +6,7 @@ import edu.dto.Command;
 import edu.dto.Impl.DrawTextCommand;
 import edu.javafx.draw.shape.Impl.DrawTriangle;
 import edu.javafx.draw.text.DrawText;
-import edu.service.SendCommandService;
+import edu.service.Impl.SendCommandService;
 import javafx.scene.canvas.Canvas;
 import javafx.scene.control.ColorPicker;
 

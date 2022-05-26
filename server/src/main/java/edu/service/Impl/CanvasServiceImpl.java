@@ -1,5 +1,6 @@
 package edu.service.Impl;
 
+import edu.common.util.ByteAndImageConverterUtil;
 import edu.dto.*;
 import edu.javafx.MyCanvas;
 import edu.service.CanvasService;
@@ -29,20 +30,8 @@ public class CanvasServiceImpl implements CanvasService {
             return new CanvasResponse(true,null,myCanvas.getSnapshotIndex());
         }
         myCanvas.getSnapshotLock().lock();
-        byte[] imageBytes = null;
         try {
-            BufferedImage bufferedImage = SwingFXUtils.fromFXImage(myCanvas.getSnapshot(), null);
-            try {
-                ByteArrayOutputStream byteArrayOutputStream = new ByteArrayOutputStream(100000);
-                ImageIO.write(bufferedImage,"png",byteArrayOutputStream);
-                imageBytes = byteArrayOutputStream.toByteArray();
-                byteArrayOutputStream.close();
-            } catch (IOException e) {
-                e.printStackTrace();
-            } catch (Exception e) {
-                e.printStackTrace();
-            }
-            return new CanvasResponse(true,imageBytes,myCanvas.getSnapshotIndex());
+            return new CanvasResponse(true,myCanvas.getSnapshotBytes(),myCanvas.getSnapshotIndex());
         }finally {
             myCanvas.getSnapshotLock().unlock();
         }

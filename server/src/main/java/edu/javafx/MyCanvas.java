@@ -2,14 +2,16 @@ package edu.javafx;
 
 import edu.LifeCycle;
 import edu.ThreadPool.ServerThreadPool;
+import edu.common.util.ByteAndImageConverterUtil;
 import edu.data.ClusterInfo;
+import edu.dto.ClientInfo;
 import edu.dto.Command;
+import edu.rpc.RpcClient;
+import edu.service.ClientUpdateService;
 import javafx.application.Platform;
 import javafx.scene.canvas.Canvas;
-import javafx.scene.image.WritableImage;
 import lombok.Getter;
 
-import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.ConcurrentLinkedDeque;
 import java.util.concurrent.ScheduledFuture;
 import java.util.concurrent.TimeUnit;
@@ -21,7 +23,7 @@ public class MyCanvas implements LifeCycle {
     private static MyCanvas myCanvas;
 
     private Canvas canvas;
-    private WritableImage snapshot;
+    private byte[] snapshotBytes;
     private long snapshotIndex = 0;
     private final ReentrantLock snapshotLock = new ReentrantLock();
     private ConcurrentLinkedDeque<Command> canvasUpdate;
@@ -41,7 +43,7 @@ public class MyCanvas implements LifeCycle {
         this.canvas = new Canvas(776.0,721.0);
         this.canvasUpdate = new ConcurrentLinkedDeque<>();
         Platform.runLater(()->{
-            this.snapshot = canvas.snapshot(null,null);
+            this.snapshotBytes = ByteAndImageConverterUtil.imageToBytes(this.canvas.snapshot(null, null));
         });
         this.canvasUpdateTask = ServerThreadPool.getInstance().getScheduledExecutorService().scheduleWithFixedDelay(
                 ()->{
@@ -59,7 +61,7 @@ public class MyCanvas implements LifeCycle {
     public void stop() {
         this.canvas = null;
         this.canvasUpdate = null;
-        this.snapshot= null;
+        this.snapshotBytes= null;
         this.canvasUpdateTask.cancel(true);
     }
 
@@ -76,8 +78,15 @@ public class MyCanvas implements LifeCycle {
         if(size > 0){
             snapshotLock.lock();
             try {
-                this.snapshot = this.canvas.snapshot(null, null);
+                this.snapshotBytes = ByteAndImageConverterUtil.imageToBytes(this.canvas.snapshot(null, null));
                 snapshotIndex++;
+                for (ClientInfo clientInfo: ClusterInfo.getInstance().getAcceptedClients()){
+                    ServerThreadPool.getInstance().getExecutorService().submit(()->{
+                        ClientUpdateService clientCanvasService = RpcClient.getInstance().getClientCanvasService(
+                                clientInfo.getAddress());
+                        clientCanvasService.updateClientCanvas(this.getSnapshotBytes());
+                    });
+                }
             }
             finally {
                 snapshotLock.unlock();

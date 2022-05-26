@@ -2,7 +2,10 @@ package edu.data;
 
 import edu.LifeCycle;
 import edu.dto.ClientInfo;
+import edu.rpc.RpcClient;
+import edu.service.ClientUpdateService;
 
+import java.util.List;
 import java.util.concurrent.ConcurrentHashMap;
 
 /**
@@ -21,7 +24,7 @@ public class ClusterInfo implements LifeCycle {
         return clusterInfo;
     }
 
-    Integer managerId = null;
+    ClientInfo manager = null;
     ConcurrentHashMap<Integer, ClientInfo> acceptedClients;
     ConcurrentHashMap<Integer, ClientInfo> waitListClients;
     ConcurrentHashMap<Integer, ClientInfo> deniedClients;
@@ -42,20 +45,24 @@ public class ClusterInfo implements LifeCycle {
         waitListClients = null;
         deniedClients = null;
         kickedClients= null;
-        managerId = null;
+        manager = null;
     }
 
-    public Integer getManagerId() {
-        return managerId;
+    public ClientInfo getManager() {
+        return manager;
     }
 
-    public ClientInfo addManager(String name){
-        if(managerId != null){
+    public List<ClientInfo> getAcceptedClients() {
+        return List.copyOf(acceptedClients.values());
+    }
+
+    public ClientInfo addManager(String name, String address){
+        if(manager != null){
             return null;
         }
 
-        ClientInfo clientInfo = new ClientInfo(getNextId(), name);
-        this.managerId = clientInfo.getId();
+        ClientInfo clientInfo = new ClientInfo(getNextId(), name, address);
+        this.manager = clientInfo;
         acceptClient(clientInfo);
         return clientInfo;
     }
@@ -68,11 +75,15 @@ public class ClusterInfo implements LifeCycle {
 
     /**
      * request to join the cluster
-     * return null if the name already in the cluster
+     * throw UserAlreadyExistException if the name already in the cluster
      * @param name name of client
      * @return client info
      */
-    public ClientInfo requestToJoin(String name){
+    public ClientInfo requestToJoin(String name, String address){
+        //TODO no manager
+
+        //TODO throw already exist
+
         for(ClientInfo clientInfo: acceptedClients.values()){
             if(name.equals(clientInfo.getName())){
                 return null;
@@ -83,7 +94,7 @@ public class ClusterInfo implements LifeCycle {
                 return null;
             }
         }
-        ClientInfo clientInfo = new ClientInfo(getNextId(), name);
+        ClientInfo clientInfo = new ClientInfo(getNextId(), name, address);
         waitListClients.put(clientInfo.getId(),clientInfo);
         return clientInfo;
     }
@@ -95,6 +106,18 @@ public class ClusterInfo implements LifeCycle {
 
     public boolean isAcceptedClient(ClientInfo clientInfo){
         return this.acceptedClients.containsKey(clientInfo.getId());
+    }
+
+    /**
+     * get a clientInfo from waitList
+     * return null if no one in wait list
+     * @return a clientInfo from waitList or null
+     */
+    public ClientInfo getFirstWaitListClient(){
+        if(waitListClients.isEmpty()){
+            return null;
+        }
+        return (ClientInfo) waitListClients.values().toArray()[0];
     }
 
     public void deny(ClientInfo clientInfo){

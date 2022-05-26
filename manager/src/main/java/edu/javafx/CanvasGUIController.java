@@ -1,10 +1,14 @@
 package edu.javafx;
 
 import edu.Main;
+import edu.common.util.ByteAndImageConverterUtil;
+import edu.dto.CanvasRequest;
+import edu.dto.CanvasResponse;
 import edu.dto.ChatMessage;
 import edu.javafx.component.ChatComponent;
 import edu.javafx.component.Impl.*;
-import edu.javafx.draw.text.Impl.DrawTextImpl;
+import edu.rpc.RpcClient;
+import edu.service.Impl.ClientUpdateServiceImpl;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
@@ -17,6 +21,7 @@ import javafx.scene.control.MenuBar;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.control.TextArea;
+import javafx.scene.image.WritableImage;
 import lombok.Getter;
 
 import java.io.IOException;
@@ -81,7 +86,8 @@ public class CanvasGUIController implements Initializable {
         DrawRectangleButtonComponent.init(rectangleButton,canvasEffort,outlineColorPicker,fillColorPicker);
         DrawTextButtonComponent.init(textButton,canvasEffort,outlineColorPicker,fillColorPicker);
         ChatComponent.init(ChatTable,nameColumn,messageColumn,chatTextArea,sendButton);
-        UpdateCanvasScheduler.init(canvas);
+        initCanvas();
+        ClientUpdateServiceImpl.canvas = this.canvas;
     }
 
     //singleton of Canvas scene
@@ -92,11 +98,20 @@ public class CanvasGUIController implements Initializable {
             try {
                 scene = new Scene(fxmlLoader.load(), 1316.0, 756.0);
             } catch (IOException e) {
-                System.out.println("Fail to load the scene from search.fxml");
+                e.printStackTrace();
+                System.out.println("Fail to load the scene from canvas.fxml");
             }
             CanvasGUIController.scene = scene;
         }
         return CanvasGUIController.scene;
+    }
+
+    public void initCanvas(){
+        CanvasResponse canvasResponse = RpcClient.getInstance().getCanvasService().getCanvas(new CanvasRequest(-1));
+        WritableImage writableImage = ByteAndImageConverterUtil.bytesToImage(canvasResponse.getImageBytes());
+        if (writableImage != null){
+            canvas.getGraphicsContext2D().drawImage(writableImage,0,0);
+        }
     }
 }
 

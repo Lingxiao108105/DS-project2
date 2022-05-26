@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.*?>
+<?import java.lang.*?>
+<?import javafx.scene.layout.*?>
+
+
+<Pane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="edu.javafx.JoinRequestGUIController">
+   <children>
+      <TextArea fx:id="joinTextArea" editable="false" layoutX="80.0" layoutY="40.0" prefHeight="253.0" prefWidth="411.0" />
+      <Button fx:id="acceptButton" layoutX="148.0" layoutY="328.0" mnemonicParsing="false" text="Accept" />
+      <Button fx:id="denyButton" layoutX="323.0" layoutY="328.0" mnemonicParsing="false" text="Deny" />
+   </children>
+</Pane>

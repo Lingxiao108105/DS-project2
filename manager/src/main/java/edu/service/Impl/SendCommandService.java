@@ -1,10 +1,11 @@
-package edu.service;
+package edu.service.Impl;
 
 import edu.ThreadPool.ClientThreadPool;
 import edu.config.ClientConfig;
 import edu.dto.CanvasUpdateRequest;
 import edu.dto.Command;
 import edu.rpc.RpcClient;
+import edu.service.CanvasService;
 
 public class SendCommandService {
 

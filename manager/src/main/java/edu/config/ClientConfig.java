@@ -6,7 +6,7 @@ import edu.dto.ClientInfo;
 
 public class ClientConfig {
 
-    public static Role role = Role.MANAGER;
+    public static Role role = Role.CLIENT;
     public static ClientInfo clientInfo;
 
 }

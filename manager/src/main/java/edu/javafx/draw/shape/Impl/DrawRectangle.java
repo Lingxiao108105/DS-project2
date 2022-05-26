@@ -5,7 +5,7 @@ import edu.common.util.DrawShapeUtil;
 import edu.dto.Command;
 import edu.dto.Impl.DrawRectangleCommand;
 import edu.javafx.draw.shape.DrawShape;
-import edu.service.SendCommandService;
+import edu.service.Impl.SendCommandService;
 import javafx.scene.canvas.Canvas;
 import javafx.scene.control.ColorPicker;
 

@@ -16,14 +16,17 @@ public class ClientRegisterFilter extends Filter {
 
     @Override
     public SofaResponse invoke(FilterInvoker invoker, SofaRequest request) throws SofaRpcException {
-        SofaResponse response = invoker.invoke(request);
 
-        //check whether response get correct result or get an exception
-        Object appResponse = response.getAppResponse();
-        if(appResponse instanceof RuntimeException){
-            //TODO deal with exception
-            response.setAppResponse(null);
-        }
+        SofaResponse response = invoker.invoke(request);
         return response;
+//        SofaResponse response = invoker.invoke(request);
+//
+//        //check whether response get correct result or get an exception
+//        Object appResponse = response.getAppResponse();
+//        if(appResponse instanceof RuntimeException){
+//            //TODO deal with exception
+//            response.setAppResponse(null);
+//        }
+//        return response;
     }
 }

@@ -1,6 +1,5 @@
 package edu.javafx.component;
 
-import edu.ThreadPool.ClientThreadPool;
 import edu.common.exception.NotInitException;
 import edu.config.ClientConfig;
 import edu.dto.ChatGetRequest;
@@ -10,7 +9,7 @@ import edu.javafx.basic.TextAreaTableCell;
 import edu.javafx.component.Impl.DrawLineButtonComponent;
 import edu.rpc.RpcClient;
 import edu.service.ChatService;
-import edu.service.SendChatMessageService;
+import edu.service.Impl.SendChatMessageService;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.scene.control.*;
@@ -19,7 +18,6 @@ import javafx.scene.input.MouseEvent;
 import javafx.util.converter.DefaultStringConverter;
 
 import java.util.concurrent.ScheduledFuture;
-import java.util.concurrent.TimeUnit;
 
 public class ChatComponent {
 
@@ -67,19 +65,17 @@ public class ChatComponent {
         chatMessageList = FXCollections.observableArrayList();
         ChatTable.setItems(chatMessageList);
 
-        //get message from server
-        this.updateChatTask = ClientThreadPool.getInstance().getScheduledExecutorService().scheduleWithFixedDelay(
-                this::getChatMessages,
-                50,
-                50,
-                TimeUnit.MILLISECONDS
-        );
+        //getChatMessages();
     }
 
     private void sendButtonSetOnMouseClicked(MouseEvent e){
         String text = this.chatTextArea.getText();
         ChatMessage chatMessage = new ChatMessage(ClientConfig.clientInfo.getName(), text);
         SendChatMessageService.sendChatMessage(chatMessage);
+    }
+
+    public ObservableList<ChatMessage> getChatMessageList() {
+        return chatMessageList;
     }
 
     private void getChatMessages(){
