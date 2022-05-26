@@ -19,7 +19,7 @@ import javafx.scene.input.MouseEvent;
 import javafx.util.converter.DefaultStringConverter;
 
 import java.util.ArrayList;
-import java.util.List;
+import java.util.Arrays;
 import java.util.concurrent.ScheduledFuture;
 import java.util.concurrent.TimeUnit;
 
@@ -27,10 +27,10 @@ public class ChatComponent {
 
     private static ChatComponent chatComponent = null;
 
-    private TextArea chatTextArea;
+    private final TextArea chatTextArea;
     private ScheduledFuture<?> updateChatTask;
 
-    private List<ChatMessage> chatMessageList;
+    private ObservableList<ChatMessage> chatMessageList;
 
     public static void init(TableView<ChatMessage> ChatTable,
                             TableColumn<ChatMessage, String> nameColumn,
@@ -66,9 +66,8 @@ public class ChatComponent {
         sendButton.setOnMouseClicked(this::sendButtonSetOnMouseClicked);
 
         //show chat message
-        this.chatMessageList = new ArrayList<>();
-        ObservableList<ChatMessage> items = FXCollections.observableArrayList(this.chatMessageList);
-        ChatTable.setItems(items);
+        chatMessageList = FXCollections.observableArrayList();
+        ChatTable.setItems(chatMessageList);
 
         //get message from server
         this.updateChatTask = ClientThreadPool.getInstance().getScheduledExecutorService().scheduleWithFixedDelay(
@@ -88,8 +87,11 @@ public class ChatComponent {
     private void getChatMessages(){
         ChatService chatService = RpcClient.getInstance().getChatService();
         ChatGetRequest chatGetRequest = new ChatGetRequest(this.chatMessageList.size());
-        ChatGetResponse chatMessage = chatService.getChatMessage(ClientConfig.clientInfo, chatGetRequest);
-        this.chatMessageList.addAll(chatMessage.getChatMessageList());
+        ChatGetResponse chatGetResponse = chatService.getChatMessage(ClientConfig.clientInfo, chatGetRequest);
+        if(chatGetResponse.getChatMessageList().size() > 0){
+            System.out.println(Arrays.toString(chatGetResponse.getChatMessageList().toArray()));
+        }
+        this.chatMessageList.addAll(chatGetResponse.getChatMessageList());
     }
 
 }

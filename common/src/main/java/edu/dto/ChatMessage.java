@@ -19,4 +19,12 @@ public class ChatMessage implements Serializable {
     public String getMessage() {
         return message;
     }
+
+    @Override
+    public String toString() {
+        return "ChatMessage{" +
+                "name='" + name + '\'' +
+                ", message='" + message + '\'' +
+                '}';
+    }
 }
