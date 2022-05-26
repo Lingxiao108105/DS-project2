@@ -18,8 +18,6 @@ import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.input.MouseEvent;
 import javafx.util.converter.DefaultStringConverter;
 
-import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.concurrent.ScheduledFuture;
 import java.util.concurrent.TimeUnit;
 
@@ -87,9 +85,9 @@ public class ChatComponent {
     private void getChatMessages(){
         ChatService chatService = RpcClient.getInstance().getChatService();
         ChatGetRequest chatGetRequest = new ChatGetRequest(this.chatMessageList.size());
-        ChatGetResponse chatGetResponse = chatService.getChatMessage(ClientConfig.clientInfo, chatGetRequest);
-        if(chatGetResponse.getChatMessageList().size() > 0){
-            System.out.println(Arrays.toString(chatGetResponse.getChatMessageList().toArray()));
+        ChatGetResponse chatGetResponse = chatService.getChatMessage(chatGetRequest);
+        if(chatGetResponse == null){
+            return;
         }
         this.chatMessageList.addAll(chatGetResponse.getChatMessageList());
     }

@@ -14,7 +14,7 @@ public class SendChatMessageService {
         ChatService chatService = RpcClient.getInstance().getChatService();
         ChatAddRequest chatAddRequest = new ChatAddRequest(chatMessage);
         ClientThreadPool.getInstance().getExecutorService().submit(()->{
-            chatService.addChatMessage(ClientConfig.clientInfo,chatAddRequest);
+            chatService.addChatMessage(chatAddRequest);
         });
     }
 }

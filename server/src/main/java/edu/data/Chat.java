@@ -3,7 +3,6 @@ package edu.data;
 import edu.dto.ChatMessage;
 
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
 import java.util.concurrent.locks.ReentrantLock;
 
@@ -25,9 +24,6 @@ public class Chat {
         chatMessageListLock.lock();
         try {
             chatMessageList.add(chatMessage);
-            if(chatMessageList.size() > 0){
-                System.out.println(Arrays.toString(chatMessageList.toArray()));
-            }
         }finally {
             chatMessageListLock.unlock();
         }

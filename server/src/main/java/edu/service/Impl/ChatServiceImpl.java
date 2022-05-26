@@ -9,14 +9,14 @@ import java.util.List;
 public class ChatServiceImpl implements ChatService {
 
     @Override
-    public ChatAddResponse addChatMessage(ClientInfo clientInfo, ChatAddRequest chatAddRequest){
+    public ChatAddResponse addChatMessage(ChatAddRequest chatAddRequest){
         Chat chat = Chat.getInstance();
         chat.addChatMessage(chatAddRequest.getChatMessage());
         return new ChatAddResponse(true);
     }
 
     @Override
-    public ChatGetResponse getChatMessage(ClientInfo clientInfo, ChatGetRequest chatGetRequest){
+    public ChatGetResponse getChatMessage(ChatGetRequest chatGetRequest){
         Chat chat = Chat.getInstance();
         chat.getChatMessageListLock().lock();
         try {

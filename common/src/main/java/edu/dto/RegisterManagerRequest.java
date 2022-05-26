@@ -1,9 +1,6 @@
 package edu.dto;
 
-
-import java.io.Serializable;
-
-public class RegisterManagerRequest implements Serializable {
+public class RegisterManagerRequest{
 
     String name;
 

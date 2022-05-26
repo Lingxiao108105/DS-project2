@@ -4,8 +4,8 @@ import edu.dto.*;
 
 public interface CanvasService {
 
-    public CanvasUpdateResponse canvasUpdate(ClientInfo clientInfo,CanvasUpdateRequest canvasUpdateRequest);
+    public CanvasUpdateResponse canvasUpdate(CanvasUpdateRequest canvasUpdateRequest);
 
-    public CanvasResponse getCanvas(ClientInfo clientInfo, CanvasRequest canvasRequest);
+    public CanvasResponse getCanvas(CanvasRequest canvasRequest);
 
 }

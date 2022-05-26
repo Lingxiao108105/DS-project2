@@ -12,7 +12,7 @@ public class SendCommandService {
         CanvasService canvasService = RpcClient.getInstance().getCanvasService();
         CanvasUpdateRequest canvasUpdateRequest = new CanvasUpdateRequest(command);
         ClientThreadPool.getInstance().getExecutorService().submit(()->{
-            canvasService.canvasUpdate(ClientConfig.clientInfo,canvasUpdateRequest);
+            canvasService.canvasUpdate(canvasUpdateRequest);
         });
     }
 }

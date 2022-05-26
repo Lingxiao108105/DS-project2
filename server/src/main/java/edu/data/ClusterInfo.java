@@ -24,11 +24,15 @@ public class ClusterInfo implements LifeCycle {
     Integer managerId = null;
     ConcurrentHashMap<Integer, ClientInfo> acceptedClients;
     ConcurrentHashMap<Integer, ClientInfo> waitListClients;
+    ConcurrentHashMap<Integer, ClientInfo> deniedClients;
+    ConcurrentHashMap<Integer, ClientInfo> kickedClients;
 
     @Override
     public void init() {
         acceptedClients = new ConcurrentHashMap<>();
         waitListClients = new ConcurrentHashMap<>();
+        deniedClients = new ConcurrentHashMap<>();
+        kickedClients = new ConcurrentHashMap<>();
     }
 
     @Override
@@ -36,6 +40,8 @@ public class ClusterInfo implements LifeCycle {
         //TODO close all the peers
         acceptedClients = null;
         waitListClients = null;
+        deniedClients = null;
+        kickedClients= null;
         managerId = null;
     }
 
@@ -89,5 +95,23 @@ public class ClusterInfo implements LifeCycle {
 
     public boolean isAcceptedClient(ClientInfo clientInfo){
         return this.acceptedClients.containsKey(clientInfo.getId());
+    }
+
+    public void deny(ClientInfo clientInfo){
+        this.waitListClients.remove(clientInfo.getId());
+        this.deniedClients.put(clientInfo.getId(),clientInfo);
+    }
+
+    public boolean isDeniedClient(ClientInfo clientInfo){
+        return this.deniedClients.containsKey(clientInfo.getId());
+    }
+
+    public void kick(ClientInfo clientInfo){
+        this.acceptedClients.remove(clientInfo.getId());
+        this.kickedClients.put(clientInfo.getId(),clientInfo);
+    }
+
+    public boolean isKickedClient(ClientInfo clientInfo){
+        return this.kickedClients.containsKey(clientInfo.getId());
     }
 }

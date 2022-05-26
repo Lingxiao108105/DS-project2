@@ -1,8 +1,6 @@
 package edu.dto;
 
-import java.io.Serializable;
-
-public class RegisterManagerResponse implements Serializable {
+public class RegisterManagerResponse {
 
     boolean isSuccess;
     ClientInfo clientInfo;

@@ -1,9 +1,6 @@
 package edu.dto;
 
-import java.io.Serializable;
-
-
-public class CanvasUpdateResponse implements Serializable {
+public class CanvasUpdateResponse {
 
     boolean isSuccess;
 

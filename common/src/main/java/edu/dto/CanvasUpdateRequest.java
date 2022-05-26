@@ -1,9 +1,7 @@
 package edu.dto;
 
 
-import java.io.Serializable;
-
-public class CanvasUpdateRequest implements Serializable {
+public class CanvasUpdateRequest {
 
     Command command;
 

@@ -4,8 +4,8 @@ import edu.dto.*;
 
 public interface ChatService {
 
-    public ChatAddResponse addChatMessage(ClientInfo clientInfo, ChatAddRequest chatAddRequest);
+    public ChatAddResponse addChatMessage(ChatAddRequest chatAddRequest);
 
-    public ChatGetResponse getChatMessage(ClientInfo clientInfo, ChatGetRequest chatGetRequest);
+    public ChatGetResponse getChatMessage(ChatGetRequest chatGetRequest);
 
 }

@@ -2,9 +2,13 @@ package edu.rpc;
 
 import com.alipay.sofa.rpc.config.ConsumerConfig;
 import edu.LifeCycle;
+import edu.security.AuthorizeFilter;
 import edu.service.CanvasService;
 import edu.service.ChatService;
 import edu.service.Register;
+
+import java.util.Arrays;
+import java.util.List;
 
 public class RpcClient implements LifeCycle {
 
@@ -26,6 +30,7 @@ public class RpcClient implements LifeCycle {
         registerConsumerConfig = new ConsumerConfig<Register>()
                 .setInterfaceId(Register.class.getName())
                 .setProtocol("bolt")
+                .setFilterRef(List.of(new AuthorizeFilter()))
                 .setDirectUrl("bolt://127.0.0.1:10000");
 
         canvasServiceConsumerConfig = new ConsumerConfig<CanvasService>()

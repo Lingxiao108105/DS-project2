@@ -25,7 +25,6 @@ public class Main extends Application {
 
     @Override
     public void start(Stage stage) {
-        RegisterService.register("hello");
         //show search scene
         Scene scene = CanvasGUIController.getScene();
         stage.setTitle("Canvas");
@@ -38,6 +37,9 @@ public class Main extends Application {
         stage.setScene(scene);
         stage.setResizable(false);
         stage.show();
+
+        RegisterService.register("hello");
+
     }
 
     /**

@@ -57,7 +57,10 @@ public class UpdateCanvasScheduler{
 
     private void updateCanvas(){
         CanvasService canvasService = RpcClient.getInstance().getCanvasService();
-        CanvasResponse canvasResponse = canvasService.getCanvas(ClientConfig.clientInfo, new CanvasRequest(snapshotIndex));
+        CanvasResponse canvasResponse = canvasService.getCanvas(new CanvasRequest(snapshotIndex));
+        if(canvasResponse == null){
+            return;
+        }
         if(canvasResponse.isSuccess()){
             //update snapshot Index
             this.snapshotIndex = Math.max(this.snapshotIndex,canvasResponse.getSnapshotIndex());

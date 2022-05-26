@@ -42,18 +42,19 @@ public class RpcServiceProvider implements LifeCycle {
         registerProviderConfig = new ProviderConfig<Register>()
                 .setInterfaceId(Register.class.getName())
                 .setRef(new RegisterImpl())
+                .setFilterRef(List.of(new ClientFilter()))
                 .setServer(serverConfig);
 
         canvasServiceProviderConfig = new ProviderConfig<CanvasService>()
                 .setInterfaceId(CanvasService.class.getName())
                 .setRef(new CanvasServiceImpl())
-                .setFilterRef(List.of(new ClientFilter()))
+                //.setFilterRef(List.of(new ClientFilter()))
                 .setServer(serverConfig);
 
         chatServiceProviderConfig = new ProviderConfig<ChatService>()
                 .setInterfaceId(ChatService.class.getName())
                 .setRef(new ChatServiceImpl())
-                .setFilterRef(List.of(new ClientFilter()))
+                //.setFilterRef(List.of(new ClientFilter()))
                 .setServer(serverConfig);
 
         registerProviderConfig.export();

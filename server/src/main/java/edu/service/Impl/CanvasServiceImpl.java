@@ -16,14 +16,14 @@ import java.io.IOException;
 public class CanvasServiceImpl implements CanvasService {
 
     @Override
-    public CanvasUpdateResponse canvasUpdate(ClientInfo clientInfo,CanvasUpdateRequest canvasUpdateRequest){
+    public CanvasUpdateResponse canvasUpdate(CanvasUpdateRequest canvasUpdateRequest){
         MyCanvas myCanvas = MyCanvas.getInstance();
         myCanvas.addUpdateCommand(canvasUpdateRequest.getCommand());
         return new CanvasUpdateResponse(true);
     }
 
     @Override
-    public CanvasResponse getCanvas(ClientInfo clientInfo, CanvasRequest canvasRequest){
+    public CanvasResponse getCanvas(CanvasRequest canvasRequest){
         MyCanvas myCanvas = MyCanvas.getInstance();
         if(canvasRequest.getSnapshotIndex() >= myCanvas.getSnapshotIndex()){
             return new CanvasResponse(true,null,myCanvas.getSnapshotIndex());

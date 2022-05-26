@@ -6,12 +6,10 @@ import com.alipay.sofa.rpc.core.request.SofaRequest;
 import com.alipay.sofa.rpc.core.response.SofaResponse;
 import com.alipay.sofa.rpc.filter.Filter;
 import com.alipay.sofa.rpc.filter.FilterInvoker;
-import edu.common.exception.NotInitException;
 import edu.data.ClusterInfo;
-import edu.dto.CanvasUpdateRequest;
 import edu.dto.ClientInfo;
 
-public class ClientFilter extends Filter {
+public class MangerFilter extends Filter {
 
     @Override
     public boolean needToLoad(FilterInvoker invoker) {
@@ -36,19 +34,11 @@ public class ClientFilter extends Filter {
             return response;
         }
 
-        //check
-        if(!ClusterInfo.getInstance().isAcceptedClient(clientInfo)){
-            if(ClusterInfo.getInstance().isDeniedClient(clientInfo)){
-                //TODO return isDeniedClient
-                return response;
-            }
-            if(ClusterInfo.getInstance().isKickedClient(clientInfo)){
-                //TODO return isKickedClient
-                return response;
-            }
+        if(ClusterInfo.getInstance().getManagerId() != clientInfo.getId()){
+            //TODO return unauthorized: not enough permission
+            return response;
         }
 
-        //is client
         response = invoker.invoke(request);
         return response;
     }
