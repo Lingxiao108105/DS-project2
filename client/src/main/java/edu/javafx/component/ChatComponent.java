@@ -3,6 +3,7 @@ package edu.javafx.component;
 import edu.common.exception.NotInitException;
 import edu.config.ClientConfig;
 import edu.dto.ChatMessage;
+import edu.javafx.ExceptionMessageGUIController;
 import edu.javafx.basic.TextAreaTableCell;
 import edu.service.Impl.ServerService;
 import javafx.collections.FXCollections;
@@ -65,6 +66,12 @@ public class ChatComponent {
 
     private void sendButtonSetOnMouseClicked(MouseEvent e){
         String text = this.chatTextArea.getText();
+        //clean the text
+        this.chatTextArea.setText("");
+        if(text.isBlank()){
+            new ExceptionMessageGUIController("Please send non-blank chat!");
+            return;
+        }
         ChatMessage chatMessage = new ChatMessage(ClientConfig.clientInfo.getName(), text);
         ServerService.sendChatMessage(chatMessage);
     }

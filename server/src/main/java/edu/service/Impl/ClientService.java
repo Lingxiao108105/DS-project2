@@ -21,7 +21,7 @@ public class ClientService {
                     ClientUpdateService clientCanvasService = RpcClient.getInstance().getClientCanvasService(clientInfo);
                     clientCanvasService.updateAcceptedClient(acceptedClients);
                 } catch (Exception e) {
-                    //when fail to send chat to some client, remove it
+                    //when fail to send notifyAcceptedClientChange to some client, remove it
                     System.out.println("Fail to send chat message to " + clientInfo.getAddress());
                     ClusterInfo.getInstance().removeFromAcceptedClient(clientInfo);
                 }
@@ -43,7 +43,7 @@ public class ClientService {
                                 clientInfo);
                         clientCanvasService.updateClientCanvas(imageToBytes);
                     } catch (Exception e) {
-                        //when fail to send chat to some client, remove it
+                        //when fail to send multicastSnapshot to some client, remove it
                         System.out.println("Fail to send chat message to " + clientInfo.getAddress());
                         ClusterInfo.getInstance().removeFromAcceptedClient(clientInfo);
                     }

@@ -42,7 +42,7 @@ public class ServerService {
                 //not success: means manager already exist
                 if(!registerManagerResponse.isSuccess()){
                     Platform.runLater(()->{
-                        new ErrorMessageGUIController("Manager already exist!");
+                        new ErrorMessageGUIController(registerManagerResponse.getErrorMessage());
                     });
                     return;
                 }
@@ -58,13 +58,7 @@ public class ServerService {
                 //not success: no manager
                 if(!registerClientResponse.isSuccess()){
                     Platform.runLater(()->{
-                        new ErrorMessageGUIController("There is no manager in the whiteboard!");
-                    });
-                    return;
-                }
-                if(registerClientResponse.getClientInfo() == null){
-                    Platform.runLater(()->{
-                        new ErrorMessageGUIController("Duplicate name! Please use a new User name!");
+                        new ErrorMessageGUIController(registerClientResponse.getErrorMessage());
                     });
                     return;
                 }

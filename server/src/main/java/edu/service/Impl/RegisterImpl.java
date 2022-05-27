@@ -29,12 +29,12 @@ public class RegisterImpl implements Register {
                 System.out.println("Fail to send chat message to manager: " + ClusterInfo.getInstance().getManager().getAddress());
                 ClusterInfo.getInstance().removeFromAcceptedClient(clusterInfo.getManager());
                 ClientInfo clientInfo = clusterInfo.addManager(request.getName(),request.getAddress());
-                return new RegisterManagerResponse(true,clientInfo);
+                return new RegisterManagerResponse(true,null,clientInfo);
             }
-            return new RegisterManagerResponse(false,null);
+            return new RegisterManagerResponse(false,"Manager already exist!",null);
         }else {
             ClientInfo clientInfo = clusterInfo.addManager(request.getName(),request.getAddress());
-            return new RegisterManagerResponse(true,clientInfo);
+            return new RegisterManagerResponse(true,null,clientInfo);
         }
     }
 
@@ -42,7 +42,7 @@ public class RegisterImpl implements Register {
     public RegisterClientResponse registerClient(RegisterClientRequest request){
         //sanity check
         if(request == null || request.getAddress() == null || request.getName() == null){
-            return new RegisterClientResponse(true,null);
+            return new RegisterClientResponse(false,"RegisterClientRequest is null or attribute in it is null!",null);
         }
 
         ClusterInfo clusterInfo = ClusterInfo.getInstance();
@@ -54,7 +54,7 @@ public class RegisterImpl implements Register {
 
         //no manager
         if(clusterInfo.getManager() == null){
-            return new RegisterClientResponse(false,null);
+            return new RegisterClientResponse(false,"There is no manager in the whiteboard!",null);
         }
 
         ClientInfo clientInfo = clusterInfo.requestToJoin(request.getName(),request.getAddress());
@@ -66,13 +66,15 @@ public class RegisterImpl implements Register {
                         .getClientCanvasService(ClusterInfo.getInstance().getManager());
                 clientCanvasService.notifyManagerJoinRequest(clientInfo);
             } catch (Exception e) {
-                //when fail to send chat to some client, remove it
-                System.out.println("Fail to send chat message to " + clientInfo.getAddress());
-                ClusterInfo.getInstance().removeFromAcceptedClient(clientInfo);
-                return new RegisterClientResponse(false,null);
+                //when fail to connect to manager
+                System.out.println("Fail to send chat message to manager: " + ClusterInfo.getInstance().getManager());
+                ClusterInfo.getInstance().removeFromAcceptedClient(ClusterInfo.getInstance().getManager());
+                return new RegisterClientResponse(false,"Manager crashed!",null);
             }
+        }else {
+            return new RegisterClientResponse(false,"Duplicate name! Please use a new User name!",clientInfo);
         }
-        return new RegisterClientResponse(true,clientInfo);
+        return new RegisterClientResponse(true,null,clientInfo);
     }
 
 }
