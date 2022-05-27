@@ -5,37 +5,35 @@ import edu.dto.ClientInfo;
 import edu.rpc.RpcClient;
 import javafx.event.Event;
 import javafx.fxml.FXML;
-import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.TextArea;
 import javafx.scene.layout.Pane;
 import javafx.stage.Stage;
 
-import java.io.IOException;
 
 
 public class JoinRequestGUIController{
 
-    @FXML
-    private Button denyButton;
+    private final Button denyButton;
 
-    @FXML
-    private TextArea joinTextArea;
+    private final TextArea joinTextArea;
 
-    @FXML
-    private Button acceptButton;
+    private final Button acceptButton;
 
-    private ClientInfo clientInfo;
+    private final ClientInfo clientInfo;
 
-    private Stage stage;
+    private final Stage stage;
 
     public JoinRequestGUIController(ClientInfo clientInfo) {
         this.clientInfo = clientInfo;
+
+        //make scene and create stage
         Pane root = new Pane();
         Scene scene = new Scene(root, 600.0, 400.0);
 
         this.joinTextArea = new TextArea();
+        joinTextArea.setStyle("-fx-focus-color: transparent; -fx-text-box-border: transparent;");
         joinTextArea.setPrefWidth(400);
         joinTextArea.setPrefHeight(260);
         joinTextArea.setLayoutX(80);
@@ -70,7 +68,7 @@ public class JoinRequestGUIController{
         this.stage = stage;
     }
 
-    public void loadAction() {
+    private void loadAction() {
         acceptButton.setOnMouseClicked((e)->{
             System.out.println(clientInfo);
             RpcClient.getInstance().getManagerService().joinRequestDecision(true,clientInfo);

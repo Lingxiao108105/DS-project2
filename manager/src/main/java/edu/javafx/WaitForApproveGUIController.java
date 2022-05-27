@@ -4,16 +4,13 @@ import edu.Main;
 import javafx.application.Platform;
 import javafx.event.EventHandler;
 import javafx.fxml.FXMLLoader;
-import javafx.fxml.Initializable;
 import javafx.scene.Scene;
 import javafx.stage.Stage;
 import javafx.stage.WindowEvent;
 
 import java.io.IOException;
-import java.net.URL;
-import java.util.ResourceBundle;
 
-public class WaitForApproveGUIController implements Initializable {
+public class WaitForApproveGUIController {
 
     private static WaitForApproveGUIController waitForApproveGUIController = null;
 
@@ -24,16 +21,14 @@ public class WaitForApproveGUIController implements Initializable {
             waitForApproveGUIController = new WaitForApproveGUIController();
             stage = waitForApproveGUIController.newRequest();
         }
+        else {
+            stage.show();
+        }
         return waitForApproveGUIController;
     }
 
     public void close(){
         stage.close();
-    }
-
-    @Override
-    public void initialize(URL location, ResourceBundle resources) {
-
     }
 
     //create a waitForApprove stage
