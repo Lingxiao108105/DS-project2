@@ -8,5 +8,7 @@ public interface ManagerService {
 
     public void kickClient (ClientInfo clientInfo);
 
+    public void updateCanvas(byte[] imageBytes);
+
 
 }

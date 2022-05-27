@@ -5,8 +5,11 @@ import edu.common.util.ByteAndImageConverterUtil;
 import edu.dto.CanvasRequest;
 import edu.dto.CanvasResponse;
 import edu.dto.ChatMessage;
+import edu.dto.ClientInfo;
+import edu.javafx.component.AcceptedUserComponent;
 import edu.javafx.component.ChatComponent;
 import edu.javafx.component.DrawButtonComponent;
+import edu.javafx.component.MenuComponent;
 import edu.javafx.draw.shape.Impl.DrawLine;
 import edu.javafx.draw.shape.Impl.DrawOval;
 import edu.javafx.draw.shape.Impl.DrawRectangle;
@@ -14,18 +17,13 @@ import edu.javafx.draw.shape.Impl.DrawTriangle;
 import edu.javafx.draw.text.Impl.DrawTextImpl;
 import edu.rpc.RpcClient;
 import edu.service.Impl.ClientUpdateServiceImpl;
+import edu.service.Impl.ServerService;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
 import javafx.scene.Scene;
 import javafx.scene.canvas.Canvas;
-import javafx.scene.control.Button;
-import javafx.scene.control.ColorPicker;
-import javafx.scene.control.Menu;
-import javafx.scene.control.MenuBar;
-import javafx.scene.control.TableColumn;
-import javafx.scene.control.TableView;
-import javafx.scene.control.TextArea;
+import javafx.scene.control.*;
 import javafx.scene.image.WritableImage;
 import lombok.Getter;
 
@@ -66,8 +64,11 @@ public class CanvasGUIController implements Initializable {
     private ColorPicker fillColorPicker;
 
     //>>>>>>>>>>>>>>>>>>>>>>>>>> Clients <<<<<<<<<<<<<<<<<<<<<<<
+
     @FXML
-    private TableColumn<?, ?> userColumn;
+    private TableView<ClientInfo> userTable;
+    @FXML
+    private TableColumn<ClientInfo, String> userColumn;
     @FXML
     private Button kickButton;
 
@@ -85,17 +86,14 @@ public class CanvasGUIController implements Initializable {
 
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
-//        DrawLineButtonComponent.init(lineButton,canvasEffort,outlineColorPicker,fillColorPicker);
-//        DrawOvalButtonComponent.init(ovalButton,canvasEffort,outlineColorPicker,fillColorPicker);
-//        DrawTriangleButtonComponent.init(triangleButton,canvasEffort,outlineColorPicker,fillColorPicker);
-//        DrawRectangleButtonComponent.init(rectangleButton,canvasEffort,outlineColorPicker,fillColorPicker);
-//        DrawTextButtonComponent.init(textButton,canvasEffort,outlineColorPicker,fillColorPicker);
         new DrawButtonComponent(lineButton,new DrawLine(canvasEffort,outlineColorPicker,fillColorPicker));
         new DrawButtonComponent(ovalButton,new DrawOval(canvasEffort,outlineColorPicker,fillColorPicker));
         new DrawButtonComponent(triangleButton,new DrawTriangle(canvasEffort,outlineColorPicker,fillColorPicker));
         new DrawButtonComponent(rectangleButton,new DrawRectangle(canvasEffort,outlineColorPicker,fillColorPicker));
         new DrawButtonComponent(textButton,new DrawTextImpl(canvasEffort,outlineColorPicker,fillColorPicker));
         ChatComponent.init(ChatTable,nameColumn,messageColumn,chatTextArea,sendButton);
+        AcceptedUserComponent.init(userTable,userColumn,kickButton);
+        MenuComponent.init(canvas,menuBar,fileMenu);
         initCanvas();
         ClientUpdateServiceImpl.canvas = this.canvas;
     }
@@ -117,10 +115,9 @@ public class CanvasGUIController implements Initializable {
     }
 
     public void initCanvas(){
-        CanvasResponse canvasResponse = RpcClient.getInstance().getCanvasService().getCanvas(new CanvasRequest(-1));
-        WritableImage writableImage = ByteAndImageConverterUtil.bytesToImage(canvasResponse.getImageBytes());
+        WritableImage writableImage = ServerService.getCanvas();
         if (writableImage != null){
-            canvas.getGraphicsContext2D().drawImage(writableImage,0,0);
+            this.canvas.getGraphicsContext2D().drawImage(writableImage,0,0);
         }
     }
 }

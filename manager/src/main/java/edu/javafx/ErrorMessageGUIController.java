@@ -5,6 +5,7 @@ import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.TextArea;
 import javafx.scene.layout.Pane;
+import javafx.stage.Modality;
 import javafx.stage.Stage;
 
 public class ErrorMessageGUIController {
@@ -38,13 +39,16 @@ public class ErrorMessageGUIController {
         this.errorMessage.setWrapText(true);
         root.getChildren().add(this.errorMessage);
 
-        loadAction();
+
         Stage stage = new Stage();
+        stage.initModality(Modality.APPLICATION_MODAL);
         stage.setTitle("Error");
         stage.setScene(scene);
         stage.setResizable(false);
         stage.show();
         this.stage = stage;
+
+        loadAction();
     }
 
     private void loadAction() {

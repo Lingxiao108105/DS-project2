@@ -28,7 +28,8 @@ public class RpcClient implements LifeCycle {
 
     @Override
     public void stop() {
-
+        this.clientCanvasServiceConcurrentHashMap = null;
+        rpcClient = null;
     }
 
     public ClientUpdateService getClientCanvasService(String address){

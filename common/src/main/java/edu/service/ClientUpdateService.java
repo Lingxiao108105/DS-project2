@@ -11,7 +11,13 @@ public interface ClientUpdateService {
 
     public void updateChat(List<ChatMessage> chatMessageList);
 
+    public void updateAcceptedClient(List<ClientInfo> clientInfoList);
+
     public void joinRequestDecision (boolean decision);
 
     public void notifyManagerJoinRequest(ClientInfo clientInfo);
+
+    public void notifyBeenKicked();
+
+    public void notifyManagerExit();
 }

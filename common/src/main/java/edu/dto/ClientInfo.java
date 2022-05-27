@@ -2,6 +2,7 @@ package edu.dto;
 
 
 import java.io.Serializable;
+import java.util.Objects;
 
 
 public class ClientInfo implements Serializable {
@@ -35,5 +36,18 @@ public class ClientInfo implements Serializable {
                 ", name='" + name + '\'' +
                 ", address='" + address + '\'' +
                 '}';
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        ClientInfo that = (ClientInfo) o;
+        return Objects.equals(id, that.id) && Objects.equals(name, that.name) && Objects.equals(address, that.address);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(id, name, address);
     }
 }

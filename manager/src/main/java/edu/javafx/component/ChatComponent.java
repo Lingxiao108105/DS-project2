@@ -8,13 +8,15 @@ import edu.dto.ChatMessage;
 import edu.javafx.basic.TextAreaTableCell;
 import edu.rpc.RpcClient;
 import edu.service.ChatService;
-import edu.service.Impl.SendChatMessageService;
+import edu.service.Impl.ServerService;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.input.MouseEvent;
 import javafx.util.converter.DefaultStringConverter;
+
+import java.util.List;
 
 public class ChatComponent {
 
@@ -68,7 +70,7 @@ public class ChatComponent {
     private void sendButtonSetOnMouseClicked(MouseEvent e){
         String text = this.chatTextArea.getText();
         ChatMessage chatMessage = new ChatMessage(ClientConfig.clientInfo.getName(), text);
-        SendChatMessageService.sendChatMessage(chatMessage);
+        ServerService.sendChatMessage(chatMessage);
     }
 
     public ObservableList<ChatMessage> getChatMessageList() {
@@ -79,14 +81,9 @@ public class ChatComponent {
      * get all chat message from server, please use at init if you want
      */
     private void getChatMessages(){
-        ChatService chatService = RpcClient.getInstance().getChatService();
-        ChatGetRequest chatGetRequest = new ChatGetRequest(0);
-        ChatGetResponse chatGetResponse = chatService.getChatMessage(chatGetRequest);
-        if(chatGetResponse == null){
-            return;
-        }
+        List<ChatMessage> chat = ServerService.getChat();
         this.chatMessageList.clear();
-        this.chatMessageList.addAll(chatGetResponse.getChatMessageList());
+        this.chatMessageList.addAll(chat);
     }
 
 }

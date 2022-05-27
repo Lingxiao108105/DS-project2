@@ -8,4 +8,6 @@ public interface ClusterService {
 
     public List<ClientInfo> getAcceptedClient();
 
+    public void leave(ClientInfo clientInfo);
+
 }

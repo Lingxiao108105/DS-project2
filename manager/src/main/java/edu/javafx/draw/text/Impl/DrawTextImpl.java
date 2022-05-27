@@ -1,12 +1,10 @@
 package edu.javafx.draw.text.Impl;
 
-import edu.common.exception.NotInitException;
 import edu.common.util.DrawTextUtil;
 import edu.dto.Command;
 import edu.dto.Impl.DrawTextCommand;
-import edu.javafx.draw.shape.Impl.DrawTriangle;
 import edu.javafx.draw.text.DrawText;
-import edu.service.Impl.SendCommandService;
+import edu.service.Impl.ServerService;
 import javafx.scene.canvas.Canvas;
 import javafx.scene.control.ColorPicker;
 
@@ -28,6 +26,6 @@ public class DrawTextImpl extends DrawText {
     @Override
     public void draw(double x1, double y1, String text) {
         Command command = new DrawTextCommand(x1, y1, text, outlineColorPicker.getValue(), fillColorPicker.getValue());
-        SendCommandService.sendCommand(command);
+        ServerService.sendCommand(command);
     }
 }

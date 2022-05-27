@@ -4,7 +4,7 @@ import com.alipay.sofa.rpc.config.ProviderConfig;
 import com.alipay.sofa.rpc.config.ServerConfig;
 import edu.LifeCycle;
 import edu.config.RpcServiceConfig;
-import edu.service.*;
+import edu.service.ClientUpdateService;
 import edu.service.Impl.ClientUpdateServiceImpl;
 
 public class RpcServiceProvider implements LifeCycle {

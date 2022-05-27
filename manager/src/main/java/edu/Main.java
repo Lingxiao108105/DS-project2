@@ -6,7 +6,7 @@ import edu.config.ClientConfig;
 import edu.javafx.CanvasGUIController;
 import edu.rpc.RpcClient;
 import edu.rpc.RpcServiceProvider;
-import edu.service.Impl.ClientRegisterService;
+import edu.service.Impl.ServerService;
 import javafx.application.Application;
 import javafx.application.Platform;
 import javafx.event.EventHandler;
@@ -15,7 +15,6 @@ import javafx.stage.Stage;
 import javafx.stage.WindowEvent;
 
 import java.util.List;
-import java.util.Objects;
 
 public class Main extends Application {
 
@@ -40,7 +39,7 @@ public class Main extends Application {
         }else {
             ClientConfig.role = Role.MANAGER;
         }
-        ClientRegisterService.register(args.get(0));
+        ServerService.register(args.get(0));
 
     }
 
@@ -50,6 +49,7 @@ public class Main extends Application {
     @Override
     public void stop() throws Exception {
         super.stop();
+        ServerService.leave();
         ClientThreadPool.getInstance().stop();
         RpcClient.getInstance().stop();
         RpcServiceProvider.getInstance().stop();

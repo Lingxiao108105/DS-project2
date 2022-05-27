@@ -1,9 +1,13 @@
 package edu.data;
 
 import edu.LifeCycle;
+import edu.ThreadPool.ServerThreadPool;
 import edu.dto.ClientInfo;
 import edu.rpc.RpcClient;
 import edu.service.ClientUpdateService;
+import edu.service.Impl.ClientService;
+import edu.service.Impl.ClusterServiceImpl;
+import edu.service.ManagerService;
 
 import java.util.List;
 import java.util.concurrent.ConcurrentHashMap;
@@ -40,12 +44,12 @@ public class ClusterInfo implements LifeCycle {
 
     @Override
     public void stop() {
-        //TODO close all the peers
         acceptedClients = null;
         waitListClients = null;
         deniedClients = null;
         kickedClients= null;
         manager = null;
+        clusterInfo = null;
     }
 
     public ClientInfo getManager() {
@@ -54,6 +58,10 @@ public class ClusterInfo implements LifeCycle {
 
     public List<ClientInfo> getAcceptedClients() {
         return List.copyOf(acceptedClients.values());
+    }
+
+    public List<ClientInfo> getWaitListClients() {
+        return List.copyOf(waitListClients.values());
     }
 
     public ClientInfo addManager(String name, String address){
@@ -83,7 +91,6 @@ public class ClusterInfo implements LifeCycle {
         //TODO no manager
 
         //TODO throw already exist
-
         for(ClientInfo clientInfo: acceptedClients.values()){
             if(name.equals(clientInfo.getName())){
                 return null;
@@ -108,9 +115,17 @@ public class ClusterInfo implements LifeCycle {
         return this.acceptedClients.containsKey(clientInfo.getId());
     }
 
+    public void removeFromAcceptedClient(ClientInfo clientInfo){
+        this.acceptedClients.remove(clientInfo.getId());
+    }
+
 
     public boolean isWaitListClient(ClientInfo clientInfo){
         return this.waitListClients.containsKey(clientInfo.getId());
+    }
+
+    public void removeFromWaitListClient(ClientInfo clientInfo){
+        this.waitListClients.remove(clientInfo.getId());
     }
 
     public void deny(ClientInfo clientInfo){

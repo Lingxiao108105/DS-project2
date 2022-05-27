@@ -90,6 +90,7 @@ public class RpcServiceProvider implements LifeCycle {
         if(managerServiceProviderConfig != null){
             managerServiceProviderConfig.unExport();
         }
+        rpcServiceProvider = null;
     }
 
 

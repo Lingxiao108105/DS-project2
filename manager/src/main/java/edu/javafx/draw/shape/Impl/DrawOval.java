@@ -1,11 +1,10 @@
 package edu.javafx.draw.shape.Impl;
 
-import edu.common.exception.NotInitException;
 import edu.common.util.DrawShapeUtil;
 import edu.dto.Command;
 import edu.dto.Impl.DrawOvalCommand;
 import edu.javafx.draw.shape.DrawShape;
-import edu.service.Impl.SendCommandService;
+import edu.service.Impl.ServerService;
 import javafx.scene.canvas.Canvas;
 import javafx.scene.control.ColorPicker;
 
@@ -26,6 +25,6 @@ public class DrawOval extends DrawShape {
     @Override
     public void draw(double x1, double y1, double x2, double y2) {
         Command command = new DrawOvalCommand(x1, y1, x2, y2, outlineColorPicker.getValue(), fillColorPicker.getValue());
-        SendCommandService.sendCommand(command);
+        ServerService.sendCommand(command);
     }
 }

@@ -1,13 +1,15 @@
 package edu.service.Impl;
 
 import edu.Main;
+import edu.common.exception.NotInitException;
 import edu.common.util.ByteAndImageConverterUtil;
 import edu.dto.ChatMessage;
 import edu.dto.ClientInfo;
-import edu.javafx.CanvasGUIController;
+import edu.javafx.ErrorMessageGUIController;
 import edu.javafx.ExceptionMessageGUIController;
 import edu.javafx.JoinRequestGUIController;
 import edu.javafx.WaitForApproveGUIController;
+import edu.javafx.component.AcceptedUserComponent;
 import edu.javafx.component.ChatComponent;
 import edu.service.ClientUpdateService;
 import javafx.application.Platform;
@@ -37,13 +39,23 @@ public class ClientUpdateServiceImpl implements ClientUpdateService {
     }
 
     @Override
+    public void updateAcceptedClient(List<ClientInfo> clientInfoList) {
+        AcceptedUserComponent acceptedUserComponent = null;
+        try {
+            acceptedUserComponent = AcceptedUserComponent.getInstance();
+        }catch (NotInitException e){
+            return;
+        }
+        acceptedUserComponent.getClientNameObservableList().clear();
+        acceptedUserComponent.getClientNameObservableList().addAll(clientInfoList);
+    }
+
+    @Override
     public void joinRequestDecision(boolean decision) {
-        System.out.println("joinRequestDecision");
         Platform.runLater(()-> {
-            System.out.println("Platform joinRequestDecision");
             WaitForApproveGUIController.waitForApprove().close();
             if (!decision) {
-                new ExceptionMessageGUIController("You are not approved to join!");
+                new ErrorMessageGUIController("You are not approved to join!");
             }else {
                 Main.loadCanvas();
             }
@@ -55,6 +67,19 @@ public class ClientUpdateServiceImpl implements ClientUpdateService {
         Platform.runLater(()-> {
             new JoinRequestGUIController(clientInfo);
         });
+    }
 
+    @Override
+    public void notifyBeenKicked() {
+        Platform.runLater(()-> {
+            new ErrorMessageGUIController("You have been kicked by Manager");
+        });
+    }
+
+    @Override
+    public void notifyManagerExit() {
+        Platform.runLater(()-> {
+            new ErrorMessageGUIController("Manager exit! The whiteboard is closing!");
+        });
     }
 }

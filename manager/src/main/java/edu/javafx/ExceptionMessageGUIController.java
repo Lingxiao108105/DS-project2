@@ -4,6 +4,7 @@ import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.TextArea;
 import javafx.scene.layout.Pane;
+import javafx.stage.Modality;
 import javafx.stage.Stage;
 
 public class ExceptionMessageGUIController{
@@ -20,7 +21,7 @@ public class ExceptionMessageGUIController{
         Pane root = new Pane();
         Scene scene = new Scene(root, 600.0, 400.0);
 
-        this.exitButton = new Button("EXIT");
+        this.exitButton = new Button("OK");
         this.exitButton.setPrefWidth(50);
         this.exitButton.setPrefHeight(30);
         this.exitButton.setLayoutX(400);
@@ -37,13 +38,16 @@ public class ExceptionMessageGUIController{
         this.exceptionMessage.setWrapText(true);
         root.getChildren().add(this.exceptionMessage);
 
-        loadAction();
+
         Stage stage = new Stage();
         stage.setTitle("Warning");
+        stage.initModality(Modality.APPLICATION_MODAL);
         stage.setScene(scene);
         stage.setResizable(false);
         stage.show();
         this.stage = stage;
+
+        loadAction();
     }
 
     private void loadAction() {

@@ -5,7 +5,6 @@ import com.alipay.sofa.rpc.core.request.SofaRequest;
 import com.alipay.sofa.rpc.core.response.SofaResponse;
 import com.alipay.sofa.rpc.filter.Filter;
 import com.alipay.sofa.rpc.filter.FilterInvoker;
-import edu.config.ClientConfig;
 
 public class ClientRegisterFilter extends Filter {
 

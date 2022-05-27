@@ -1,14 +1,14 @@
 package edu.javafx;
 
-import edu.Main;
 import edu.dto.ClientInfo;
 import edu.rpc.RpcClient;
+import edu.service.Impl.ServerService;
 import javafx.event.Event;
-import javafx.fxml.FXML;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.TextArea;
 import javafx.scene.layout.Pane;
+import javafx.stage.Modality;
 import javafx.stage.Stage;
 
 
@@ -58,25 +58,26 @@ public class JoinRequestGUIController{
         denyButton.setText("Deny");
         root.getChildren().add(denyButton);
 
-        loadAction();
         Stage stage = new Stage();
         stage.setTitle("join request");
+        stage.initModality(Modality.APPLICATION_MODAL);
         stage.setOnCloseRequest(Event::consume);
         stage.setScene(scene);
         stage.setResizable(false);
         stage.show();
         this.stage = stage;
+
+        loadAction();
     }
 
     private void loadAction() {
         acceptButton.setOnMouseClicked((e)->{
-            System.out.println(clientInfo);
-            RpcClient.getInstance().getManagerService().joinRequestDecision(true,clientInfo);
+            ServerService.sendJoinRequestDecision(true,clientInfo);
             stage.close();
         });
 
         denyButton.setOnMouseClicked((e)->{
-            RpcClient.getInstance().getManagerService().joinRequestDecision(false,clientInfo);
+            ServerService.sendJoinRequestDecision(false,clientInfo);
             stage.close();
         });
 

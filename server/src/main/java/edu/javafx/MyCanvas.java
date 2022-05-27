@@ -8,6 +8,7 @@ import edu.dto.ClientInfo;
 import edu.dto.Command;
 import edu.rpc.RpcClient;
 import edu.service.ClientUpdateService;
+import edu.service.Impl.ClientService;
 import javafx.application.Platform;
 import javafx.scene.canvas.Canvas;
 import lombok.Getter;
@@ -59,10 +60,19 @@ public class MyCanvas implements LifeCycle {
 
     @Override
     public void stop() {
+        this.canvasUpdateTask.cancel(true);
         this.canvas = null;
         this.canvasUpdate = null;
         this.snapshotBytes= null;
-        this.canvasUpdateTask.cancel(true);
+        myCanvas = null;
+    }
+
+    public void incrementSnapshotIndex(){
+        this.snapshotIndex++;
+    }
+
+    public void setSnapshotBytes(byte[] snapshotBytes) {
+        this.snapshotBytes = snapshotBytes;
     }
 
     public void addUpdateCommand(Command command){
@@ -73,24 +83,15 @@ public class MyCanvas implements LifeCycle {
         int size = this.canvasUpdate.size();
         for (int i=0;i<size;i++){
             Command command = this.canvasUpdate.remove();
-            command.execute(this.canvas);
+            try {
+                command.execute(this.canvas);
+            }catch (Exception e){
+                System.out.println("Fail to update canvas in My canvas!");
+            }
+
         }
         if(size > 0){
-            snapshotLock.lock();
-            try {
-                this.snapshotBytes = ByteAndImageConverterUtil.imageToBytes(this.canvas.snapshot(null, null));
-                snapshotIndex++;
-                for (ClientInfo clientInfo: ClusterInfo.getInstance().getAcceptedClients()){
-                    ServerThreadPool.getInstance().getExecutorService().submit(()->{
-                        ClientUpdateService clientCanvasService = RpcClient.getInstance().getClientCanvasService(
-                                clientInfo.getAddress());
-                        clientCanvasService.updateClientCanvas(this.getSnapshotBytes());
-                    });
-                }
-            }
-            finally {
-                snapshotLock.unlock();
-            }
+            ClientService.multicastSnapshot();
         }
     }
 }
