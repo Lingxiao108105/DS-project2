@@ -1,7 +1,6 @@
 package edu.javafx;
 
 import edu.dto.ClientInfo;
-import edu.rpc.RpcClient;
 import edu.service.Impl.ServerService;
 import javafx.event.Event;
 import javafx.scene.Scene;

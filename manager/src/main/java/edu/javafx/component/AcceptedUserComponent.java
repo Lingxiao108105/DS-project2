@@ -2,15 +2,15 @@ package edu.javafx.component;
 
 import edu.common.enums.Role;
 import edu.common.exception.NotInitException;
-
 import edu.config.ClientConfig;
-import edu.dto.ChatMessage;
 import edu.dto.ClientInfo;
 import edu.javafx.basic.TextAreaTableCell;
 import edu.service.Impl.ServerService;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
-import javafx.scene.control.*;
+import javafx.scene.control.Button;
+import javafx.scene.control.TableColumn;
+import javafx.scene.control.TableView;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.input.MouseEvent;
 import javafx.util.converter.DefaultStringConverter;

@@ -1,7 +1,5 @@
 package edu.config;
 
-import java.net.InetAddress;
-
 public class RpcServiceConfig {
 
     private static Integer registerPort = 10000;

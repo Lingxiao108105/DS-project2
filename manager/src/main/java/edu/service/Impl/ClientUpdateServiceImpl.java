@@ -6,7 +6,6 @@ import edu.common.util.ByteAndImageConverterUtil;
 import edu.dto.ChatMessage;
 import edu.dto.ClientInfo;
 import edu.javafx.ErrorMessageGUIController;
-import edu.javafx.ExceptionMessageGUIController;
 import edu.javafx.JoinRequestGUIController;
 import edu.javafx.WaitForApproveGUIController;
 import edu.javafx.component.AcceptedUserComponent;
