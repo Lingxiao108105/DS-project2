@@ -3,6 +3,7 @@ package edu.rpc;
 
 import com.alipay.sofa.rpc.config.ConsumerConfig;
 import edu.LifeCycle;
+import edu.dto.ClientInfo;
 import edu.service.ClientUpdateService;
 
 import java.util.concurrent.ConcurrentHashMap;
@@ -11,7 +12,7 @@ public class RpcClient implements LifeCycle {
 
     private static RpcClient rpcClient = null;
 
-    private ConcurrentHashMap<String, ConsumerConfig<ClientUpdateService>> clientUpdateConfigConcurrentHashMap;
+    private ConcurrentHashMap<Integer, ConsumerConfig<ClientUpdateService>> clientUpdateConfigConcurrentHashMap;
 
     public static RpcClient getInstance(){
         if(rpcClient == null){
@@ -32,15 +33,15 @@ public class RpcClient implements LifeCycle {
         rpcClient = null;
     }
 
-    public ClientUpdateService getClientCanvasService(String address){
-        ConsumerConfig<ClientUpdateService> consumerConfig = clientUpdateConfigConcurrentHashMap.get(address);
+    public ClientUpdateService getClientCanvasService(ClientInfo clientInfo){
+        ConsumerConfig<ClientUpdateService> consumerConfig = clientUpdateConfigConcurrentHashMap.get(clientInfo.getId());
         if(consumerConfig == null){
             consumerConfig = new ConsumerConfig<ClientUpdateService>()
                 .setInterfaceId(ClientUpdateService.class.getName())
                 .setProtocol("bolt")
                 .setRetries(3)
-                .setDirectUrl("bolt://" + address);
-            clientUpdateConfigConcurrentHashMap.put(address,consumerConfig);
+                .setDirectUrl("bolt://" + clientInfo.getAddress());
+            clientUpdateConfigConcurrentHashMap.put(clientInfo.getId(),consumerConfig);
         }
         ClientUpdateService clientUpdateService = null;
         try {

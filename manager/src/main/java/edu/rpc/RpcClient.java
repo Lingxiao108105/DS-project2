@@ -3,8 +3,10 @@ package edu.rpc;
 import com.alipay.sofa.rpc.config.ConsumerConfig;
 import edu.LifeCycle;
 import edu.config.RpcClientConfig;
-import edu.security.AuthorizeFilter;
+import edu.filters.AuthorizeFilter;
+import edu.javafx.ErrorMessageGUIController;
 import edu.service.*;
+import javafx.application.Platform;
 
 import java.util.List;
 
@@ -73,8 +75,9 @@ public class RpcClient implements LifeCycle {
             register = registerConsumerConfig.refer();
         }
         catch (Exception e){
-            //logger.info(e.getMessage(),e);
-            System.out.println("fail to connect to server: " + registerConsumerConfig.getAddressHolder());
+            Platform.runLater(()->{
+                new ErrorMessageGUIController("fail to connect to server!");
+            });
         }
         return register;
     }
@@ -85,8 +88,9 @@ public class RpcClient implements LifeCycle {
             canvasService = canvasServiceConsumerConfig.refer();
         }
         catch (Exception e){
-            //logger.info(e.getMessage(),e);
-            System.out.println("fail to connect to server: " + canvasServiceConsumerConfig.getAddressHolder());
+            Platform.runLater(()->{
+                new ErrorMessageGUIController("fail to connect to server!");
+            });
         }
         return canvasService;
     }
@@ -97,8 +101,9 @@ public class RpcClient implements LifeCycle {
             chatService = chatServiceConsumerConfig.refer();
         }
         catch (Exception e){
-            //logger.info(e.getMessage(),e);
-            System.out.println("fail to connect to server: " + chatServiceConsumerConfig.getAddressHolder());
+            Platform.runLater(()->{
+                new ErrorMessageGUIController("fail to connect to server!");
+            });
         }
         return chatService;
     }
@@ -109,8 +114,9 @@ public class RpcClient implements LifeCycle {
             managerService = managerServiceConsumerConfig.refer();
         }
         catch (Exception e){
-            //logger.info(e.getMessage(),e);
-            System.out.println("fail to connect to server: " + managerServiceConsumerConfig.getAddressHolder());
+            Platform.runLater(()->{
+                new ErrorMessageGUIController("fail to connect to server!");
+            });
         }
         return managerService;
     }
@@ -121,8 +127,9 @@ public class RpcClient implements LifeCycle {
             clusterService = clusterServiceConsumerConfig.refer();
         }
         catch (Exception e){
-            //logger.info(e.getMessage(),e);
-            System.out.println("fail to connect to server: " + clusterServiceConsumerConfig.getAddressHolder());
+            Platform.runLater(()->{
+                new ErrorMessageGUIController("fail to connect to server!");
+            });
         }
         return clusterService;
     }

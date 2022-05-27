@@ -1,18 +1,11 @@
 package edu.service.Impl;
 
-import edu.common.util.ByteAndImageConverterUtil;
-import edu.dto.*;
+import edu.dto.CanvasRequest;
+import edu.dto.CanvasResponse;
+import edu.dto.CanvasUpdateRequest;
+import edu.dto.CanvasUpdateResponse;
 import edu.javafx.MyCanvas;
 import edu.service.CanvasService;
-import javafx.embed.swing.SwingFXUtils;
-
-import javax.imageio.ImageIO;
-import javax.imageio.stream.ImageOutputStream;
-import java.awt.image.BufferedImage;
-import java.awt.image.RenderedImage;
-import java.io.ByteArrayOutputStream;
-import java.io.EOFException;
-import java.io.IOException;
 
 public class CanvasServiceImpl implements CanvasService {
 

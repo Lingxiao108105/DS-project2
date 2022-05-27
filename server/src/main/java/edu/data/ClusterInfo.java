@@ -1,13 +1,9 @@
 package edu.data;
 
 import edu.LifeCycle;
-import edu.ThreadPool.ServerThreadPool;
+import edu.Main;
 import edu.dto.ClientInfo;
-import edu.rpc.RpcClient;
-import edu.service.ClientUpdateService;
-import edu.service.Impl.ClientService;
 import edu.service.Impl.ClusterServiceImpl;
-import edu.service.ManagerService;
 
 import java.util.List;
 import java.util.concurrent.ConcurrentHashMap;
@@ -82,20 +78,43 @@ public class ClusterInfo implements LifeCycle {
     }
 
     /**
+     * when a new client join the cluster with an address,
+     * the old client using same address must fail
+     * @return
+     */
+    public void removeClientWithAddress(String address){
+        for(ClientInfo clientInfo: acceptedClients.values()){
+            if(address.equals(clientInfo.getAddress())){
+                //manager crash will delete all the client and restart canvas
+                if(clientInfo.equals(manager)) {
+                    removeFromAcceptedClient(clientInfo);
+                    return;
+                }
+                removeFromAcceptedClient(clientInfo);
+            }
+        }
+
+        for(ClientInfo clientInfo: waitListClients.values()){
+            if(address.equals(clientInfo.getAddress())){
+                removeFromWaitListClient(clientInfo);
+            }
+        }
+    }
+
+    /**
      * request to join the cluster
-     * throw UserAlreadyExistException if the name already in the cluster
+     * return null if the name already in the cluster or no manager
      * @param name name of client
      * @return client info
      */
     public ClientInfo requestToJoin(String name, String address){
-        //TODO no manager
 
-        //TODO throw already exist
         for(ClientInfo clientInfo: acceptedClients.values()){
             if(name.equals(clientInfo.getName())){
                 return null;
             }
         }
+
         for(ClientInfo clientInfo: waitListClients.values()){
             if(name.equals(clientInfo.getName())){
                 return null;
@@ -117,6 +136,12 @@ public class ClusterInfo implements LifeCycle {
 
     public void removeFromAcceptedClient(ClientInfo clientInfo){
         this.acceptedClients.remove(clientInfo.getId());
+        //manager want to leave or crash
+        if(clientInfo.equals(ClusterInfo.getInstance().getManager())){
+            ClusterServiceImpl.closeAllPeer();
+            Main.restartCanvas();
+        }
+
     }
 
 

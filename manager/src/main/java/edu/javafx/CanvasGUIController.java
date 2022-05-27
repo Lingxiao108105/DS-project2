@@ -1,9 +1,6 @@
 package edu.javafx;
 
 import edu.Main;
-import edu.common.util.ByteAndImageConverterUtil;
-import edu.dto.CanvasRequest;
-import edu.dto.CanvasResponse;
 import edu.dto.ChatMessage;
 import edu.dto.ClientInfo;
 import edu.javafx.component.AcceptedUserComponent;
@@ -15,7 +12,6 @@ import edu.javafx.draw.shape.Impl.DrawOval;
 import edu.javafx.draw.shape.Impl.DrawRectangle;
 import edu.javafx.draw.shape.Impl.DrawTriangle;
 import edu.javafx.draw.text.Impl.DrawTextImpl;
-import edu.rpc.RpcClient;
 import edu.service.Impl.ClientUpdateServiceImpl;
 import edu.service.Impl.ServerService;
 import javafx.fxml.FXML;

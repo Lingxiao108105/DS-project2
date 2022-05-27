@@ -7,12 +7,7 @@ import edu.javafx.MyCanvas;
 import edu.rpc.RpcClient;
 import edu.rpc.RpcServiceProvider;
 import javafx.application.Application;
-import javafx.application.Platform;
-import javafx.event.EventHandler;
-import javafx.scene.Scene;
-import javafx.scene.layout.Pane;
 import javafx.stage.Stage;
-import javafx.stage.WindowEvent;
 
 public class Main extends Application {
 
@@ -41,6 +36,7 @@ public class Main extends Application {
         stopCanvas();
         ServerThreadPool.getInstance().stop();
         RpcServiceProvider.getInstance().stop();
+        System.exit(0);
     }
 
     public static void restartCanvas(){

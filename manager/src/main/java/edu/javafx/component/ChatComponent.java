@@ -2,12 +2,8 @@ package edu.javafx.component;
 
 import edu.common.exception.NotInitException;
 import edu.config.ClientConfig;
-import edu.dto.ChatGetRequest;
-import edu.dto.ChatGetResponse;
 import edu.dto.ChatMessage;
 import edu.javafx.basic.TextAreaTableCell;
-import edu.rpc.RpcClient;
-import edu.service.ChatService;
 import edu.service.Impl.ServerService;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
@@ -82,6 +78,9 @@ public class ChatComponent {
      */
     private void getChatMessages(){
         List<ChatMessage> chat = ServerService.getChat();
+        if(chat == null){
+            return;
+        }
         this.chatMessageList.clear();
         this.chatMessageList.addAll(chat);
     }

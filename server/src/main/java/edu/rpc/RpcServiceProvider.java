@@ -4,8 +4,8 @@ import com.alipay.sofa.rpc.config.ProviderConfig;
 import com.alipay.sofa.rpc.config.ServerConfig;
 import edu.LifeCycle;
 import edu.config.RpcServiceConfig;
-import edu.security.ClientFilter;
-import edu.security.ManagerFilter;
+import edu.filters.ClientFilter;
+import edu.filters.ManagerFilter;
 import edu.service.*;
 import edu.service.Impl.*;
 

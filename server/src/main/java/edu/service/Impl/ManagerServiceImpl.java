@@ -1,6 +1,5 @@
 package edu.service.Impl;
 
-import edu.ThreadPool.ServerThreadPool;
 import edu.common.util.ByteAndImageConverterUtil;
 import edu.data.ClusterInfo;
 import edu.dto.ClientInfo;
@@ -34,9 +33,15 @@ public class ManagerServiceImpl implements ManagerService {
         }
 
         //notify the client
-        ClientUpdateService clientCanvasService = RpcClient.getInstance()
-                .getClientCanvasService(clientInfo.getAddress());
-        clientCanvasService.joinRequestDecision(decision);
+        try {
+            ClientUpdateService clientCanvasService = RpcClient.getInstance()
+                    .getClientCanvasService(clientInfo);
+            clientCanvasService.joinRequestDecision(decision);
+        } catch (Exception e) {
+            //when fail to send chat to some client, remove it
+            System.out.println("Fail to send chat message to " + clientInfo.getAddress());
+            ClusterInfo.getInstance().removeFromAcceptedClient(clientInfo);
+        }
     }
 
     @Override
@@ -61,9 +66,15 @@ public class ManagerServiceImpl implements ManagerService {
         ClientService.notifyAcceptedClientChange();
 
         //notify the kicked client
-        ClientUpdateService clientCanvasService = RpcClient.getInstance()
-                .getClientCanvasService(clientInfo.getAddress());
-        clientCanvasService.notifyBeenKicked();
+        try {
+            ClientUpdateService clientCanvasService = RpcClient.getInstance()
+                    .getClientCanvasService(clientInfo);
+            clientCanvasService.notifyBeenKicked();
+        } catch (Exception e) {
+            //when fail to send chat to some client, remove it
+            System.out.println("Fail to send chat message to " + clientInfo.getAddress());
+            ClusterInfo.getInstance().removeFromAcceptedClient(clientInfo);
+        }
     }
 
     /**

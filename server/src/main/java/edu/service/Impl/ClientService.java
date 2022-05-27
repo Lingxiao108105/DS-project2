@@ -17,8 +17,14 @@ public class ClientService {
         List<ClientInfo> acceptedClients = ClusterInfo.getInstance().getAcceptedClients();
         for(ClientInfo clientInfo: acceptedClients){
             ServerThreadPool.getInstance().getExecutorService().submit(()->{
-                ClientUpdateService clientCanvasService = RpcClient.getInstance().getClientCanvasService(clientInfo.getAddress());
-                clientCanvasService.updateAcceptedClient(acceptedClients);
+                try {
+                    ClientUpdateService clientCanvasService = RpcClient.getInstance().getClientCanvasService(clientInfo);
+                    clientCanvasService.updateAcceptedClient(acceptedClients);
+                } catch (Exception e) {
+                    //when fail to send chat to some client, remove it
+                    System.out.println("Fail to send chat message to " + clientInfo.getAddress());
+                    ClusterInfo.getInstance().removeFromAcceptedClient(clientInfo);
+                }
             });
         }
     }
@@ -32,9 +38,15 @@ public class ClientService {
             myCanvas.incrementSnapshotIndex();
             for (ClientInfo clientInfo: ClusterInfo.getInstance().getAcceptedClients()){
                 ServerThreadPool.getInstance().getExecutorService().submit(()->{
-                    ClientUpdateService clientCanvasService = RpcClient.getInstance().getClientCanvasService(
-                            clientInfo.getAddress());
-                    clientCanvasService.updateClientCanvas(imageToBytes);
+                    try {
+                        ClientUpdateService clientCanvasService = RpcClient.getInstance().getClientCanvasService(
+                                clientInfo);
+                        clientCanvasService.updateClientCanvas(imageToBytes);
+                    } catch (Exception e) {
+                        //when fail to send chat to some client, remove it
+                        System.out.println("Fail to send chat message to " + clientInfo.getAddress());
+                        ClusterInfo.getInstance().removeFromAcceptedClient(clientInfo);
+                    }
                 });
             }
         }

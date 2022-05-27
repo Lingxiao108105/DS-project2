@@ -1,7 +1,5 @@
 package edu.service.Impl;
 
-import edu.Main;
-import edu.ThreadPool.ServerThreadPool;
 import edu.data.ClusterInfo;
 import edu.dto.ClientInfo;
 import edu.rpc.RpcClient;
@@ -36,11 +34,7 @@ public class ClusterServiceImpl implements ClusterService {
         ClusterInfo.getInstance().removeFromWaitListClient(clientInfo);
 
         //check whether the client is the manager
-        if(clientInfo.equals(ClusterInfo.getInstance().getManager())){
-            //manager want to leave
-            closeAllPeer();
-            Main.restartCanvas();
-        }else {
+        if(ClusterInfo.getInstance().getManager() != null){
             //notify the cluster change
             ClientService.notifyAcceptedClientChange();
         }
@@ -52,14 +46,27 @@ public class ClusterServiceImpl implements ClusterService {
     public static void closeAllPeer(){
         List<ClientInfo> activeClients = ClusterInfo.getInstance().getAcceptedClients();
         for(ClientInfo clientInfo: activeClients){
-            ClientUpdateService clientCanvasService = RpcClient.getInstance().getClientCanvasService(clientInfo.getAddress());
-            clientCanvasService.notifyManagerExit();
+            try {
+                ClientUpdateService clientCanvasService = RpcClient.getInstance().getClientCanvasService(clientInfo);
+                clientCanvasService.notifyManagerExit();
+            }catch (Exception e){
+                //when fail to send chat to some client, remove it
+                System.out.println("Fail to send chat message to " + clientInfo.getAddress());
+                ClusterInfo.getInstance().removeFromAcceptedClient(clientInfo);
+            }
+
         }
 
         List<ClientInfo> waitListClients = ClusterInfo.getInstance().getWaitListClients();
         for(ClientInfo clientInfo: waitListClients){
-            ClientUpdateService clientCanvasService = RpcClient.getInstance().getClientCanvasService(clientInfo.getAddress());
-            clientCanvasService.notifyManagerExit();
+            try {
+                ClientUpdateService clientCanvasService = RpcClient.getInstance().getClientCanvasService(clientInfo);
+                clientCanvasService.notifyManagerExit();
+            } catch (Exception e) {
+                //when fail to send chat to some client, remove it
+                System.out.println("Fail to send chat message to " + clientInfo.getAddress());
+                ClusterInfo.getInstance().removeFromWaitListClient(clientInfo);
+            }
         }
     }
 }

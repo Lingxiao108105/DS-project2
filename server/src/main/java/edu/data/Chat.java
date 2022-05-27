@@ -48,14 +48,14 @@ public class Chat implements LifeCycle {
             for (ClientInfo clientInfo:ClusterInfo.getInstance().getAcceptedClients()){
                 ServerThreadPool.getInstance().getExecutorService().submit(()->{
                     try {
-                        ClientUpdateService clientCanvasService = RpcClient.getInstance().getClientCanvasService(clientInfo.getAddress());
+                        ClientUpdateService clientCanvasService = RpcClient.getInstance().getClientCanvasService(clientInfo);
                         clientCanvasService.updateChat(chatMessages);
                     }catch (Exception e){
+                        //when fail to send chat to some client, remove it
                         System.out.println("Fail to send chat message to " + clientInfo.getAddress());
+                        ClusterInfo.getInstance().removeFromAcceptedClient(clientInfo);
                     }
-
                 });
-
             }
         }finally {
             chatMessageListLock.unlock();

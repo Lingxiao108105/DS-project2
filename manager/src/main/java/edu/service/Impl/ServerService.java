@@ -7,6 +7,7 @@ import edu.common.util.ByteAndImageConverterUtil;
 import edu.config.ClientConfig;
 import edu.config.RpcServiceConfig;
 import edu.dto.*;
+import edu.javafx.ErrorMessageGUIController;
 import edu.javafx.ExceptionMessageGUIController;
 import edu.javafx.WaitForApproveGUIController;
 import edu.rpc.RpcClient;
@@ -27,95 +28,197 @@ import java.util.List;
 public class ServerService {
 
     public static void register(String name){
-        Register register = RpcClient.getInstance().getRegister();
-        if(ClientConfig.role == Role.MANAGER){
-            RegisterManagerResponse registerManagerResponse = register.registerManager(
-                    new RegisterManagerRequest(name, RpcServiceConfig.getConnectAddress()));
-            if(registerManagerResponse == null){
-                return;
-            }
-            ClientConfig.clientInfo = registerManagerResponse.getClientInfo();
-            Main.loadCanvas();
+        try {
+            Register register = RpcClient.getInstance().getRegister();
+            if(ClientConfig.role == Role.MANAGER){
+                RegisterManagerResponse registerManagerResponse = register.registerManager(
+                        new RegisterManagerRequest(name, RpcServiceConfig.getConnectAddress()));
+                if(registerManagerResponse == null){
+                    return;
+                }
+                //not success: means manager already exist
+                if(!registerManagerResponse.isSuccess()){
+                    Platform.runLater(()->{
+                        new ErrorMessageGUIController("Manager already exist!");
+                    });
+                    return;
+                }
+                ClientConfig.clientInfo = registerManagerResponse.getClientInfo();
+                Main.loadCanvas();
 
-        }else if(ClientConfig.role == Role.CLIENT){
-            RegisterClientResponse registerClientResponse = register.registerClient(
-                    new RegisterClientRequest(name, RpcServiceConfig.getConnectAddress()));
-            if(registerClientResponse == null){
-                return;
+            }else if(ClientConfig.role == Role.CLIENT){
+                RegisterClientResponse registerClientResponse = register.registerClient(
+                        new RegisterClientRequest(name, RpcServiceConfig.getConnectAddress()));
+                if(registerClientResponse == null){
+                    return;
+                }
+                //not success: no manager
+                if(!registerClientResponse.isSuccess()){
+                    Platform.runLater(()->{
+                        new ErrorMessageGUIController("There is no manager in the whiteboard!");
+                    });
+                    return;
+                }
+                if(registerClientResponse.getClientInfo() == null){
+                    Platform.runLater(()->{
+                        new ErrorMessageGUIController("Duplicate name! Please use a new User name!");
+                    });
+                    return;
+                }
+                ClientConfig.clientInfo = registerClientResponse.getClientInfo();
+                Platform.runLater(WaitForApproveGUIController::waitForApprove);
             }
-            ClientConfig.clientInfo = registerClientResponse.getClientInfo();
-            Platform.runLater(WaitForApproveGUIController::waitForApprove);
+        }catch (Exception e){
+            //e.printStackTrace();
+            Platform.runLater(()->{
+                new ErrorMessageGUIController("Fail to connect to Server!");
+            });
         }
+
     }
 
     public static void sendChatMessage(ChatMessage chatMessage){
-        ChatService chatService = RpcClient.getInstance().getChatService();
-        ChatAddRequest chatAddRequest = new ChatAddRequest(chatMessage);
-        ClientThreadPool.getInstance().getExecutorService().submit(()->{
-            chatService.addChatMessage(chatAddRequest);
-        });
+
+            ChatService chatService = RpcClient.getInstance().getChatService();
+            ChatAddRequest chatAddRequest = new ChatAddRequest(chatMessage);
+            ClientThreadPool.getInstance().getExecutorService().submit(()->{
+                try {
+                    chatService.addChatMessage(chatAddRequest);
+                }
+                catch (Exception e){
+                    //e.printStackTrace();
+                    Platform.runLater(()->{
+                        new ErrorMessageGUIController("Fail to connect to Server!");
+                    });
+                }
+            });
+
     }
 
     public static void sendCommand(Command command){
         CanvasService canvasService = RpcClient.getInstance().getCanvasService();
         CanvasUpdateRequest canvasUpdateRequest = new CanvasUpdateRequest(command);
         ClientThreadPool.getInstance().getExecutorService().submit(()->{
-            canvasService.canvasUpdate(canvasUpdateRequest);
+            try {
+                canvasService.canvasUpdate(canvasUpdateRequest);
+            }
+            catch (Exception e){
+                //e.printStackTrace();
+                Platform.runLater(()->{
+                    new ErrorMessageGUIController("Fail to connect to Server!");
+                });
+            }
         });
     }
 
     public static WritableImage getCanvas() {
-        CanvasResponse canvasResponse = RpcClient.getInstance().getCanvasService().getCanvas(new CanvasRequest(-1));
-        WritableImage writableImage = ByteAndImageConverterUtil.bytesToImage(canvasResponse.getImageBytes());
-        return writableImage;
+        try {
+            CanvasResponse canvasResponse = RpcClient.getInstance().getCanvasService().getCanvas(new CanvasRequest(-1));
+            WritableImage writableImage = ByteAndImageConverterUtil.bytesToImage(canvasResponse.getImageBytes());
+            return writableImage;
+        } catch (Exception e) {
+            e.printStackTrace();
+            Platform.runLater(()->{
+                new ErrorMessageGUIController("Fail to connect to Server!");
+            });
+        }
+        return null;
     }
 
     public static void sendBufferedImage(BufferedImage bufferedImage) {
-        WritableImage writableImage = SwingFXUtils.toFXImage(bufferedImage, null);
-        sendWritableImage(writableImage);
+        try {
+            WritableImage writableImage = SwingFXUtils.toFXImage(bufferedImage, null);
+            sendWritableImage(writableImage);
+        } catch (Exception e) {
+            e.printStackTrace();
+            Platform.runLater(()->{
+                new ErrorMessageGUIController("Fail to connect to Server!");
+            });
+        }
     }
 
     public static void sendWritableImage(WritableImage writableImage) {
-        byte[] bytes = ByteAndImageConverterUtil.imageToBytes(writableImage);
-        if(bytes != null){
-            RpcClient.getInstance().getManagerService().updateCanvas(bytes);
+        try {
+            byte[] bytes = ByteAndImageConverterUtil.imageToBytes(writableImage);
+            if(bytes != null){
+                RpcClient.getInstance().getManagerService().updateCanvas(bytes);
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+            Platform.runLater(()->{
+                new ErrorMessageGUIController("Fail to connect to Server!");
+            });
         }
     }
 
 
     public static List<ChatMessage> getChat() {
-        ChatService chatService = RpcClient.getInstance().getChatService();
-        ChatGetRequest chatGetRequest = new ChatGetRequest(0);
-        ChatGetResponse chatGetResponse = chatService.getChatMessage(chatGetRequest);
-        List<ChatMessage> chatMessageList = new ArrayList<>();
-        if(chatGetResponse == null){
+        try {
+            ChatService chatService = RpcClient.getInstance().getChatService();
+            ChatGetRequest chatGetRequest = new ChatGetRequest(0);
+            ChatGetResponse chatGetResponse = chatService.getChatMessage(chatGetRequest);
+            List<ChatMessage> chatMessageList = new ArrayList<>();
+            if(chatGetResponse == null){
+                return chatMessageList;
+            }
+            chatMessageList = chatGetResponse.getChatMessageList();
             return chatMessageList;
+        } catch (Exception e) {
+            e.printStackTrace();
+            Platform.runLater(()->{
+                new ErrorMessageGUIController("Fail to connect to Server!");
+            });
         }
-        chatMessageList = chatGetResponse.getChatMessageList();
-        return chatMessageList;
+        return null;
     }
 
     public static void sendJoinRequestDecision(boolean decision,ClientInfo clientInfo){
-        RpcClient.getInstance().getManagerService().joinRequestDecision(decision,clientInfo);
+        try {
+            RpcClient.getInstance().getManagerService().joinRequestDecision(decision,clientInfo);
+        } catch (Exception e) {
+            e.printStackTrace();
+            Platform.runLater(()->{
+                new ErrorMessageGUIController("Fail to connect to Server!");
+            });
+        }
     }
 
     public static void leave(){
-        RpcClient.getInstance().getClusterService().leave(ClientConfig.clientInfo);
+        try {
+            RpcClient.getInstance().getClusterService().leave(ClientConfig.clientInfo);
+        } catch (Exception e) {
+            System.out.println("Fail to connect to Server!");
+        }
     }
 
     public static List<ClientInfo> getAcceptedClient(){
-        List<ClientInfo> acceptedClient = RpcClient.getInstance().getClusterService().getAcceptedClient();
-        return acceptedClient;
+        try {
+            List<ClientInfo> acceptedClient = RpcClient.getInstance().getClusterService().getAcceptedClient();
+            return acceptedClient;
+        } catch (Exception e) {
+            e.printStackTrace();
+            Platform.runLater(()->{
+                new ErrorMessageGUIController("Fail to connect to Server!");
+            });
+        }
+        return null;
     }
 
     public static void kickClient(ClientInfo clientInfo){
-        //try to kick itself
-        if(clientInfo.equals(ClientConfig.clientInfo)){
+        try {
+            //try to kick itself
+            if(clientInfo.equals(ClientConfig.clientInfo)){
+                Platform.runLater(()->{
+                    new ExceptionMessageGUIController("Cannot kick yourself!");
+                });
+            }else {
+                RpcClient.getInstance().getManagerService().kickClient(clientInfo);
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
             Platform.runLater(()->{
-                new ExceptionMessageGUIController("Cannot kick yourself!");
+                new ErrorMessageGUIController("Fail to connect to Server!");
             });
-        }else {
-            RpcClient.getInstance().getManagerService().kickClient(clientInfo);
         }
     }
 

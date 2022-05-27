@@ -27,6 +27,7 @@ public class Main extends Application {
 
     @Override
     public void start(Stage stage) {
+
         Main.stage = stage;
         Parameters parameters = getParameters();
         List<String> args = parameters.getRaw();
@@ -53,6 +54,8 @@ public class Main extends Application {
         ClientThreadPool.getInstance().stop();
         RpcClient.getInstance().stop();
         RpcServiceProvider.getInstance().stop();
+        System.exit(0);
+        System.out.flush();
     }
 
     /**
