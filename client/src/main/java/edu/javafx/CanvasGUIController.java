@@ -7,10 +7,7 @@ import edu.javafx.component.AcceptedUserComponent;
 import edu.javafx.component.ChatComponent;
 import edu.javafx.component.DrawButtonComponent;
 import edu.javafx.component.MenuComponent;
-import edu.javafx.draw.shape.Impl.DrawLine;
-import edu.javafx.draw.shape.Impl.DrawOval;
-import edu.javafx.draw.shape.Impl.DrawRectangle;
-import edu.javafx.draw.shape.Impl.DrawTriangle;
+import edu.javafx.draw.shape.Impl.*;
 import edu.javafx.draw.text.Impl.DrawTextImpl;
 import edu.service.Impl.ClientUpdateServiceImpl;
 import edu.service.Impl.ServerService;
@@ -46,6 +43,8 @@ public class CanvasGUIController implements Initializable {
     private Canvas canvasEffort;
     @FXML
     private Button lineButton;
+    @FXML
+    private Button circleButton;
     @FXML
     private Button ovalButton;
     @FXML
@@ -83,6 +82,7 @@ public class CanvasGUIController implements Initializable {
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
         new DrawButtonComponent(lineButton,new DrawLine(canvasEffort,outlineColorPicker,fillColorPicker));
+        new DrawButtonComponent(circleButton,new DrawCircle(canvasEffort,outlineColorPicker,fillColorPicker));
         new DrawButtonComponent(ovalButton,new DrawOval(canvasEffort,outlineColorPicker,fillColorPicker));
         new DrawButtonComponent(triangleButton,new DrawTriangle(canvasEffort,outlineColorPicker,fillColorPicker));
         new DrawButtonComponent(rectangleButton,new DrawRectangle(canvasEffort,outlineColorPicker,fillColorPicker));

@@ -1,8 +1,12 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
+<?import java.lang.*?>
+<?import javafx.scene.canvas.*?>
+<?import javafx.scene.layout.*?>
 <?import javafx.scene.canvas.Canvas?>
 <?import javafx.scene.control.*?>
 <?import javafx.scene.layout.Pane?>
+
 <Pane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="756.0" prefWidth="1316.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="edu.javafx.CanvasGUIController">
    <children>
       <MenuBar fx:id="menuBar" layoutX="-1.0" prefHeight="32.0" prefWidth="1316.0">
@@ -25,15 +29,16 @@
           <TableColumn fx:id="userColumn" prefWidth="128.0" text="User" />
         </columns>
       </TableView>
-      <Button fx:id="lineButton" layoutX="8.0" layoutY="56.0" mnemonicParsing="false" prefHeight="31.0" prefWidth="82.0" text="line" />
-      <Button fx:id="ovalButton" layoutX="8.0" layoutY="88.0" mnemonicParsing="false" prefHeight="31.0" prefWidth="82.0" text="Oval" />
-      <Button fx:id="triangleButton" layoutX="8.0" layoutY="120.0" mnemonicParsing="false" prefHeight="31.0" prefWidth="82.0" text="triangle" />
-      <Button fx:id="rectangleButton" layoutX="8.0" layoutY="152.0" mnemonicParsing="false" prefHeight="31.0" prefWidth="82.0" text="rectangle" />
-      <Button fx:id="textButton" layoutX="8.0" layoutY="184.0" mnemonicParsing="false" prefHeight="31.0" prefWidth="82.0" text="text" />
-      <ColorPicker fx:id="outlineColorPicker" layoutX="26.0" layoutY="261.0" prefHeight="31.0" prefWidth="47.0" />
-      <ColorPicker fx:id="fillColorPicker" layoutX="26.0" layoutY="340.0" prefHeight="31.0" prefWidth="47.0" />
-      <Label layoutX="25.0" layoutY="232.0" text="Outline" />
-      <Label layoutX="40.0" layoutY="308.0" text="Fill" />
+      <Button fx:id="lineButton" layoutX="8.0" layoutY="58.0" mnemonicParsing="false" prefHeight="31.0" prefWidth="82.0" text="line" />
+      <Button fx:id="ovalButton" layoutX="8.0" layoutY="120.0" mnemonicParsing="false" prefHeight="31.0" prefWidth="82.0" text="Oval" />
+      <Button fx:id="triangleButton" layoutX="8.0" layoutY="152.0" mnemonicParsing="false" prefHeight="31.0" prefWidth="82.0" text="triangle" />
+      <Button fx:id="rectangleButton" layoutX="8.0" layoutY="184.0" mnemonicParsing="false" prefHeight="31.0" prefWidth="82.0" text="rectangle" />
+      <Button fx:id="textButton" layoutX="8.0" layoutY="216.0" mnemonicParsing="false" prefHeight="31.0" prefWidth="82.0" text="text" />
+      <ColorPicker fx:id="outlineColorPicker" layoutX="26.0" layoutY="293.0" prefHeight="31.0" prefWidth="47.0" />
+      <ColorPicker fx:id="fillColorPicker" layoutX="26.0" layoutY="372.0" prefHeight="31.0" prefWidth="47.0" />
+      <Label layoutX="25.0" layoutY="264.0" text="Outline" />
+      <Label layoutX="40.0" layoutY="340.0" text="Fill" />
       <Canvas fx:id="canvasEffort" height="721.0" layoutX="95.0" layoutY="32.0" width="776.0" />
+      <Button fx:id="circleButton" layoutX="8.0" layoutY="90.0" mnemonicParsing="false" prefHeight="31.0" prefWidth="82.0" text="Circle" />
    </children>
 </Pane>
