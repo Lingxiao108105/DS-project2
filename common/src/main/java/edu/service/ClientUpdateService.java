@@ -20,4 +20,6 @@ public interface ClientUpdateService {
     public void notifyBeenKicked();
 
     public void notifyManagerExit();
+
+    public void alive();
 }

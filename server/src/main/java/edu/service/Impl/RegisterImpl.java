@@ -11,7 +11,26 @@ public class RegisterImpl implements Register {
     @Override
     public RegisterManagerResponse registerManager(RegisterManagerRequest request){
         ClusterInfo clusterInfo = ClusterInfo.getInstance();
+
+        //check whether the old client using same address crashed
+        clusterInfo.removeClientWithAddress(request.getAddress());
+        //clusterInfo maybe reset
+        clusterInfo = ClusterInfo.getInstance();
+
+
         if(clusterInfo.getManager() != null){
+            try {
+                //check whether manager is alive
+                ClientUpdateService clientCanvasService = RpcClient.getInstance()
+                        .getClientCanvasService(ClusterInfo.getInstance().getManager());
+                clientCanvasService.alive();
+            } catch (Exception e) {
+                //when fail to send chat to manager, remove it
+                System.out.println("Fail to send chat message to manager: " + ClusterInfo.getInstance().getManager().getAddress());
+                ClusterInfo.getInstance().removeFromAcceptedClient(clusterInfo.getManager());
+                ClientInfo clientInfo = clusterInfo.addManager(request.getName(),request.getAddress());
+                return new RegisterManagerResponse(true,clientInfo);
+            }
             return new RegisterManagerResponse(false,null);
         }else {
             ClientInfo clientInfo = clusterInfo.addManager(request.getName(),request.getAddress());
@@ -30,6 +49,8 @@ public class RegisterImpl implements Register {
 
         //check whether the old client using same address crashed
         clusterInfo.removeClientWithAddress(request.getAddress());
+        //clusterInfo maybe reset
+        clusterInfo = ClusterInfo.getInstance();
 
         //no manager
         if(clusterInfo.getManager() == null){

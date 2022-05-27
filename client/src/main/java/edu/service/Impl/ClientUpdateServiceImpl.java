@@ -81,4 +81,9 @@ public class ClientUpdateServiceImpl implements ClientUpdateService {
             new ErrorMessageGUIController("Manager exit! The whiteboard is closing!");
         });
     }
+
+    @Override
+    public void alive() {
+
+    }
 }

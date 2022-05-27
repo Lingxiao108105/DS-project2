@@ -76,18 +76,22 @@ public class MyCanvas implements LifeCycle {
     }
 
     public void executeAll(){
-        int size = this.canvasUpdate.size();
-        for (int i=0;i<size;i++){
-            Command command = this.canvasUpdate.remove();
-            try {
-                command.execute(this.canvas);
-            }catch (Exception e){
-                System.out.println("Fail to update canvas in My canvas!");
-            }
+        try {
+            int size = this.canvasUpdate.size();
+            for (int i=0;i<size;i++){
+                Command command = this.canvasUpdate.remove();
+                try {
+                    command.execute(this.canvas);
+                }catch (Exception e){
+                    System.out.println("Fail to update canvas in My canvas!");
+                }
 
+            }
+            if(size > 0){
+                ClientService.multicastSnapshot();
+            }
+        }catch (Exception ignored){
         }
-        if(size > 0){
-            ClientService.multicastSnapshot();
-        }
+
     }
 }
