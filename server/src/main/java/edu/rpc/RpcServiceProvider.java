@@ -8,6 +8,7 @@ import edu.filters.ClientFilter;
 import edu.filters.ManagerFilter;
 import edu.service.*;
 import edu.service.Impl.*;
+import javafx.application.Platform;
 
 import java.util.List;
 
@@ -65,12 +66,17 @@ public class RpcServiceProvider implements LifeCycle {
                 .setRef(new ManagerServiceImpl())
                 .setFilterRef(List.of(new ManagerFilter()))
                 .setServer(serverConfig);
+        try {
+            registerProviderConfig.export();
+            canvasServiceProviderConfig.export();
+            chatServiceProviderConfig.export();
+            clientServiceProviderConfig.export();
+            managerServiceProviderConfig.export();
+        }catch (Exception e){
+            System.out.println("Port " + RpcServiceConfig.getRegisterPort() + " is busy! Please enter another port");
+            Platform.exit();
+        }
 
-        registerProviderConfig.export();
-        canvasServiceProviderConfig.export();
-        chatServiceProviderConfig.export();
-        clientServiceProviderConfig.export();
-        managerServiceProviderConfig.export();
     }
 
     @Override
