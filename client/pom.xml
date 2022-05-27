@@ -38,10 +38,18 @@
             <version>1.18.24</version>
         </dependency>
 
+        <!-- Common part -->
         <dependency>
             <groupId>org.example</groupId>
             <artifactId>common</artifactId>
             <version>1.0</version>
+        </dependency>
+
+        <!-- Apache Commons Validator -->
+        <dependency>
+            <groupId>commons-validator</groupId>
+            <artifactId>commons-validator</artifactId>
+            <version>1.6</version>
         </dependency>
 
     </dependencies>

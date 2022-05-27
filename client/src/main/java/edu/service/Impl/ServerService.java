@@ -2,6 +2,7 @@ package edu.service.Impl;
 
 import edu.Main;
 import edu.ThreadPool.ClientThreadPool;
+import edu.common.ErrorMessage;
 import edu.common.enums.Role;
 import edu.common.util.ByteAndImageConverterUtil;
 import edu.config.ClientConfig;
@@ -26,6 +27,8 @@ import java.util.List;
  * communicate with server
  */
 public class ServerService {
+
+
 
     public static void register(String name){
         try {
@@ -71,7 +74,7 @@ public class ServerService {
         }catch (Exception e){
             //e.printStackTrace();
             Platform.runLater(()->{
-                new ErrorMessageGUIController("Fail to connect to Server!");
+                new ErrorMessageGUIController(ErrorMessage.SERVER_ERROR);
             });
         }
 
@@ -88,7 +91,7 @@ public class ServerService {
                 catch (Exception e){
                     //e.printStackTrace();
                     Platform.runLater(()->{
-                        new ErrorMessageGUIController("Fail to connect to Server!");
+                        new ErrorMessageGUIController(ErrorMessage.SERVER_ERROR);
                     });
                 }
             });
@@ -105,7 +108,7 @@ public class ServerService {
             catch (Exception e){
                 //e.printStackTrace();
                 Platform.runLater(()->{
-                    new ErrorMessageGUIController("Fail to connect to Server!");
+                    new ErrorMessageGUIController(ErrorMessage.SERVER_ERROR);
                 });
             }
         });
@@ -119,7 +122,7 @@ public class ServerService {
         } catch (Exception e) {
             e.printStackTrace();
             Platform.runLater(()->{
-                new ErrorMessageGUIController("Fail to connect to Server!");
+                new ErrorMessageGUIController(ErrorMessage.SERVER_ERROR);
             });
         }
         return null;
@@ -132,7 +135,7 @@ public class ServerService {
         } catch (Exception e) {
             e.printStackTrace();
             Platform.runLater(()->{
-                new ErrorMessageGUIController("Fail to connect to Server!");
+                new ErrorMessageGUIController(ErrorMessage.SERVER_ERROR);
             });
         }
     }
@@ -146,7 +149,7 @@ public class ServerService {
         } catch (Exception e) {
             e.printStackTrace();
             Platform.runLater(()->{
-                new ErrorMessageGUIController("Fail to connect to Server!");
+                new ErrorMessageGUIController(ErrorMessage.SERVER_ERROR);
             });
         }
     }
@@ -166,7 +169,7 @@ public class ServerService {
         } catch (Exception e) {
             e.printStackTrace();
             Platform.runLater(()->{
-                new ErrorMessageGUIController("Fail to connect to Server!");
+                new ErrorMessageGUIController(ErrorMessage.SERVER_ERROR);
             });
         }
         return null;
@@ -178,16 +181,19 @@ public class ServerService {
         } catch (Exception e) {
             e.printStackTrace();
             Platform.runLater(()->{
-                new ErrorMessageGUIController("Fail to connect to Server!");
+                new ErrorMessageGUIController(ErrorMessage.SERVER_ERROR);
             });
         }
     }
 
     public static void leave(){
+        if(ClientConfig.clientInfo == null || ClientConfig.clientInfo.getId() == null){
+            return;
+        }
         try {
             RpcClient.getInstance().getClusterService().leave(ClientConfig.clientInfo);
         } catch (Exception e) {
-            System.out.println("Fail to connect to Server!");
+            System.out.println(ErrorMessage.SERVER_ERROR);
         }
     }
 
@@ -198,13 +204,19 @@ public class ServerService {
         } catch (Exception e) {
             e.printStackTrace();
             Platform.runLater(()->{
-                new ErrorMessageGUIController("Fail to connect to Server!");
+                new ErrorMessageGUIController(ErrorMessage.SERVER_ERROR);
             });
         }
         return null;
     }
 
     public static void kickClient(ClientInfo clientInfo){
+        if(clientInfo == null){
+            Platform.runLater(()->{
+                new ExceptionMessageGUIController("Please select a client before kick!");
+            });
+            return;
+        }
         try {
             //try to kick itself
             if(clientInfo.equals(ClientConfig.clientInfo)){
@@ -217,7 +229,7 @@ public class ServerService {
         } catch (Exception e) {
             e.printStackTrace();
             Platform.runLater(()->{
-                new ErrorMessageGUIController("Fail to connect to Server!");
+                new ErrorMessageGUIController(ErrorMessage.SERVER_ERROR);
             });
         }
     }

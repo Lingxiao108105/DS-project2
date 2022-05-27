@@ -37,10 +37,10 @@ public class RpcClient implements LifeCycle {
         ConsumerConfig<ClientUpdateService> consumerConfig = clientUpdateConfigConcurrentHashMap.get(clientInfo.getId());
         if(consumerConfig == null){
             consumerConfig = new ConsumerConfig<ClientUpdateService>()
-                .setInterfaceId(ClientUpdateService.class.getName())
-                .setProtocol("bolt")
-                .setRetries(3)
-                .setDirectUrl("bolt://" + clientInfo.getAddress());
+                    .setInterfaceId(ClientUpdateService.class.getName())
+                    .setProtocol("bolt")
+                    .setRepeatedReferLimit(10000)
+                    .setDirectUrl("bolt://" + clientInfo.getAddress());
             clientUpdateConfigConcurrentHashMap.put(clientInfo.getId(),consumerConfig);
         }
         ClientUpdateService clientUpdateService = null;

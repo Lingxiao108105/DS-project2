@@ -1,6 +1,7 @@
 package edu;
 
 import edu.ThreadPool.ClientThreadPool;
+import edu.common.ErrorMessage;
 import edu.common.enums.Role;
 import edu.config.ClientConfig;
 import edu.config.RpcClientConfig;
@@ -16,6 +17,7 @@ import javafx.event.EventHandler;
 import javafx.scene.Scene;
 import javafx.stage.Stage;
 import javafx.stage.WindowEvent;
+import org.apache.commons.validator.routines.InetAddressValidator;
 
 import java.util.List;
 
@@ -37,13 +39,21 @@ public class Main extends Application {
 
         if(args.size() < 5) {
             Platform.runLater(() -> {
-                new ErrorMessageGUIController("5 arguments are required! <serverIPAddress> <serverPort> <username> <role> <localIpAddress>");
+                new ErrorMessageGUIController(ErrorMessage.NOT_ENOUGH_ARGUMENT_ERROR);
             });
             return;
         }
 
+        InetAddressValidator addressValidator = InetAddressValidator.getInstance();
+
         //ip address
         String ipAddress = args.get(0);
+        if(!addressValidator.isValid(ipAddress)){
+            Platform.runLater(() -> {
+                new ErrorMessageGUIController("Invalid <serverIPAddress> :" + ipAddress + ". \nPlease enter valid ip address!");
+            });
+            return;
+        }
         RpcClientConfig.setServerIPAddress(ipAddress);
         //port
         int port = -1;
@@ -51,13 +61,13 @@ public class Main extends Application {
             port = Integer.parseInt(args.get(1));
         }catch (Exception e){
             Platform.runLater(() -> {
-                new ErrorMessageGUIController("Please enter a number as <server-port>!");
+                new ErrorMessageGUIController("Invalid <port> :" + args.get(1) + ". \nPlease enter a number as <server-port>!");
             });
             return;
         }
         if(port < 0 || port > 65535){
             Platform.runLater(() -> {
-                new ErrorMessageGUIController("Please enter a number between 0-65535 as <server-port>!");
+                new ErrorMessageGUIController("Invalid <port> :" + args.get(1) + ". \nPlease enter a number between 0-65535 as <server-port>!");
             });
             return;
         }
@@ -72,12 +82,18 @@ public class Main extends Application {
             ClientConfig.role = Role.MANAGER;
         }else {
             Platform.runLater(() -> {
-                new ErrorMessageGUIController("Please enter a <role> from (client,manager)!");
+                new ErrorMessageGUIController("Invalid <role> :" + role + ". \nPlease enter a <role> from (client,manager)!");
             });
             return;
         }
         //local Ip Address
         String localIpAddress = args.get(4);
+        if(!addressValidator.isValid(localIpAddress)){
+            Platform.runLater(() -> {
+                new ErrorMessageGUIController("Invalid <localIpAddress> :" + localIpAddress + ". \nPlease enter valid ip address!");
+            });
+            return;
+        }
         RpcServiceConfig.setIpAddress(localIpAddress);
 
         RpcServiceProvider.getInstance();

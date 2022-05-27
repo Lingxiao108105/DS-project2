@@ -2,6 +2,7 @@ package edu.rpc;
 
 import com.alipay.sofa.rpc.config.ConsumerConfig;
 import edu.LifeCycle;
+import edu.common.ErrorMessage;
 import edu.config.RpcClientConfig;
 import edu.filters.AuthorizeFilter;
 import edu.javafx.ErrorMessageGUIController;
@@ -76,7 +77,7 @@ public class RpcClient implements LifeCycle {
         }
         catch (Exception e){
             Platform.runLater(()->{
-                new ErrorMessageGUIController("fail to connect to server!");
+                new ErrorMessageGUIController(ErrorMessage.SERVER_ERROR);
             });
         }
         return register;
@@ -89,7 +90,7 @@ public class RpcClient implements LifeCycle {
         }
         catch (Exception e){
             Platform.runLater(()->{
-                new ErrorMessageGUIController("fail to connect to server!");
+                new ErrorMessageGUIController(ErrorMessage.SERVER_ERROR);
             });
         }
         return canvasService;
@@ -102,7 +103,7 @@ public class RpcClient implements LifeCycle {
         }
         catch (Exception e){
             Platform.runLater(()->{
-                new ErrorMessageGUIController("fail to connect to server!");
+                new ErrorMessageGUIController(ErrorMessage.SERVER_ERROR);
             });
         }
         return chatService;
@@ -115,7 +116,7 @@ public class RpcClient implements LifeCycle {
         }
         catch (Exception e){
             Platform.runLater(()->{
-                new ErrorMessageGUIController("fail to connect to server!");
+                new ErrorMessageGUIController(ErrorMessage.SERVER_ERROR);
             });
         }
         return managerService;
@@ -128,7 +129,7 @@ public class RpcClient implements LifeCycle {
         }
         catch (Exception e){
             Platform.runLater(()->{
-                new ErrorMessageGUIController("fail to connect to server!");
+                new ErrorMessageGUIController(ErrorMessage.SERVER_ERROR);
             });
         }
         return clusterService;
