@@ -14,8 +14,10 @@ import edu.service.CanvasService;
 import edu.service.ChatService;
 import edu.service.Register;
 import javafx.application.Platform;
+import javafx.embed.swing.SwingFXUtils;
 import javafx.scene.image.WritableImage;
 
+import java.awt.image.BufferedImage;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -66,6 +68,18 @@ public class ServerService {
         CanvasResponse canvasResponse = RpcClient.getInstance().getCanvasService().getCanvas(new CanvasRequest(-1));
         WritableImage writableImage = ByteAndImageConverterUtil.bytesToImage(canvasResponse.getImageBytes());
         return writableImage;
+    }
+
+    public static void sendBufferedImage(BufferedImage bufferedImage) {
+        WritableImage writableImage = SwingFXUtils.toFXImage(bufferedImage, null);
+        sendWritableImage(writableImage);
+    }
+
+    public static void sendWritableImage(WritableImage writableImage) {
+        byte[] bytes = ByteAndImageConverterUtil.imageToBytes(writableImage);
+        if(bytes != null){
+            RpcClient.getInstance().getManagerService().updateCanvas(bytes);
+        }
     }
 
 

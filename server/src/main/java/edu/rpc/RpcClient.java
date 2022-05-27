@@ -11,7 +11,7 @@ public class RpcClient implements LifeCycle {
 
     private static RpcClient rpcClient = null;
 
-    private ConcurrentHashMap<String, ClientUpdateService> clientCanvasServiceConcurrentHashMap;
+    private ConcurrentHashMap<String, ConsumerConfig<ClientUpdateService>> clientUpdateConfigConcurrentHashMap;
 
     public static RpcClient getInstance(){
         if(rpcClient == null){
@@ -23,33 +23,34 @@ public class RpcClient implements LifeCycle {
 
     @Override
     public void init() {
-        this.clientCanvasServiceConcurrentHashMap = new ConcurrentHashMap<>();
+        this.clientUpdateConfigConcurrentHashMap = new ConcurrentHashMap<>();
     }
 
     @Override
     public void stop() {
-        this.clientCanvasServiceConcurrentHashMap = null;
+        this.clientUpdateConfigConcurrentHashMap = null;
         rpcClient = null;
     }
 
     public ClientUpdateService getClientCanvasService(String address){
-        ClientUpdateService clientCanvasService = clientCanvasServiceConcurrentHashMap.get(address);
-        if(clientCanvasService != null){
-            return clientCanvasService;
-        }
-        ConsumerConfig<ClientUpdateService> consumerConfig = new ConsumerConfig<ClientUpdateService>()
+        ConsumerConfig<ClientUpdateService> consumerConfig = clientUpdateConfigConcurrentHashMap.get(address);
+        if(consumerConfig == null){
+            consumerConfig = new ConsumerConfig<ClientUpdateService>()
                 .setInterfaceId(ClientUpdateService.class.getName())
                 .setProtocol("bolt")
+                .setRetries(3)
                 .setDirectUrl("bolt://" + address);
+            clientUpdateConfigConcurrentHashMap.put(address,consumerConfig);
+        }
+        ClientUpdateService clientUpdateService = null;
         try {
-            clientCanvasService = consumerConfig.refer();
-            clientCanvasServiceConcurrentHashMap.put(address,clientCanvasService);
+            clientUpdateService = consumerConfig.refer();
         }
         catch (Exception e){
             e.printStackTrace();
             System.out.println("fail to connect to server: " + consumerConfig.getAddressHolder());
         }
-        return clientCanvasService;
+        return clientUpdateService;
     }
 
 }

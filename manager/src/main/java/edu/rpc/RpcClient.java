@@ -63,6 +63,8 @@ public class RpcClient implements LifeCycle {
         registerConsumerConfig.unRefer();
         canvasServiceConsumerConfig.unRefer();
         chatServiceConsumerConfig.unRefer();
+        managerServiceConsumerConfig.unRefer();
+        clusterServiceConsumerConfig.unRefer();
     }
 
     public Register getRegister() {
