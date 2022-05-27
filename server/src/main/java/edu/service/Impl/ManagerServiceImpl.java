@@ -9,14 +9,14 @@ import edu.service.ManagerService;
 public class ManagerServiceImpl implements ManagerService {
 
     @Override
-    public ClientInfo getClientInWaitList(){
-        return ClusterInfo.getInstance().getFirstWaitListClient();
-    }
-
-    @Override
     public void joinRequestDecision(boolean decision, ClientInfo clientInfo){
         //sanity check
         if(clientInfo == null){
+            return;
+        }
+
+        //client not in wait list(maybe exit)
+        if(!ClusterInfo.getInstance().isWaitListClient(clientInfo)){
             return;
         }
 
@@ -36,6 +36,10 @@ public class ManagerServiceImpl implements ManagerService {
     public void kickClient(ClientInfo clientInfo){
         //sanity check
         if(clientInfo == null){
+            return;
+        }
+        //client not in accepted list
+        if(!ClusterInfo.getInstance().isAcceptedClient(clientInfo)){
             return;
         }
 

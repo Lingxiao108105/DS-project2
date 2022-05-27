@@ -12,23 +12,8 @@ import javafx.scene.control.ColorPicker;
 
 public class DrawTextImpl extends DrawText {
 
-    private static DrawTextImpl drawText = null;
 
-    public static DrawTextImpl init(Canvas canvasEffort,
-                                    ColorPicker outlineColorPicker,
-                                    ColorPicker fillColorPicker) {
-        drawText = new DrawTextImpl(canvasEffort,outlineColorPicker,fillColorPicker);
-        return drawText;
-    }
-
-    public static DrawTextImpl getInstance(){
-        if(drawText == null){
-            throw new NotInitException(DrawTriangle.class.getName());
-        }
-        return drawText;
-    }
-
-    private DrawTextImpl(Canvas canvasEffort,
+    public DrawTextImpl(Canvas canvasEffort,
                      ColorPicker outlineColorPicker,
                      ColorPicker fillColorPicker) {
         super(canvasEffort, outlineColorPicker, fillColorPicker);

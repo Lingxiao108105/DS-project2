@@ -6,7 +6,6 @@ import edu.dto.ChatGetRequest;
 import edu.dto.ChatGetResponse;
 import edu.dto.ChatMessage;
 import edu.javafx.basic.TextAreaTableCell;
-import edu.javafx.component.Impl.DrawLineButtonComponent;
 import edu.rpc.RpcClient;
 import edu.service.ChatService;
 import edu.service.Impl.SendChatMessageService;
@@ -17,16 +16,13 @@ import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.input.MouseEvent;
 import javafx.util.converter.DefaultStringConverter;
 
-import java.util.concurrent.ScheduledFuture;
-
 public class ChatComponent {
 
     private static ChatComponent chatComponent = null;
 
     private final TextArea chatTextArea;
-    private ScheduledFuture<?> updateChatTask;
 
-    private ObservableList<ChatMessage> chatMessageList;
+    private final ObservableList<ChatMessage> chatMessageList;
 
     public static void init(TableView<ChatMessage> ChatTable,
                             TableColumn<ChatMessage, String> nameColumn,
@@ -38,7 +34,7 @@ public class ChatComponent {
 
     public static ChatComponent getInstance(){
         if(chatComponent == null){
-            throw new NotInitException(DrawLineButtonComponent.class.getName());
+            throw new NotInitException(ChatComponent.class.getName());
         }
         return chatComponent;
     }
@@ -65,6 +61,7 @@ public class ChatComponent {
         chatMessageList = FXCollections.observableArrayList();
         ChatTable.setItems(chatMessageList);
 
+        //get all previous chat message(not active)
         //getChatMessages();
     }
 
@@ -78,13 +75,17 @@ public class ChatComponent {
         return chatMessageList;
     }
 
+    /**
+     * get all chat message from server, please use at init if you want
+     */
     private void getChatMessages(){
         ChatService chatService = RpcClient.getInstance().getChatService();
-        ChatGetRequest chatGetRequest = new ChatGetRequest(this.chatMessageList.size());
+        ChatGetRequest chatGetRequest = new ChatGetRequest(0);
         ChatGetResponse chatGetResponse = chatService.getChatMessage(chatGetRequest);
         if(chatGetResponse == null){
             return;
         }
+        this.chatMessageList.clear();
         this.chatMessageList.addAll(chatGetResponse.getChatMessageList());
     }
 

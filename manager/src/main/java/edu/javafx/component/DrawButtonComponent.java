@@ -4,11 +4,11 @@ import edu.javafx.draw.Draw;
 import javafx.scene.control.Button;
 import javafx.scene.input.MouseEvent;
 
-public abstract class DrawButtonComponent {
+public class DrawButtonComponent {
 
     protected Draw draw = null;
 
-    protected DrawButtonComponent(Button button, Draw draw) {
+    public DrawButtonComponent(Button button, Draw draw) {
         this.draw = draw;
         button.setOnMouseClicked(this::onMouseClickedListener);
     }

@@ -11,23 +11,7 @@ import javafx.scene.control.ColorPicker;
 
 public class DrawOval extends DrawShape {
 
-    private static DrawOval drawOval = null;
-
-    public static DrawOval init(Canvas canvasEffort,
-                                ColorPicker outlineColorPicker,
-                                ColorPicker fillColorPicker) {
-        drawOval = new DrawOval(canvasEffort,outlineColorPicker,fillColorPicker);
-        return drawOval;
-    }
-
-    public static DrawOval getInstance(){
-        if(drawOval == null){
-            throw new NotInitException(DrawOval.class.getName());
-        }
-        return drawOval;
-    }
-
-    private DrawOval(Canvas canvasEffort,
+    public DrawOval(Canvas canvasEffort,
                      ColorPicker outlineColorPicker,
                      ColorPicker fillColorPicker) {
         super(canvasEffort, outlineColorPicker, fillColorPicker);

@@ -11,11 +11,8 @@ import edu.javafx.WaitForApproveGUIController;
 import edu.javafx.component.ChatComponent;
 import edu.service.ClientUpdateService;
 import javafx.application.Platform;
-import javafx.event.EventHandler;
-import javafx.scene.Scene;
 import javafx.scene.canvas.Canvas;
 import javafx.scene.image.WritableImage;
-import javafx.stage.WindowEvent;
 
 import java.util.List;
 

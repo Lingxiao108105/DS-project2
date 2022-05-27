@@ -11,23 +11,7 @@ import javafx.scene.control.ColorPicker;
 
 public class DrawTriangle extends DrawShape {
 
-    private static DrawTriangle drawTriangle = null;
-
-    public static DrawTriangle init(Canvas canvasEffort,
-                                    ColorPicker outlineColorPicker,
-                                    ColorPicker fillColorPicker) {
-        drawTriangle = new DrawTriangle(canvasEffort,outlineColorPicker,fillColorPicker);
-        return drawTriangle;
-    }
-
-    public static DrawTriangle getInstance(){
-        if(drawTriangle == null){
-            throw new NotInitException(DrawTriangle.class.getName());
-        }
-        return drawTriangle;
-    }
-
-    private DrawTriangle(Canvas canvasEffort,
+    public DrawTriangle(Canvas canvasEffort,
                          ColorPicker outlineColorPicker,
                          ColorPicker fillColorPicker) {
         super(canvasEffort, outlineColorPicker, fillColorPicker);

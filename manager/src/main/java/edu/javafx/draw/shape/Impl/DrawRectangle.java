@@ -11,23 +11,7 @@ import javafx.scene.control.ColorPicker;
 
 public class DrawRectangle extends DrawShape {
 
-    private static DrawRectangle drawRectangle = null;
-
-    public static DrawRectangle init(Canvas canvasEffort,
-                                     ColorPicker outlineColorPicker,
-                                     ColorPicker fillColorPicker) {
-        drawRectangle = new DrawRectangle(canvasEffort,outlineColorPicker,fillColorPicker);
-        return drawRectangle;
-    }
-
-    public static DrawRectangle getInstance(){
-        if(drawRectangle == null){
-            throw new NotInitException(DrawRectangle.class.getName());
-        }
-        return drawRectangle;
-    }
-
-    private DrawRectangle(Canvas canvasEffort,
+    public DrawRectangle(Canvas canvasEffort,
                           ColorPicker outlineColorPicker,
                           ColorPicker fillColorPicker) {
         super(canvasEffort, outlineColorPicker, fillColorPicker);

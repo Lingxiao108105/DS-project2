@@ -6,7 +6,6 @@ import edu.config.RpcClientConfig;
 import edu.security.AuthorizeFilter;
 import edu.service.*;
 
-import java.util.Arrays;
 import java.util.List;
 
 public class RpcClient implements LifeCycle {

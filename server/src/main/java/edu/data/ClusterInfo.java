@@ -108,16 +108,9 @@ public class ClusterInfo implements LifeCycle {
         return this.acceptedClients.containsKey(clientInfo.getId());
     }
 
-    /**
-     * get a clientInfo from waitList
-     * return null if no one in wait list
-     * @return a clientInfo from waitList or null
-     */
-    public ClientInfo getFirstWaitListClient(){
-        if(waitListClients.isEmpty()){
-            return null;
-        }
-        return (ClientInfo) waitListClients.values().toArray()[0];
+
+    public boolean isWaitListClient(ClientInfo clientInfo){
+        return this.waitListClients.containsKey(clientInfo.getId());
     }
 
     public void deny(ClientInfo clientInfo){

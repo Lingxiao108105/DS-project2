@@ -6,7 +6,12 @@ import edu.dto.CanvasRequest;
 import edu.dto.CanvasResponse;
 import edu.dto.ChatMessage;
 import edu.javafx.component.ChatComponent;
-import edu.javafx.component.Impl.*;
+import edu.javafx.component.DrawButtonComponent;
+import edu.javafx.draw.shape.Impl.DrawLine;
+import edu.javafx.draw.shape.Impl.DrawOval;
+import edu.javafx.draw.shape.Impl.DrawRectangle;
+import edu.javafx.draw.shape.Impl.DrawTriangle;
+import edu.javafx.draw.text.Impl.DrawTextImpl;
 import edu.rpc.RpcClient;
 import edu.service.Impl.ClientUpdateServiceImpl;
 import javafx.fxml.FXML;
@@ -80,11 +85,16 @@ public class CanvasGUIController implements Initializable {
 
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
-        DrawLineButtonComponent.init(lineButton,canvasEffort,outlineColorPicker,fillColorPicker);
-        DrawOvalButtonComponent.init(ovalButton,canvasEffort,outlineColorPicker,fillColorPicker);
-        DrawTriangleButtonComponent.init(triangleButton,canvasEffort,outlineColorPicker,fillColorPicker);
-        DrawRectangleButtonComponent.init(rectangleButton,canvasEffort,outlineColorPicker,fillColorPicker);
-        DrawTextButtonComponent.init(textButton,canvasEffort,outlineColorPicker,fillColorPicker);
+//        DrawLineButtonComponent.init(lineButton,canvasEffort,outlineColorPicker,fillColorPicker);
+//        DrawOvalButtonComponent.init(ovalButton,canvasEffort,outlineColorPicker,fillColorPicker);
+//        DrawTriangleButtonComponent.init(triangleButton,canvasEffort,outlineColorPicker,fillColorPicker);
+//        DrawRectangleButtonComponent.init(rectangleButton,canvasEffort,outlineColorPicker,fillColorPicker);
+//        DrawTextButtonComponent.init(textButton,canvasEffort,outlineColorPicker,fillColorPicker);
+        new DrawButtonComponent(lineButton,new DrawLine(canvasEffort,outlineColorPicker,fillColorPicker));
+        new DrawButtonComponent(ovalButton,new DrawOval(canvasEffort,outlineColorPicker,fillColorPicker));
+        new DrawButtonComponent(triangleButton,new DrawTriangle(canvasEffort,outlineColorPicker,fillColorPicker));
+        new DrawButtonComponent(rectangleButton,new DrawRectangle(canvasEffort,outlineColorPicker,fillColorPicker));
+        new DrawButtonComponent(textButton,new DrawTextImpl(canvasEffort,outlineColorPicker,fillColorPicker));
         ChatComponent.init(ChatTable,nameColumn,messageColumn,chatTextArea,sendButton);
         initCanvas();
         ClientUpdateServiceImpl.canvas = this.canvas;
