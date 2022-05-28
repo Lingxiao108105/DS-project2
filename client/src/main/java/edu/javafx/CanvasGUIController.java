@@ -89,7 +89,7 @@ public class CanvasGUIController implements Initializable {
         new DrawButtonComponent(textButton,new DrawTextImpl(canvasEffort,outlineColorPicker,fillColorPicker));
         ChatComponent.init(ChatTable,nameColumn,messageColumn,chatTextArea,sendButton);
         AcceptedUserComponent.init(userTable,userColumn,kickButton);
-        MenuComponent.init(canvas,menuBar,fileMenu);
+        MenuComponent.init(canvas,canvasEffort,menuBar,fileMenu);
         initCanvas();
         ClientUpdateServiceImpl.canvas = this.canvas;
     }

@@ -3,6 +3,7 @@ package edu.javafx.component;
 import edu.common.enums.Role;
 import edu.common.exception.NotInitException;
 import edu.config.ClientConfig;
+import edu.javafx.ExceptionMessageGUIController;
 import edu.service.Impl.ServerService;
 import javafx.application.Platform;
 import javafx.embed.swing.SwingFXUtils;
@@ -23,7 +24,7 @@ public class MenuComponent {
 
     private static MenuComponent menuComponent = null;
 
-    private final Canvas canvas;
+    private final Canvas canvas, canvasEffort;
 
     private final MenuBar menuBar;
 
@@ -32,9 +33,10 @@ public class MenuComponent {
     private File file = null;
 
     public static void init(Canvas canvas,
+                            Canvas canvasEffort,
                             MenuBar menuBar,
                             Menu fileMenu) {
-        menuComponent = new MenuComponent(canvas,menuBar,fileMenu);
+        menuComponent = new MenuComponent(canvas, canvasEffort, menuBar,fileMenu);
     }
 
     public static MenuComponent getInstance(){
@@ -45,9 +47,11 @@ public class MenuComponent {
     }
 
     private MenuComponent(Canvas canvas,
+                          Canvas canvasEffort,
                           MenuBar menuBar,
                           Menu fileMenu) {
         this.canvas = canvas;
+        this.canvasEffort = canvasEffort;
         this.menuBar = menuBar;
         this.fileMenu = fileMenu;
 
@@ -77,10 +81,13 @@ public class MenuComponent {
     }
 
     private void setOnNewAction(ActionEvent event){
-        //save previous canvas
-        saveCanvas();
+        //uncomment to save previous canvas
+        //saveCanvas();
+
         this.file = null;
 
+        //clean the canvasEffort
+        canvasEffort.getGraphicsContext2D().clearRect(0, 0, canvasEffort.getWidth() , canvasEffort.getHeight());
         //clean the canvas
         WritableImage snapshot = new Canvas(canvas.getWidth(), canvas.getHeight()).snapshot(null, null);
         ServerService.sendWritableImage(snapshot);
@@ -92,7 +99,10 @@ public class MenuComponent {
         fileChooser.getExtensionFilters().addAll(new FileChooser.ExtensionFilter("PNG", "*.png"));
 
         this.file = fileChooser.showOpenDialog(canvas.getScene().getWindow());
-
+        if(this.file != null){
+            //clean the canvasEffort
+            canvasEffort.getGraphicsContext2D().clearRect(0, 0, canvasEffort.getWidth() , canvasEffort.getHeight());
+        }
         openCanvas();
     }
 
@@ -126,7 +136,8 @@ public class MenuComponent {
                 BufferedImage bufferedImage = SwingFXUtils.fromFXImage(snapshot, null);
                 ImageIO.write(bufferedImage,"png",this.file);
             }catch (IOException e){
-                e.printStackTrace();
+                //e.printStackTrace();
+                new ExceptionMessageGUIController("Fail to save the canvas!");
             }
         }
     }
@@ -137,7 +148,8 @@ public class MenuComponent {
                 BufferedImage read = ImageIO.read(this.file);
                 ServerService.sendBufferedImage(read);
             }catch (IOException e){
-                e.printStackTrace();
+                //e.printStackTrace();
+                new ExceptionMessageGUIController("Fail to open the canvas!");
             }
         }
     }
