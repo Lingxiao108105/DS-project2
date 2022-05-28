@@ -25,6 +25,7 @@ public class DrawCircle extends DrawShape {
 
     @Override
     public void draw(double x1, double y1, double x2, double y2) {
+        graphicsContextEffort.clearRect(0, 0, canvasEffort.getWidth() , canvasEffort.getHeight());
         Command command = new DrawCircleCommand(x1, y1, x2, y2, outlineColorPicker.getValue(), fillColorPicker.getValue());
         ServerService.sendCommand(command);
     }
