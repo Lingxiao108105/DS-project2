@@ -1,7 +1,7 @@
 package edu.data;
 
+import edu.JavaFXApplication;
 import edu.LifeCycle;
-import edu.Main;
 import edu.dto.ClientInfo;
 import edu.service.Impl.ClusterServiceImpl;
 
@@ -139,7 +139,7 @@ public class ClusterInfo implements LifeCycle {
         //manager want to leave or crash
         if(clientInfo.equals(ClusterInfo.getInstance().getManager())){
             ClusterServiceImpl.closeAllPeer();
-            Main.restartCanvas();
+            JavaFXApplication.restartCanvas();
         }
 
     }

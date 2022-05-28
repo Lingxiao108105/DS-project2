@@ -1,9 +1,10 @@
 package edu.service.Impl;
 
-import edu.Main;
+import edu.ClientJavaFXApplication;
 import edu.ThreadPool.ClientThreadPool;
 import edu.common.ErrorMessage;
 import edu.common.enums.Role;
+import edu.common.exception.AuthorizeException;
 import edu.common.util.ByteAndImageConverterUtil;
 import edu.config.ClientConfig;
 import edu.config.RpcServiceConfig;
@@ -47,7 +48,7 @@ public class ServerService {
                     return;
                 }
                 ClientConfig.clientInfo = registerManagerResponse.getClientInfo();
-                Main.loadCanvas();
+                ClientJavaFXApplication.loadCanvas();
 
             }else if(ClientConfig.role == Role.CLIENT){
                 RegisterClientResponse registerClientResponse = register.registerClient(
@@ -65,7 +66,12 @@ public class ServerService {
                 ClientConfig.clientInfo = registerClientResponse.getClientInfo();
                 Platform.runLater(WaitForApproveGUIController::waitForApprove);
             }
-        }catch (Exception e){
+        } catch (AuthorizeException e){
+            //e.printStackTrace();
+            Platform.runLater(()->{
+                new ErrorMessageGUIController(e.getMessage());
+            });
+        } catch (Exception e){
             //e.printStackTrace();
             Platform.runLater(()->{
                 new ErrorMessageGUIController(ErrorMessage.SERVER_ERROR);
@@ -81,8 +87,12 @@ public class ServerService {
             ClientThreadPool.getInstance().getExecutorService().submit(()->{
                 try {
                     chatService.addChatMessage(chatAddRequest);
-                }
-                catch (Exception e){
+                } catch (AuthorizeException e){
+                    //e.printStackTrace();
+                    Platform.runLater(()->{
+                        new ErrorMessageGUIController(e.getMessage());
+                    });
+                } catch (Exception e){
                     //e.printStackTrace();
                     Platform.runLater(()->{
                         new ErrorMessageGUIController(ErrorMessage.SERVER_ERROR);
@@ -98,8 +108,12 @@ public class ServerService {
         ClientThreadPool.getInstance().getExecutorService().submit(()->{
             try {
                 canvasService.canvasUpdate(canvasUpdateRequest);
-            }
-            catch (Exception e){
+            } catch (AuthorizeException e){
+                //e.printStackTrace();
+                Platform.runLater(()->{
+                    new ErrorMessageGUIController(e.getMessage());
+                });
+            } catch (Exception e){
                 //e.printStackTrace();
                 Platform.runLater(()->{
                     new ErrorMessageGUIController(ErrorMessage.SERVER_ERROR);
@@ -113,8 +127,13 @@ public class ServerService {
             CanvasResponse canvasResponse = RpcClient.getInstance().getCanvasService().getCanvas(new CanvasRequest(-1));
             WritableImage writableImage = ByteAndImageConverterUtil.bytesToImage(canvasResponse.getImageBytes());
             return writableImage;
+        } catch (AuthorizeException e){
+            //e.printStackTrace();
+            Platform.runLater(()->{
+                new ErrorMessageGUIController(e.getMessage());
+            });
         } catch (Exception e) {
-            e.printStackTrace();
+            //e.printStackTrace();
             Platform.runLater(()->{
                 new ErrorMessageGUIController(ErrorMessage.SERVER_ERROR);
             });
@@ -126,8 +145,13 @@ public class ServerService {
         try {
             WritableImage writableImage = SwingFXUtils.toFXImage(bufferedImage, null);
             sendWritableImage(writableImage);
+        } catch (AuthorizeException e){
+            //e.printStackTrace();
+            Platform.runLater(()->{
+                new ErrorMessageGUIController(e.getMessage());
+            });
         } catch (Exception e) {
-            e.printStackTrace();
+            //e.printStackTrace();
             Platform.runLater(()->{
                 new ErrorMessageGUIController(ErrorMessage.SERVER_ERROR);
             });
@@ -140,8 +164,13 @@ public class ServerService {
             if(bytes != null){
                 RpcClient.getInstance().getManagerService().updateCanvas(bytes);
             }
+        } catch (AuthorizeException e){
+            //e.printStackTrace();
+            Platform.runLater(()->{
+                new ErrorMessageGUIController(e.getMessage());
+            });
         } catch (Exception e) {
-            e.printStackTrace();
+            //e.printStackTrace();
             Platform.runLater(()->{
                 new ErrorMessageGUIController(ErrorMessage.SERVER_ERROR);
             });
@@ -160,8 +189,13 @@ public class ServerService {
             }
             chatMessageList = chatGetResponse.getChatMessageList();
             return chatMessageList;
+        } catch (AuthorizeException e){
+            //e.printStackTrace();
+            Platform.runLater(()->{
+                new ErrorMessageGUIController(e.getMessage());
+            });
         } catch (Exception e) {
-            e.printStackTrace();
+            //e.printStackTrace();
             Platform.runLater(()->{
                 new ErrorMessageGUIController(ErrorMessage.SERVER_ERROR);
             });
@@ -172,8 +206,13 @@ public class ServerService {
     public static void sendJoinRequestDecision(boolean decision,ClientInfo clientInfo){
         try {
             RpcClient.getInstance().getManagerService().joinRequestDecision(decision,clientInfo);
+        } catch (AuthorizeException e){
+            //e.printStackTrace();
+            Platform.runLater(()->{
+                new ErrorMessageGUIController(e.getMessage());
+            });
         } catch (Exception e) {
-            e.printStackTrace();
+            //e.printStackTrace();
             Platform.runLater(()->{
                 new ErrorMessageGUIController(ErrorMessage.SERVER_ERROR);
             });
@@ -186,6 +225,11 @@ public class ServerService {
         }
         try {
             RpcClient.getInstance().getClusterService().leave(ClientConfig.clientInfo);
+        } catch (AuthorizeException e){
+            //e.printStackTrace();
+            Platform.runLater(()->{
+                new ErrorMessageGUIController(e.getMessage());
+            });
         } catch (Exception e) {
             System.out.println(ErrorMessage.SERVER_ERROR);
         }
@@ -195,8 +239,13 @@ public class ServerService {
         try {
             List<ClientInfo> acceptedClient = RpcClient.getInstance().getClusterService().getAcceptedClient();
             return acceptedClient;
+        } catch (AuthorizeException e){
+            //e.printStackTrace();
+            Platform.runLater(()->{
+                new ErrorMessageGUIController(e.getMessage());
+            });
         } catch (Exception e) {
-            e.printStackTrace();
+            //e.printStackTrace();
             Platform.runLater(()->{
                 new ErrorMessageGUIController(ErrorMessage.SERVER_ERROR);
             });
@@ -220,8 +269,13 @@ public class ServerService {
             }else {
                 RpcClient.getInstance().getManagerService().kickClient(clientInfo);
             }
+        } catch (AuthorizeException e){
+            //e.printStackTrace();
+            Platform.runLater(()->{
+                new ErrorMessageGUIController(e.getMessage());
+            });
         } catch (Exception e) {
-            e.printStackTrace();
+            //e.printStackTrace();
             Platform.runLater(()->{
                 new ErrorMessageGUIController(ErrorMessage.SERVER_ERROR);
             });

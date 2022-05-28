@@ -1,6 +1,6 @@
 package edu.service.Impl;
 
-import edu.Main;
+import edu.ClientJavaFXApplication;
 import edu.common.exception.NotInitException;
 import edu.common.util.ByteAndImageConverterUtil;
 import edu.dto.ChatMessage;
@@ -56,7 +56,7 @@ public class ClientUpdateServiceImpl implements ClientUpdateService {
             if (!decision) {
                 new ErrorMessageGUIController("You are not approved to join!");
             }else {
-                Main.loadCanvas();
+                ClientJavaFXApplication.loadCanvas();
             }
         });
     }

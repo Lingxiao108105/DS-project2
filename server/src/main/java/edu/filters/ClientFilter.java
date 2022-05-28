@@ -6,6 +6,10 @@ import com.alipay.sofa.rpc.core.request.SofaRequest;
 import com.alipay.sofa.rpc.core.response.SofaResponse;
 import com.alipay.sofa.rpc.filter.Filter;
 import com.alipay.sofa.rpc.filter.FilterInvoker;
+import edu.common.exception.AuthorizeException;
+import edu.common.exception.ErrorAuthorizeException;
+import edu.data.ClusterInfo;
+import edu.dto.ClientInfo;
 
 public class ClientFilter extends Filter {
 
@@ -16,38 +20,43 @@ public class ClientFilter extends Filter {
 
     @Override
     public SofaResponse invoke(FilterInvoker invoker, SofaRequest request) throws SofaRpcException {
-        SofaResponse response = invoker.invoke(request);
-        return response;
 
-//        //check whether the request from a valid user
-//        Object o = request.getRequestProp("ClientInfo");
-//        ClientInfo clientInfo = (ClientInfo) o;
-//
-//        SofaResponse response = new SofaResponse();
-//
-//        //sanity check
-//        if(clientInfo == null){
-//            //TODO return not register error
-//            return response;
-//        }else if(clientInfo.getId() == null){
-//            //TODO return no client id
-//            return response;
-//        }
-//
-//        //check
-//        if(!ClusterInfo.getInstance().isAcceptedClient(clientInfo)){
-//            if(ClusterInfo.getInstance().isDeniedClient(clientInfo)){
-//                //TODO return isDeniedClient
-//                return response;
-//            }
-//            if(ClusterInfo.getInstance().isKickedClient(clientInfo)){
-//                //TODO return isKickedClient
-//                return response;
-//            }
-//        }
-//
-//        //is client
-//        response = invoker.invoke(request);
-//        return response;
+        //check whether the request from a valid user
+        Object o = request.getRequestProp("ClientInfo");
+        ClientInfo clientInfo = (ClientInfo) o;
+
+        SofaResponse response = new SofaResponse();
+
+        //sanity check
+        if(clientInfo == null){
+            //return not register error
+            response.setAppResponse(new ErrorAuthorizeException("Please register to this server first!"));
+            return response;
+        }else if(clientInfo.getId() == null){
+            //return no client id
+            response.setAppResponse(new ErrorAuthorizeException("No client id! Please register to this server first to get an id!"));
+            return response;
+        }
+
+        //check
+        if(!ClusterInfo.getInstance().isAcceptedClient(clientInfo)){
+            if(ClusterInfo.getInstance().isDeniedClient(clientInfo)){
+                //return isDeniedClient
+                response.setAppResponse(new ErrorAuthorizeException("You have been denied to join the server!"));
+                return response;
+            }
+            if(ClusterInfo.getInstance().isKickedClient(clientInfo)){
+                //return isKickedClient
+                response.setAppResponse(new ErrorAuthorizeException("You have been kicked from server!"));
+                return response;
+            }else {
+                response.setAppResponse(new ErrorAuthorizeException("Please register to this server first! Your previous server might crash!"));
+                return response;
+            }
+        }
+
+        //is valid client
+        response = invoker.invoke(request);
+        return response;
     }
 }
