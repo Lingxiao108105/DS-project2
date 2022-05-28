@@ -25,7 +25,6 @@ public class DrawTextImpl extends DrawText {
 
     @Override
     public void draw(double x1, double y1, String text) {
-        graphicsContextEffort.clearRect(0, 0, canvasEffort.getWidth() , canvasEffort.getHeight());
         Command command = new DrawTextCommand(x1, y1, text, outlineColorPicker.getValue(), fillColorPicker.getValue());
         ServerService.sendCommand(command);
     }

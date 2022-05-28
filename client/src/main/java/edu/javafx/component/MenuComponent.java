@@ -73,7 +73,7 @@ public class MenuComponent {
         close.setOnAction(this::setOnCloseAction);
 
         fileMenu.getItems().addAll(newCanvas,open,save,saveAs,close);
-
+        
     }
 
     private void setOnNewAction(ActionEvent event){
