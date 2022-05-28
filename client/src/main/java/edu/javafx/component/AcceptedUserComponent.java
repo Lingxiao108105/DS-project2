@@ -46,14 +46,12 @@ public class AcceptedUserComponent {
         userColumn.setCellValueFactory(new PropertyValueFactory<ClientInfo, String>("name"));
         userColumn.setCellFactory(TextAreaTableCell.forTableColumn(new DefaultStringConverter()));
 
-//        //client cannot kick anyone
-//        if(ClientConfig.role == Role.MANAGER){
-//            kickButton.setOnMouseClicked(this::kickButtonSetOnMouseClicked);
-//        }else if(ClientConfig.role == Role.CLIENT){
-//            kickButton.setVisible(false);
-//        }
-
-        kickButton.setOnMouseClicked(this::kickButtonSetOnMouseClicked);
+        //client cannot kick anyone
+        if(ClientConfig.role == Role.MANAGER){
+            kickButton.setOnMouseClicked(this::kickButtonSetOnMouseClicked);
+        }else if(ClientConfig.role == Role.CLIENT){
+            kickButton.setVisible(false);
+        }
 
         //show chat message
         this.clientNameObservableList = FXCollections.observableArrayList();
