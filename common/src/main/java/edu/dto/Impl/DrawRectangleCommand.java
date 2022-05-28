@@ -5,6 +5,10 @@ import javafx.scene.canvas.Canvas;
 import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.paint.Color;
 
+/**
+ * DrawRectangleCommand
+ * @author lingxiao
+ */
 public class DrawRectangleCommand extends DrawShapeCommand{
 
     public DrawRectangleCommand(double x1, double y1, double x2, double y2, Color stroke, Color fill) {

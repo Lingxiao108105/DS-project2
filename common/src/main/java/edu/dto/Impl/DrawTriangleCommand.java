@@ -5,6 +5,10 @@ import javafx.scene.canvas.Canvas;
 import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.paint.Color;
 
+/**
+ * DrawTriangleCommand
+ * @author lingxiao
+ */
 public class DrawTriangleCommand extends DrawShapeCommand{
 
     public DrawTriangleCommand(double x1, double y1, double x2, double y2, Color stroke, Color fill) {

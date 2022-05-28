@@ -8,6 +8,11 @@ import edu.service.Impl.ServerService;
 import javafx.scene.canvas.Canvas;
 import javafx.scene.control.ColorPicker;
 
+/**
+ * describes how to draw triangle on canvas
+ * mainly describes how to draw effort and draw on canvas
+ * @author lingxiao
+ */
 public class DrawTriangle extends DrawShape {
 
     public DrawTriangle(Canvas canvasEffort,

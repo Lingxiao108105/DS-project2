@@ -9,6 +9,11 @@ import edu.service.Impl.ServerService;
 import javafx.scene.canvas.Canvas;
 import javafx.scene.control.ColorPicker;
 
+/**
+ * DrawCircle describes how to draw circle on canvas
+ * mainly describes how to draw effort and draw on canvas
+ * @author lingxiao
+ */
 public class DrawCircle extends DrawShape {
 
     public DrawCircle(Canvas canvasEffort,

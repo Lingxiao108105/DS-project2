@@ -12,6 +12,10 @@ import javafx.stage.Stage;
 
 import java.util.List;
 
+/**
+ * JavaFXApplication
+ * @author lingxiao
+ */
 public class JavaFXApplication extends Application {
 
     public static void main(String[] args) {

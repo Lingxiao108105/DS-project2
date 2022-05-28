@@ -5,6 +5,10 @@ import edu.dto.ClientInfo;
 
 import java.util.List;
 
+/**
+ * service for server to update states of client
+ * @author lingxiao
+ */
 public interface ClientUpdateService {
 
     public void updateClientCanvas(byte[] imageBytes);

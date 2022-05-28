@@ -1,8 +1,13 @@
 package edu.dto;
 
+/**
+ * response of register as a client
+ * @author lingxiao
+ */
 public class RegisterClientResponse {
 
     boolean isSuccess;
+    //error message when fail
     String errorMessage;
     ClientInfo clientInfo;
 

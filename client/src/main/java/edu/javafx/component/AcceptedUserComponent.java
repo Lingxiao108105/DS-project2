@@ -17,6 +17,12 @@ import javafx.util.converter.DefaultStringConverter;
 
 import java.util.List;
 
+/**
+ * AcceptedUserComponent controls the userTable of canvas
+ * shows users who are currently editing the same whiteboard
+ * control kick button
+ * @author lingxiao
+ */
 public class AcceptedUserComponent {
 
     private static AcceptedUserComponent acceptedUserComponent = null;

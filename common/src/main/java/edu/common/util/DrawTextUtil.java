@@ -3,6 +3,10 @@ package edu.common.util;
 import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.paint.Color;
 
+/**
+ * define how to draw text on javafx canvas
+ * @author lingxiao
+ */
 public class DrawTextUtil {
 
     public static void drawText(GraphicsContext graphicsContext,

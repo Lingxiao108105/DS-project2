@@ -7,6 +7,12 @@ import javafx.scene.layout.Pane;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
 
+/**
+ * Exception Message GUI
+ * constructs an ExceptionMessageGUIController with exceptionMessageText will show a pop-up with exceptionMessageText
+ * and WILL NOT exit Platform
+ * @author lingxiao
+ */
 public class ExceptionMessageGUIController{
 
     private final Button exitButton;

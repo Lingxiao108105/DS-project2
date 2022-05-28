@@ -12,6 +12,10 @@ import javafx.application.Platform;
 
 import java.util.List;
 
+/**
+ * RpcServiceProvider export all services server provide
+ * @author lingxiao
+ */
 public class RpcServiceProvider implements LifeCycle {
 
     private static RpcServiceProvider rpcServiceProvider;

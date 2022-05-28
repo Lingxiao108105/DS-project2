@@ -4,6 +4,10 @@ import edu.common.util.SerializableColor;
 import edu.dto.Command;
 import javafx.scene.paint.Color;
 
+/**
+ * DrawCommand include common part of draw(color)
+ * @author lingxiao
+ */
 public abstract class DrawCommand implements Command {
 
     protected SerializableColor stroke, fill;

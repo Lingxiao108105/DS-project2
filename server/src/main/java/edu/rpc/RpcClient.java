@@ -8,6 +8,10 @@ import edu.service.ClientUpdateService;
 
 import java.util.concurrent.ConcurrentHashMap;
 
+/**
+ * rpc client manage ConsumerConfig of clients
+ * @author lingxiao
+ */
 public class RpcClient implements LifeCycle {
 
     private static RpcClient rpcClient = null;
@@ -33,6 +37,11 @@ public class RpcClient implements LifeCycle {
         rpcClient = null;
     }
 
+    /**
+     * refer to ConsumerConfig each time to prevent the problem when client crashed and new client using same address to connect
+     * @param clientInfo
+     * @return
+     */
     public ClientUpdateService getClientCanvasService(ClientInfo clientInfo){
         ConsumerConfig<ClientUpdateService> consumerConfig = clientUpdateConfigConcurrentHashMap.get(clientInfo.getId());
         if(consumerConfig == null){

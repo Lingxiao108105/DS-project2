@@ -15,6 +15,11 @@ import javafx.util.converter.DefaultStringConverter;
 
 import java.util.List;
 
+/**
+ * ChatComponent controls the chat function of canvas
+ * shows chat message and send chat message
+ * @author lingxiao
+ */
 public class ChatComponent {
 
     private static ChatComponent chatComponent = null;

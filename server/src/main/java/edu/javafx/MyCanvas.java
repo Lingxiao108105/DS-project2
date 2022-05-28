@@ -14,6 +14,10 @@ import java.util.concurrent.ScheduledFuture;
 import java.util.concurrent.TimeUnit;
 import java.util.concurrent.locks.ReentrantLock;
 
+/**
+ * MyCanvas manage the canvas update and multicast the canvas change to clients
+ * @author lingxiao
+ */
 @Getter
 public class MyCanvas implements LifeCycle {
 
@@ -42,6 +46,7 @@ public class MyCanvas implements LifeCycle {
         Platform.runLater(()->{
             this.snapshotBytes = ByteAndImageConverterUtil.imageToBytes(this.canvas.snapshot(null, null));
         });
+        //update canvas every 50 milliseconds
         this.canvasUpdateTask = ServerThreadPool.getInstance().getScheduledExecutorService().scheduleWithFixedDelay(
                 ()->{
                     Platform.runLater(()->{
@@ -75,6 +80,9 @@ public class MyCanvas implements LifeCycle {
         this.canvasUpdate.add(command);
     }
 
+    /**
+     * execute all command in canvasUpdate and multicast the latest canvas to client
+     */
     public void executeAll(){
         try {
             int size = this.canvasUpdate.size();

@@ -18,6 +18,10 @@ import javafx.scene.image.WritableImage;
 import java.util.List;
 
 
+/**
+ * Implementation of ClientUpdateService
+ * @author lingxiao
+ */
 public class ClientUpdateServiceImpl implements ClientUpdateService {
 
     public static Canvas canvas;

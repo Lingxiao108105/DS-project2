@@ -9,6 +9,10 @@ import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 
+/**
+ * convert WritableImage to byte[] and back for data transition
+ * @author lingxiao
+ */
 public class ByteAndImageConverterUtil {
 
     public static WritableImage bytesToImage(byte[] imageBytes){

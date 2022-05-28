@@ -11,6 +11,10 @@ import javafx.stage.WindowEvent;
 
 import java.io.IOException;
 
+/**
+ * Wait For Approve GUI when waiting for approve from manager
+ * @author lingxiao
+ */
 public class WaitForApproveGUIController {
 
     private static WaitForApproveGUIController waitForApproveGUIController = null;

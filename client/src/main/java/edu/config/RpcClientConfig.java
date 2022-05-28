@@ -1,5 +1,9 @@
 package edu.config;
 
+/**
+ * rpc client config store the address of server
+ * @author lingxiao
+ */
 public class RpcClientConfig {
 
     public static String serverIPAddress = "127.0.0.1";

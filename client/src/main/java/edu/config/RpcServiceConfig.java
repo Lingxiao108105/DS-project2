@@ -1,5 +1,10 @@
 package edu.config;
 
+/**
+ * RpcServiceConfig store the address of rpc services client itself provide
+ * registerPort will be auto adjust if the port is busy
+ * @author lingxiao
+ */
 public class RpcServiceConfig {
 
     public static String ipAddress = "127.0.0.1";

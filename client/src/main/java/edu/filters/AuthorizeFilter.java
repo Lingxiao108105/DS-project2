@@ -14,6 +14,11 @@ import edu.javafx.ErrorMessageGUIController;
 import edu.javafx.ExceptionMessageGUIController;
 import javafx.application.Platform;
 
+/**
+ * add authorization information
+ * IMPORTANT: return null if catch authorization exception
+ * @author lingxiao
+ */
 public class AuthorizeFilter extends Filter {
 
     @Override

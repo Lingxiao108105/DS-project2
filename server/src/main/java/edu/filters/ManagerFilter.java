@@ -12,6 +12,10 @@ import edu.common.exception.ExceptionAuthorizeException;
 import edu.data.ClusterInfo;
 import edu.dto.ClientInfo;
 
+/**
+ * check whether the request is from the manager
+ * @author lingxiao
+ */
 public class ManagerFilter extends Filter {
 
     @Override

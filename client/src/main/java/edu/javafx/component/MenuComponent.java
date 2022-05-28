@@ -20,6 +20,10 @@ import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
 
+/**
+ * MenuComponent controls the menu of canvas(only file menu now)
+ * @author lingxiao
+ */
 public class MenuComponent {
 
     private static MenuComponent menuComponent = null;
@@ -61,6 +65,7 @@ public class MenuComponent {
             return;
         }
 
+        //create menu items
         MenuItem newCanvas = new MenuItem("new");
         newCanvas.setOnAction(this::setOnNewAction);
 
@@ -80,6 +85,9 @@ public class MenuComponent {
         
     }
 
+    /**
+     * create a new blank canvas
+     */
     private void setOnNewAction(ActionEvent event){
         //uncomment to save previous canvas
         //saveCanvas();
@@ -93,6 +101,9 @@ public class MenuComponent {
         ServerService.sendWritableImage(snapshot);
     }
 
+    /**
+     * open a canvas
+     */
     private void setOnOpenAction(ActionEvent event){
         FileChooser fileChooser = new FileChooser();
         fileChooser.setTitle("Open Canvas");
@@ -106,6 +117,10 @@ public class MenuComponent {
         openCanvas();
     }
 
+    /**
+     * save canvas to file
+     * if the file do not exist, call SaveAs
+     */
     private void setOnSaveAction(ActionEvent event){
         if(this.file != null){
             saveCanvas();
@@ -114,6 +129,10 @@ public class MenuComponent {
         }
     }
 
+    /**
+     * chosen file or create file first
+     * and then save canvas to the chosen file
+     */
     private void setOnSaveAsAction(ActionEvent event){
         FileChooser fileChooser = new FileChooser();
         fileChooser.setTitle("Save Canvas");
@@ -124,11 +143,18 @@ public class MenuComponent {
         saveCanvas();
     }
 
+    /**
+     * try to save canvas
+     * then exit the application
+     */
     private void setOnCloseAction(ActionEvent event){
         setOnSaveAction(event);
         Platform.exit();
     }
 
+    /**
+     * save canvas to file
+     */
     private void saveCanvas(){
         if(this.file != null){
             try{
@@ -142,6 +168,9 @@ public class MenuComponent {
         }
     }
 
+    /**
+     * open canvas from file
+     */
     private void openCanvas(){
         if(this.file != null){
             try{

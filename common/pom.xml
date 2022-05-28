@@ -8,23 +8,30 @@
     <artifactId>common</artifactId>
     <version>1.0</version>
 
+    <properties>
+        <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+        <maven.compiler.source>15</maven.compiler.source>
+        <maven.compiler.target>15</maven.compiler.target>
+        <javafx.version>18</javafx.version>
+    </properties>
+
     <dependencies>
 
         <!-- javaFX-->
         <dependency>
             <groupId>org.openjfx</groupId>
             <artifactId>javafx-controls</artifactId>
-            <version>18</version>
+            <version>${javafx.version}</version>
         </dependency>
         <dependency>
             <groupId>org.openjfx</groupId>
             <artifactId>javafx-fxml</artifactId>
-            <version>18</version>
+            <version>${javafx.version}</version>
         </dependency>
         <dependency>
             <groupId>org.openjfx</groupId>
             <artifactId>javafx-swing</artifactId>
-            <version>18</version>
+            <version>${javafx.version}</version>
         </dependency>
 
         <dependency>
@@ -48,7 +55,7 @@
                 <artifactId>maven-compiler-plugin</artifactId>
                 <version>3.8.1</version>
                 <configuration>
-                    <release>15</release>  <!--or <release>10</release>-->
+                    <release>${maven.compiler.source}</release>  <!--or <release>10</release>-->
                 </configuration>
             </plugin>
         </plugins>

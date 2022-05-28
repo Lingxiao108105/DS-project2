@@ -1,5 +1,9 @@
 package edu.dto;
 
+/**
+ * request for register as a manager
+ * @author lingxiao
+ */
 public class RegisterManagerRequest{
 
     String name;

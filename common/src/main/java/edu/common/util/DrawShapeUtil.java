@@ -3,6 +3,10 @@ package edu.common.util;
 import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.paint.Color;
 
+/**
+ * define how to draw shape on javafx canvas
+ * @author lingxiao
+ */
 public class DrawShapeUtil {
 
     public static void drawLine(GraphicsContext graphicsContext,

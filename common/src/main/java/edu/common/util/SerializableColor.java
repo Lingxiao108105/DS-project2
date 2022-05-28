@@ -5,6 +5,7 @@ import javafx.scene.paint.Color;
 
 /**
  * from https://stackoverflow.com/questions/36748358/saving-color-as-state-in-a-javafx-application
+ * from javafx Color to SerializableColor and back for data transition
  */
 public class SerializableColor implements Serializable
 {

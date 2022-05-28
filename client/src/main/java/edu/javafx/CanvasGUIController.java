@@ -24,6 +24,10 @@ import java.io.IOException;
 import java.net.URL;
 import java.util.ResourceBundle;
 
+/**
+ * Canvas GUI
+ * @author lingxiao
+ */
 @Getter
 public class CanvasGUIController implements Initializable {
 
@@ -79,6 +83,11 @@ public class CanvasGUIController implements Initializable {
     @FXML
     private Button sendButton;
 
+    /**
+     * initialization, load actions on javafx components
+     * @param url
+     * @param resourceBundle
+     */
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
         new DrawButtonComponent(lineButton,new DrawLine(canvasEffort,outlineColorPicker,fillColorPicker));
@@ -110,6 +119,7 @@ public class CanvasGUIController implements Initializable {
         return CanvasGUIController.scene;
     }
 
+    //init canvas using canvas on server
     public void initCanvas(){
         WritableImage writableImage = ServerService.getCanvas();
         if (writableImage != null){

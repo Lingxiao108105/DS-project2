@@ -21,20 +21,26 @@ import org.apache.commons.validator.routines.InetAddressValidator;
 
 import java.util.List;
 
+
+/**
+ * ClientJavaFXApplication
+ * @author lingxiao
+ */
 public class ClientJavaFXApplication extends Application {
 
+    //primary stage
     public static Stage stage = null;
 
     public static void main(String[] args) {
         launch(args);
     }
 
-
-
     @Override
     public void start(Stage stage) {
 
         ClientJavaFXApplication.stage = stage;
+
+        //arguments check
         Parameters parameters = getParameters();
         List<String> args = parameters.getRaw();
 
@@ -97,7 +103,9 @@ public class ClientJavaFXApplication extends Application {
         }
         RpcServiceConfig.setIpAddress(localIpAddress);
 
+        //init
         RpcServiceProvider.getInstance();
+        //register the client
         ServerService.register(name);
 
     }

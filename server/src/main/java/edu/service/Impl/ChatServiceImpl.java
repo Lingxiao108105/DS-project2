@@ -6,8 +6,15 @@ import edu.service.ChatService;
 
 import java.util.List;
 
+/**
+ * service for chat function
+ * @author lingxiao
+ */
 public class ChatServiceImpl implements ChatService {
 
+    /**
+     * send chat message to server
+     */
     @Override
     public ChatAddResponse addChatMessage(ChatAddRequest chatAddRequest){
         Chat chat = Chat.getInstance();
@@ -15,6 +22,9 @@ public class ChatServiceImpl implements ChatService {
         return new ChatAddResponse(true);
     }
 
+    /**
+     * get chat message from server
+     */
     @Override
     public ChatGetResponse getChatMessage(ChatGetRequest chatGetRequest){
         Chat chat = Chat.getInstance();

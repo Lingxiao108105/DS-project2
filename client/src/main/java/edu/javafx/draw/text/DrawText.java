@@ -7,6 +7,11 @@ import javafx.scene.input.KeyCode;
 import javafx.scene.input.KeyEvent;
 import javafx.scene.input.MouseEvent;
 
+/**
+ * DrawText describes how to draw text on canvas
+ * mainly describes how to behave on mouse pressed and key pressed
+ * @author lingxiao
+ */
 public abstract class DrawText extends Draw {
 
     private double startX, startY;

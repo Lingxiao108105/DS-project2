@@ -5,6 +5,10 @@ import javafx.scene.canvas.Canvas;
 import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.paint.Color;
 
+/**
+ * DrawTextCommand
+ * @author lingxiao
+ */
 public class DrawTextCommand extends DrawCommand{
 
     protected double x1,y1;

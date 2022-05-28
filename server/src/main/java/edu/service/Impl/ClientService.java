@@ -10,6 +10,10 @@ import edu.service.ClientUpdateService;
 
 import java.util.List;
 
+/**
+ * service for server to update states of client
+ * @author lingxiao
+ */
 public class ClientService {
 
     public static void notifyAcceptedClientChange(){

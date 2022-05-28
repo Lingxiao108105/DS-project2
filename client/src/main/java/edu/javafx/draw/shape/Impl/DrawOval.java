@@ -8,6 +8,11 @@ import edu.service.Impl.ServerService;
 import javafx.scene.canvas.Canvas;
 import javafx.scene.control.ColorPicker;
 
+/**
+ * describes how to draw line on canvas
+ * mainly describes how to draw effort and draw on canvas
+ * @author lingxiao
+ */
 public class DrawOval extends DrawShape {
 
     public DrawOval(Canvas canvasEffort,

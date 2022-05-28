@@ -25,7 +25,9 @@ import java.util.ArrayList;
 import java.util.List;
 
 /**
- * communicate with server
+ * how to call the server rpc service
+ * deal with errors and exceptions
+ * @author lingxiao
  */
 public class ServerService {
 

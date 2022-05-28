@@ -11,6 +11,10 @@ import javafx.application.Platform;
 
 import java.util.List;
 
+/**
+ * RpcClient to connect with server
+ * @author lingxiao
+ */
 public class RpcClient implements LifeCycle {
 
     private static RpcClient rpcClient = null;

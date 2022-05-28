@@ -6,11 +6,14 @@ import com.alipay.sofa.rpc.core.request.SofaRequest;
 import com.alipay.sofa.rpc.core.response.SofaResponse;
 import com.alipay.sofa.rpc.filter.Filter;
 import com.alipay.sofa.rpc.filter.FilterInvoker;
-import edu.common.exception.AuthorizeException;
 import edu.common.exception.ErrorAuthorizeException;
 import edu.data.ClusterInfo;
 import edu.dto.ClientInfo;
 
+/**
+ * check whether the request is from an accepted client
+ * @author lingxiao
+ */
 public class ClientFilter extends Filter {
 
     @Override
@@ -40,12 +43,15 @@ public class ClientFilter extends Filter {
 
         //check
         if(!ClusterInfo.getInstance().isAcceptedClient(clientInfo)){
-            if(ClusterInfo.getInstance().isDeniedClient(clientInfo)){
+            if(ClusterInfo.getInstance().isWaitListClient(clientInfo)){
+                //return isWaitListClient
+                response.setAppResponse(new ErrorAuthorizeException("You are in wait list! Please wait for manager to reply on your request!"));
+                return response;
+            }else if(ClusterInfo.getInstance().isDeniedClient(clientInfo)){
                 //return isDeniedClient
                 response.setAppResponse(new ErrorAuthorizeException("You have been denied to join the server!"));
                 return response;
-            }
-            if(ClusterInfo.getInstance().isKickedClient(clientInfo)){
+            }else if(ClusterInfo.getInstance().isKickedClient(clientInfo)){
                 //return isKickedClient
                 response.setAppResponse(new ErrorAuthorizeException("You have been kicked from server!"));
                 return response;

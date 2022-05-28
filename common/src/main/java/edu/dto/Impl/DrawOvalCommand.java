@@ -5,6 +5,10 @@ import javafx.scene.canvas.Canvas;
 import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.paint.Color;
 
+/**
+ * DrawOvalCommand
+ * @author lingxiao
+ */
 public class DrawOvalCommand extends DrawShapeCommand{
 
     public DrawOvalCommand(double x1, double y1, double x2, double y2, Color stroke, Color fill) {

@@ -8,7 +8,10 @@ import edu.service.ClusterService;
 
 import java.util.List;
 
-
+/**
+ * service for client to act on cluster
+ * @author lingxiao
+ */
 public class ClusterServiceImpl implements ClusterService {
 
     @Override

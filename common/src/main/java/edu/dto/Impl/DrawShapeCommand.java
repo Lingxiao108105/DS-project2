@@ -3,6 +3,10 @@ package edu.dto.Impl;
 import javafx.scene.canvas.Canvas;
 import javafx.scene.paint.Color;
 
+/**
+ * DrawShapeCommand include common part of draw shape(coordinates)
+ * @author lingxiao
+ */
 public abstract class DrawShapeCommand extends DrawCommand {
 
     protected double x1,y1,x2,y2;

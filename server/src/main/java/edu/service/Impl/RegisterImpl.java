@@ -6,6 +6,10 @@ import edu.rpc.RpcClient;
 import edu.service.ClientUpdateService;
 import edu.service.Register;
 
+/**
+ * service for client to register
+ * @author lingxiao
+ */
 public class RegisterImpl implements Register {
 
     @Override

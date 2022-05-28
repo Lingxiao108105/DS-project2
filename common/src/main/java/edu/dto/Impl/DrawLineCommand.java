@@ -5,6 +5,10 @@ import javafx.scene.canvas.Canvas;
 import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.paint.Color;
 
+/**
+ * DrawLineCommand
+ * @author lingxiao
+ */
 public class DrawLineCommand extends DrawShapeCommand{
 
     public DrawLineCommand(double x1, double y1, double x2, double y2, Color stroke, Color fill) {

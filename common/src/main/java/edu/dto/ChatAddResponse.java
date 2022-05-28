@@ -1,5 +1,9 @@
 package edu.dto;
 
+/**
+ * response of add a chat message to server
+ * @author lingxiao
+ */
 public class ChatAddResponse {
 
     boolean isSuccess;

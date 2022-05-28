@@ -13,7 +13,7 @@ import javafx.util.StringConverter;
 import javafx.util.converter.DefaultStringConverter;
 
 /**
- *
+ * TextAreaTableCell for table column in javafx
  * from https://gist.github.com/eckig/30abf0d7d51b7756c2e7
  * modify by lingxiao for customization
  * @param <S>

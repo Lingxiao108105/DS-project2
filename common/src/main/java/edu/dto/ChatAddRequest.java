@@ -1,5 +1,9 @@
 package edu.dto;
 
+/**
+ * request to add a chat message to server
+ * @author lingxiao
+ */
 public class ChatAddRequest {
 
     ChatMessage chatMessage;

@@ -7,6 +7,10 @@ import edu.config.RpcServiceConfig;
 import edu.service.ClientUpdateService;
 import edu.service.Impl.ClientUpdateServiceImpl;
 
+/**
+ * RpcServiceProvider to provide rpc service for server to update the state of client
+ * @author lingxiao
+ */
 public class RpcServiceProvider implements LifeCycle {
 
     private static RpcServiceProvider rpcServiceProvider;
@@ -29,6 +33,7 @@ public class RpcServiceProvider implements LifeCycle {
                 .setProtocol("bolt")
                 .setPort(RpcServiceConfig.getRegisterPort())
                 .setDaemon(true)
+                //auto increment port when current port is busy
                 .setAdaptivePort(true);
 
 
@@ -39,6 +44,7 @@ public class RpcServiceProvider implements LifeCycle {
 
         clientCanvasServiceProviderConfig.export();
 
+        //set the real port
         RpcServiceConfig.setRegisterPort(serverConfig.getPort());
     }
 

@@ -5,6 +5,11 @@ import javafx.scene.canvas.Canvas;
 import javafx.scene.control.ColorPicker;
 import javafx.scene.input.MouseEvent;
 
+/**
+ * DrawShape describes how to draw shape on canvas
+ * mainly describes how to behave on mouse press, drag and release action
+ * @author lingxiao
+ */
 public abstract class DrawShape extends Draw {
 
     private double startX, startY, currentX, currentY;

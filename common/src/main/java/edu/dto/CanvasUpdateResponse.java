@@ -1,5 +1,9 @@
 package edu.dto;
 
+/**
+ * response for update canvas to server
+ * @author lingxiao
+ */
 public class CanvasUpdateResponse {
 
     boolean isSuccess;

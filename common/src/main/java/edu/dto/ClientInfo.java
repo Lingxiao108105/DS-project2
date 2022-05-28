@@ -5,10 +5,17 @@ import java.io.Serializable;
 import java.util.Objects;
 
 
+/**
+ * Client Info
+ * @author lingxiao
+ */
 public class ClientInfo implements Serializable {
 
+    //unique id
     private Integer id;
+    //name of client
     private String name;
+    //address of client rpc address(format <ip:port>)
     private String address;
 
     public ClientInfo(Integer id, String name, String address) {

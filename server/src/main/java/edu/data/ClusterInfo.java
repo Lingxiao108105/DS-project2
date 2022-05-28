@@ -10,6 +10,7 @@ import java.util.concurrent.ConcurrentHashMap;
 
 /**
  * information of the whole cluster
+ * @author lingxiao
  */
 public class ClusterInfo implements LifeCycle {
 
@@ -60,6 +61,12 @@ public class ClusterInfo implements LifeCycle {
         return List.copyOf(waitListClients.values());
     }
 
+    /**
+     * add manager to cluster
+     * @param name name of manager
+     * @param address manager address
+     * @return ClientInfo of manager(null if manager already exist)
+     */
     public ClientInfo addManager(String name, String address){
         if(manager != null){
             return null;
@@ -71,6 +78,11 @@ public class ClusterInfo implements LifeCycle {
         return clientInfo;
     }
 
+    /**
+     * accept client and remove it from wait list
+     * @param clientInfo ClientInfo of client accept
+     * @return true
+     */
     public boolean acceptClient(ClientInfo clientInfo){
         this.waitListClients.remove(clientInfo.getId());
         this.acceptedClients.put(clientInfo.getId(),clientInfo);
@@ -80,7 +92,6 @@ public class ClusterInfo implements LifeCycle {
     /**
      * when a new client join the cluster with an address,
      * the old client using same address must fail
-     * @return
      */
     public void removeClientWithAddress(String address){
         for(ClientInfo clientInfo: acceptedClients.values()){
@@ -103,7 +114,7 @@ public class ClusterInfo implements LifeCycle {
 
     /**
      * request to join the cluster
-     * return null if the name already in the cluster or no manager
+     * return null if the name already in the cluster
      * @param name name of client
      * @return client info
      */
@@ -134,6 +145,11 @@ public class ClusterInfo implements LifeCycle {
         return this.acceptedClients.containsKey(clientInfo.getId());
     }
 
+    /**
+     * remove client From Accepted Client
+     * when removing manager, will send manager leave notification to all clients and restart canvas
+     * @param clientInfo clientInfo of client
+     */
     public void removeFromAcceptedClient(ClientInfo clientInfo){
         this.acceptedClients.remove(clientInfo.getId());
         //manager want to leave or crash

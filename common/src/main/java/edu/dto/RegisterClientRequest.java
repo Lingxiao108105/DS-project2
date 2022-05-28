@@ -1,5 +1,9 @@
 package edu.dto;
 
+/**
+ * request for register as a client
+ * @author lingxiao
+ */
 public class RegisterClientRequest {
 
     String name;

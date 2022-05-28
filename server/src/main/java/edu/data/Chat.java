@@ -11,6 +11,10 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.concurrent.locks.ReentrantLock;
 
+/**
+ * chat messages
+ * @author lingxiao
+ */
 public class Chat implements LifeCycle {
 
     private static Chat chat = null;
@@ -39,6 +43,10 @@ public class Chat implements LifeCycle {
         chat = null;
     }
 
+    /**
+     * add chat message and multicast it to all accepted clients
+     * @param chatMessage chat message to add
+     */
     public void addChatMessage(ChatMessage chatMessage){
         chatMessageListLock.lock();
         try {

@@ -8,6 +8,12 @@ import javafx.scene.layout.Pane;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
 
+/**
+ * Error Message GUI
+ * constructs an ErrorMessageGUIController with errorMessageText will show a pop-up with errorMessageText
+ * and exit Platform
+ * @author lingxiao
+ */
 public class ErrorMessageGUIController {
 
     private final Button exitButton;

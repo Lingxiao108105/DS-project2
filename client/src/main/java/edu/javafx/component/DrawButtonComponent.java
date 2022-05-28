@@ -4,6 +4,12 @@ import edu.javafx.draw.Draw;
 import javafx.scene.control.Button;
 import javafx.scene.input.MouseEvent;
 
+/**
+ * DrawButtonComponent controls the draw button function of canvas
+ * construct a DrawButtonComponent with button and draw.
+ * Then when click button, the corresponding draw function will be load on canvas
+ * @author lingxiao
+ */
 public class DrawButtonComponent {
 
     protected Draw draw = null;

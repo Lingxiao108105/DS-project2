@@ -7,8 +7,17 @@ import edu.dto.CanvasUpdateResponse;
 import edu.javafx.MyCanvas;
 import edu.service.CanvasService;
 
+/**
+ * service for canvas in server
+ * @author lingxiao
+ */
 public class CanvasServiceImpl implements CanvasService {
 
+    /**
+     * send a command of updating canvas
+     * @param canvasUpdateRequest canvasUpdateRequest
+     * @return CanvasUpdateResponse
+     */
     @Override
     public CanvasUpdateResponse canvasUpdate(CanvasUpdateRequest canvasUpdateRequest){
         MyCanvas myCanvas = MyCanvas.getInstance();
@@ -16,6 +25,9 @@ public class CanvasServiceImpl implements CanvasService {
         return new CanvasUpdateResponse(true);
     }
 
+    /**
+     * request of get the canvas from server
+     */
     @Override
     public CanvasResponse getCanvas(CanvasRequest canvasRequest){
         MyCanvas myCanvas = MyCanvas.getInstance();

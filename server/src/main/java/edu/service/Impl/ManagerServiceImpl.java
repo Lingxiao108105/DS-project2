@@ -10,6 +10,10 @@ import edu.service.ManagerService;
 import javafx.application.Platform;
 import javafx.scene.image.WritableImage;
 
+/**
+ * service for manager to manage the cluster
+ * @author lingxiao
+ */
 public class ManagerServiceImpl implements ManagerService {
 
     @Override

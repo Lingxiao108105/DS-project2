@@ -12,6 +12,10 @@ import javafx.stage.Stage;
 
 
 
+/**
+ * Join Request GUI when new user want to join
+ * @author lingxiao
+ */
 public class JoinRequestGUIController{
 
     private final Button denyButton;
