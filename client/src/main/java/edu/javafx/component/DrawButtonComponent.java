@@ -1,6 +1,6 @@
 package edu.javafx.component;
 
-import edu.javafx.draw.Draw;
+import edu.javafx.draw.DrawOnCanvas;
 import javafx.scene.control.Button;
 import javafx.scene.input.MouseEvent;
 
@@ -12,9 +12,9 @@ import javafx.scene.input.MouseEvent;
  */
 public class DrawButtonComponent {
 
-    protected Draw draw = null;
+    protected DrawOnCanvas draw = null;
 
-    public DrawButtonComponent(Button button, Draw draw) {
+    public DrawButtonComponent(Button button, DrawOnCanvas draw) {
         this.draw = draw;
         button.setOnMouseClicked(this::onMouseClickedListener);
     }

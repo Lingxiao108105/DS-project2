@@ -1,6 +1,10 @@
 package edu.javafx.draw.shape;
 
-import edu.javafx.draw.Draw;
+import edu.draw.DrawShape;
+import edu.dto.Command;
+import edu.dto.Impl.DrawShapeCommand;
+import edu.javafx.draw.DrawOnCanvas;
+import edu.service.Impl.ServerService;
 import javafx.scene.canvas.Canvas;
 import javafx.scene.control.ColorPicker;
 import javafx.scene.input.MouseEvent;
@@ -10,14 +14,16 @@ import javafx.scene.input.MouseEvent;
  * mainly describes how to behave on mouse press, drag and release action
  * @author lingxiao
  */
-public abstract class DrawShape extends Draw {
+public class DrawShapeOnCanvas extends DrawOnCanvas {
 
     private double startX, startY, currentX, currentY;
+    private final DrawShape drawShape;
 
-    protected DrawShape(Canvas canvasEffort,
-                     ColorPicker outlineColorPicker,
-                     ColorPicker fillColorPicker) {
+    public DrawShapeOnCanvas(Canvas canvasEffort,
+                                ColorPicker outlineColorPicker,
+                                ColorPicker fillColorPicker, DrawShape drawShape) {
         super(canvasEffort, outlineColorPicker, fillColorPicker);
+        this.drawShape = drawShape;
     }
 
     @Override
@@ -27,9 +33,16 @@ public abstract class DrawShape extends Draw {
         canvasEffort.setOnMouseReleased(this::onMouseReleaseListener);
     }
 
-    public abstract void drawEffort(double x1, double y1, double x2, double y2);
+    public void drawEffort(){
+        graphicsContextEffort.clearRect(0, 0, canvasEffort.getWidth() , canvasEffort.getHeight());
+        drawShape.draw(graphicsContextEffort,outlineColorPicker.getValue(),fillColorPicker.getValue(),startX,startY,currentX,currentY);
+    }
 
-    public abstract void draw(double x1,double y1, double x2, double y2);
+    public void draw(){
+        Command command = new DrawShapeCommand(startX,startY,currentX,currentY,
+                outlineColorPicker.getValue(), fillColorPicker.getValue(),drawShape);
+        ServerService.sendCommand(command);
+    }
 
     private void onMousePressedListener(MouseEvent e){
 
@@ -47,7 +60,7 @@ public abstract class DrawShape extends Draw {
         this.currentX = e.getX();
         this.currentY = e.getY();
 
-        drawEffort(startX,startY,currentX,currentY);
+        drawEffort();
     }
 
     private void onMouseReleaseListener(MouseEvent e){
@@ -58,6 +71,7 @@ public abstract class DrawShape extends Draw {
         this.currentY = e.getY();
 
         this.startEdit = false;
-        draw(startX,startY,currentX,currentY);
+
+        draw();
     }
 }

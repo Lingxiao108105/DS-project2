@@ -1,6 +1,10 @@
 package edu.javafx.draw.text;
 
-import edu.javafx.draw.Draw;
+import edu.draw.DrawText;
+import edu.dto.Command;
+import edu.dto.Impl.DrawTextCommand;
+import edu.javafx.draw.DrawOnCanvas;
+import edu.service.Impl.ServerService;
 import javafx.scene.canvas.Canvas;
 import javafx.scene.control.ColorPicker;
 import javafx.scene.input.KeyCode;
@@ -12,20 +16,29 @@ import javafx.scene.input.MouseEvent;
  * mainly describes how to behave on mouse pressed and key pressed
  * @author lingxiao
  */
-public abstract class DrawText extends Draw {
+public class DrawTextOnCanvas extends DrawOnCanvas {
 
     private double startX, startY;
     private String text;
+    private final DrawText drawText;
 
-    protected DrawText(Canvas canvasEffort,
-                        ColorPicker outlineColorPicker,
-                        ColorPicker fillColorPicker) {
+    public DrawTextOnCanvas(Canvas canvasEffort,
+                               ColorPicker outlineColorPicker,
+                               ColorPicker fillColorPicker, DrawText drawText) {
         super(canvasEffort, outlineColorPicker, fillColorPicker);
+        this.drawText = drawText;
     }
 
-    public abstract void drawEffort(double x1, double y1, String text);
+    public void drawEffort(){
+        graphicsContextEffort.clearRect(0, 0, canvasEffort.getWidth() , canvasEffort.getHeight());
+        drawText.draw(graphicsContextEffort,outlineColorPicker.getValue(),fillColorPicker.getValue(),startX,startY,text);
+    }
 
-    public abstract void draw(double x1, double y1, String text);
+    public void draw(){
+        Command command = new DrawTextCommand(startX, startY, text,
+                outlineColorPicker.getValue(), fillColorPicker.getValue(),drawText);
+        ServerService.sendCommand(command);
+    }
 
     @Override
     public void loadAction(){
@@ -41,7 +54,7 @@ public abstract class DrawText extends Draw {
         this.startX = e.getX();
         this.startY = e.getY();
         this.text = "";
-        drawEffort(startX,startY,text);
+        drawEffort();
     }
 
     private void onKeyPressedListener(KeyEvent e){
@@ -51,17 +64,17 @@ public abstract class DrawText extends Draw {
 
         if(e.getCode() == KeyCode.ENTER && e.isShiftDown()) {
             text += "\n";
-            drawEffort(startX,startY,text);
+            drawEffort();
         }else if(e.getCode() == KeyCode.ENTER){
-            draw(startX,startY,text);
+            draw();
             startEdit = false;
         }else if(e.getCode() == KeyCode.BACK_SPACE){
             text = text.substring(0,text.length()-1);
-            drawEffort(startX,startY,text);
+            drawEffort();
         }
         else {
             text += e.getText();
-            drawEffort(startX,startY,text);
+            drawEffort();
         }
     }
 }

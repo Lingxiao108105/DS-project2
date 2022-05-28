@@ -8,7 +8,7 @@ import javafx.scene.control.ColorPicker;
  * draw describes how to draw on canvas
  * @author lingxiao
  */
-public abstract class Draw {
+public abstract class DrawOnCanvas {
 
     protected boolean startEdit = false;
 
@@ -18,9 +18,9 @@ public abstract class Draw {
 
     protected GraphicsContext graphicsContextEffort = null;
 
-    protected Draw(Canvas canvasEffort,
-                        ColorPicker outlineColorPicker,
-                        ColorPicker fillColorPicker) {
+    protected DrawOnCanvas(Canvas canvasEffort,
+                           ColorPicker outlineColorPicker,
+                           ColorPicker fillColorPicker) {
         this.canvasEffort = canvasEffort;
         this.outlineColorPicker = outlineColorPicker;
         this.fillColorPicker = fillColorPicker;

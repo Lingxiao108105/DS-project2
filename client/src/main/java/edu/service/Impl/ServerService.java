@@ -4,7 +4,6 @@ import edu.ClientJavaFXApplication;
 import edu.ThreadPool.ClientThreadPool;
 import edu.common.ErrorMessage;
 import edu.common.enums.Role;
-import edu.common.exception.AuthorizeException;
 import edu.common.util.ByteAndImageConverterUtil;
 import edu.config.ClientConfig;
 import edu.config.RpcServiceConfig;
