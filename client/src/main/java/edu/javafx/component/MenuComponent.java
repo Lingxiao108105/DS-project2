@@ -109,9 +109,10 @@ public class MenuComponent {
         fileChooser.setTitle("Open Canvas");
         fileChooser.getExtensionFilters().addAll(new FileChooser.ExtensionFilter("PNG", "*.png"));
 
-        this.file = fileChooser.showOpenDialog(canvas.getScene().getWindow());
+        File file = fileChooser.showOpenDialog(canvas.getScene().getWindow());
         if(this.file != null){
             //clean the canvasEffort
+            this.file = file;
             canvasEffort.getGraphicsContext2D().clearRect(0, 0, canvasEffort.getWidth() , canvasEffort.getHeight());
         }
         openCanvas();
@@ -138,9 +139,13 @@ public class MenuComponent {
         fileChooser.setTitle("Save Canvas");
         fileChooser.getExtensionFilters().addAll(new FileChooser.ExtensionFilter("PNG", "*.png"));
 
-        this.file = fileChooser.showSaveDialog(canvas.getScene().getWindow());
+        File file = fileChooser.showSaveDialog(canvas.getScene().getWindow());
+        if(file != null){
+            this.file = file;
+            saveCanvas();
+        }
 
-        saveCanvas();
+
     }
 
     /**
