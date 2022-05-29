@@ -80,6 +80,7 @@ public class RpcServiceProvider implements LifeCycle {
             System.out.println("Port " + RpcServiceConfig.getRegisterPort() + " is busy! Please enter another port");
             Platform.exit();
         }
+        System.out.println("Open Rpc Server on Port " + RpcServiceConfig.getRegisterPort());
 
     }
 
