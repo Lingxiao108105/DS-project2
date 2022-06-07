@@ -60,11 +60,13 @@ public class ErrorMessageGUIController {
     private void loadAction() {
 
         this.stage.setOnCloseRequest((e)->{
-            Platform.exit();
+            stage.close();
+            //Platform.exit();
         });
 
         this.exitButton.setOnMouseClicked((e)->{
-            Platform.exit();
+            stage.close();
+            //Platform.exit();
         });
     }
 }

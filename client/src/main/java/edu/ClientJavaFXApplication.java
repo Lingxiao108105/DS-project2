@@ -6,6 +6,7 @@ import edu.common.enums.Role;
 import edu.config.ClientConfig;
 import edu.config.RpcClientConfig;
 import edu.config.RpcServiceConfig;
+import edu.dto.ClientInfo;
 import edu.javafx.CanvasGUIController;
 import edu.javafx.ErrorMessageGUIController;
 import edu.rpc.RpcClient;
@@ -107,6 +108,7 @@ public class ClientJavaFXApplication extends Application {
         RpcServiceProvider.getInstance();
         //register the client
         ServerService.register(name);
+        ClientConfig.role = Role.MANAGER;
 
     }
 
